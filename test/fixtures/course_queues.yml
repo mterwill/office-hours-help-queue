@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+eecs398_queue:
+  name: TA Office Hours
+  location: 1670 BBB
+  description: ''
+  is_open: true
+  course: eecs398
+
+closed_queue:
+  name: I am not real
+  location: Nowhere
+  description: ''
+  is_open: false
+  course: eecs398

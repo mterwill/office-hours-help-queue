@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+resolved_entry:
+  course_queue: eecs398_queue
+  requester: jim
+  resolver: matt
+  resolved_at: 2016-09-04T12:07:56.715-04:00
+
+unresolved_entry:
+  course_queue: eecs398_queue
+  requester: mary

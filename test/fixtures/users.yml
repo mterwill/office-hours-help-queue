@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+matt:
+  name: Matt Terwilliger
+  email: mterwil@umich.edu
+
+jim:
+  name: Jimbob Jones
+  email: jimbob@umich.edu
+
+mary:
+  name: Mary Smith
+  email: marysmith@umich.edu
