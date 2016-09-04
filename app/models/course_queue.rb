@@ -14,6 +14,10 @@ class CourseQueue < ApplicationRecord
     course_queue_entries.where.not(resolved_at: nil).order('created_at DESC')
   end
 
+  def active_instructors
+    User.all
+  end
+
   def self.open_queues
     where(is_open: true)
   end

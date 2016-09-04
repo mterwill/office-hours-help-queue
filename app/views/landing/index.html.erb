@@ -11,12 +11,11 @@
                     <% course.open_queues.each do |queue| %>
                         <a class="item" href="<%= url_for queue %>">
                             <div class="right floated content">
-                                <span data-tooltip="Matt Terwilliger" data-position="top center" data-inverted="">
-                                    <img class="ui avatar image" src="https://avatars1.githubusercontent.com/u/5882053?v=3&s=460">
+                                <% queue.active_instructors.each do |instructor| %>
+                                <span data-tooltip="<%= instructor.name %>" data-position="top center" data-inverted="">
+                                    <img class="ui avatar image" src="<%= gravatar_url_for instructor %>">
                                 </span>
-                                <span data-tooltip="Matt Terwilliger" data-position="top center" data-inverted="">
-                                    <img class="ui avatar image" src="https://avatars1.githubusercontent.com/u/5882053?v=3&s=460">
-                                </span>
+                                <% end %>
                             </div>
                             <div class="content">
                                 <div class="header"><%= queue.name %></div>

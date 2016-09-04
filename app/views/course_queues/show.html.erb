@@ -10,13 +10,15 @@
 </div>
 <div class="sixteen wide column">
     <div class="ui right floated images">
+    <% @course_queue.active_instructors.each do |instructor| %>
         <img class="ui mini avatar image"
         data-popup="true"
-        data-content="Matt Terwilliger"
+        data-content="<%= instructor.name %>"
         data-position="top center"
         data-variation="inverted"
-        src="https://avatars1.githubusercontent.com/u/5882053?v=3&s=460"
+        src="<%= gravatar_url_for instructor %>"
         >
+    <% end %>
     </div>
 
     <h1 class="ui left floated header">
@@ -67,44 +69,42 @@
             <div class="ui teal tiny horizontal label">22</div>
         </h4>
         <div class="ui comments">
-            <% (0..1).each do |asdf| %>
+            <% @course_queue.outstanding_requests.each do |request| %>
             <div class="comment">
                 <a class="avatar">
-                    <img src="http://www.dailyreckoning.co.uk/wp-content/uploads/2015/06/blank.gif">
+                    <img src="<%= gravatar_url_for request.requester %>">
                 </a>
                 <div class="content">
-                    <span class="author" href="mailto:mterwil@umich.edu">Matt Terwilliger</span>
+                    <span class="author">
+                        <%= request.requester.name %>
+                    </span>
                     <span class="metadata">
-                        mterwil@umich.edu
+                        <%= request.requester.email %>
                     </span>
                     <div class="ui slightly padded list">
                         <div class="item">
                             <i class="marker icon"></i>
                             <div class="content">
-                                P22
+                                <%# <%= request.location %1> %>
                             </div>
                         </div>
                         <div class="item">
                             <i class="clock icon"></i>
                             <div class="content">
-                                Sept. 4 5:26 PM
+                                <%= request.created_at %>
                             </div>
                         </div>
                         <div class="item">
                             <i class="write icon"></i>
                             <div class="content">
-                                This will be great for business reports. I will definitely download this.
+                                <%= request.description %>
                             </div>
                         </div>
                     </div>
 
                     <div class="actions">
-                        <a class="reply">Reply</a>
-                        <a class="save">Save</a>
-                        <a class="hide">Hide</a>
-                        <a>
-                            <i class="expand icon"></i>
-                            Full-screen
+                        <a href="#">
+                            Remove
                         </a>
                     </div>
                 </div>
