@@ -1,0 +1,116 @@
+<div class="sixteen wide column">
+    <div class="ui breadcrumb">
+        <a href="/" class="section">All Courses</a>
+        <i class="right chevron icon divider"></i>
+        <div class="section">EECS 398</div>
+        <i class="right chevron icon divider"></i>
+        <div class="active section"><%= @course_queue.name %></div>
+    </div>
+
+</div>
+<div class="sixteen wide column">
+    <div class="ui right floated images">
+        <img class="ui mini avatar image"
+        data-popup="true"
+        data-content="Matt Terwilliger"
+        data-position="top center"
+        data-variation="inverted"
+        src="https://avatars1.githubusercontent.com/u/5882053?v=3&s=460"
+        >
+    </div>
+
+    <h1 class="ui left floated header">
+        <%= @course_queue.course.name %>
+        <div class="sub header">
+            <%= @course_queue.name %> 
+            <small>(<%= @course_queue.location %>)</small>
+        </div>
+    </h1>
+</div>
+<div class="sixteen wide column">
+
+
+    <div class="ui message">
+        <div class="header">
+            Changes in Service
+        </div>
+        <p>We just updated our privacy policy here to better service our customers. We recommend reviewing the changes.</p>
+    </div>
+</div>
+
+
+<div class="six wide column">
+    <div class="ui stacked segment">
+        <h4 class="ui header">Request Help</h4>
+
+        <div class="ui form">
+            <div class="field">
+                <label>Name</label>
+                <input type="text" value="Matt Terwilliger" disabled>
+            </div>
+            <div class="field">
+                <label>Location</label>
+                <input type="text">
+            </div>
+            <div class="field">
+                <label>Description</label>
+                <textarea rows="2"></textarea>
+            </div>
+            <div class="ui button" tabindex="0">Request Help</div>
+        </div>
+
+    </div>
+</div>
+<div class="ten wide column">
+    <div class="ui stacked segment">
+        <h4 class="ui header">Queue 
+            <div class="ui teal tiny horizontal label">22</div>
+        </h4>
+        <div class="ui comments">
+            <% (0..1).each do |asdf| %>
+            <div class="comment">
+                <a class="avatar">
+                    <img src="http://www.dailyreckoning.co.uk/wp-content/uploads/2015/06/blank.gif">
+                </a>
+                <div class="content">
+                    <span class="author" href="mailto:mterwil@umich.edu">Matt Terwilliger</span>
+                    <span class="metadata">
+                        mterwil@umich.edu
+                    </span>
+                    <div class="ui slightly padded list">
+                        <div class="item">
+                            <i class="marker icon"></i>
+                            <div class="content">
+                                P22
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="clock icon"></i>
+                            <div class="content">
+                                Sept. 4 5:26 PM
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="write icon"></i>
+                            <div class="content">
+                                This will be great for business reports. I will definitely download this.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <a class="reply">Reply</a>
+                        <a class="save">Save</a>
+                        <a class="hide">Hide</a>
+                        <a>
+                            <i class="expand icon"></i>
+                            Full-screen
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <% end %>
+        </div>
+    </div>
+
+</div>

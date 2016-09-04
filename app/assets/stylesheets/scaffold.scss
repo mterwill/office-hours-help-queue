@@ -2,6 +2,14 @@
     padding-top: 25px;
 }
 
+.slightly.padded.list {
+    margin-top: 5px;
+}
+
+.ui.list > .item > i.icon {
+    padding-right: 0!important;
+}
+
 .centered.cards {
     justify-content: center;
 }

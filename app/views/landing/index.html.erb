@@ -9,7 +9,7 @@
                 <h4 class="ui sub header">Open Queues</h4>
                 <div class="ui middle aligned selection list">
                     <% course.open_queues.each do |queue| %>
-                        <a class="item" href="#">
+                        <a class="item" href="<%= url_for queue %>">
                             <div class="right floated content">
                                 <span data-tooltip="Matt Terwilliger" data-position="top center" data-inverted="">
                                     <img class="ui avatar image" src="https://avatars1.githubusercontent.com/u/5882053?v=3&s=460">

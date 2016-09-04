@@ -15,3 +15,7 @@
 //= require turbolinks
 //= require_tree .
 //= require semantic.min.js
+
+$(document).ready(function () {
+  $('[data-popup=true]').popup();
+});
