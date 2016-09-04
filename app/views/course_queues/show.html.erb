@@ -16,7 +16,7 @@
         data-content="<%= instructor.name %>"
         data-position="top center"
         data-variation="inverted"
-        src="<%= gravatar_url_for instructor %>"
+        src="<%= instructor.avatar_url %>"
         >
     <% end %>
     </div>
@@ -72,7 +72,7 @@
             <% @course_queue.outstanding_requests.each do |request| %>
             <div class="comment">
                 <a class="avatar">
-                    <img src="<%= gravatar_url_for request.requester %>">
+                    <img src="<%= request.requester.avatar_url %>">
                 </a>
                 <div class="content">
                     <span class="author">

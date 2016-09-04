@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160904222043) do
+ActiveRecord::Schema.define(version: 20160904232651) do
 
   create_table "course_queue_entries", force: :cascade do |t|
     t.integer  "requester_id"
@@ -43,8 +43,13 @@ ActiveRecord::Schema.define(version: 20160904222043) do
   create_table "users", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.string   "uid"
+    t.string   "oauth_token"
+    t.datetime "oauth_expires_at"
+    t.string   "provider"
+    t.string   "avatar_url"
   end
 
 end
