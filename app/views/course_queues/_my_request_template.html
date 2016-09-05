@@ -1,0 +1,15 @@
+<script data-cable-template="my-request" type="text/html">
+<h4 class="ui header">Request Help</h4>
+
+<div class="ui disabled form">
+    <div class="field">
+        <label>Location</label>
+        <input name="location" type="text" disabled>
+    </div>
+    <div class="field">
+        <label>Description</label>
+        <textarea name="description" rows="2" disabled></textarea>
+    </div>
+    <div data-cable-action="destroy_request" class="ui fluid red button">Cancel Request</div>
+</div>
+</script>
