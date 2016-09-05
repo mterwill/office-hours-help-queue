@@ -1,4 +1,6 @@
 class QueueChannel < ApplicationCable::Channel
+  include CourseQueuesHelper # TODO: find a better home
+
   def subscribed
     @course_queue = CourseQueue.find(params[:id])
     stream_for @course_queue
@@ -50,11 +52,4 @@ class QueueChannel < ApplicationCable::Channel
     @course_queue.outstanding_requests.find(data['id'])
   end
 
-  def serialize_request(request)
-    request.as_json({
-      include: {
-      requester: { except: User::PROTECTED_FIELDS },
-      resolver:  { except: User::PROTECTED_FIELDS }
-    }})
-  end
 end

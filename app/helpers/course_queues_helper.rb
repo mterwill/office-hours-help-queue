@@ -17,4 +17,12 @@ module CourseQueuesHelper
   def can_resolve?(request)
     current_user.instructor_for?(request.course)
   end
+
+  def serialize_request(request)
+    request.as_json({
+      include: {
+      requester: { except: User::PROTECTED_FIELDS },
+      resolver:  { except: User::PROTECTED_FIELDS }
+    }})
+  end
 end

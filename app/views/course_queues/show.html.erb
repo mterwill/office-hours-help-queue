@@ -7,7 +7,7 @@
 </div>
 
 <div class="six wide column">
-    <div class="ui stacked segment">
+    <div class="ui segment">
         <% if current_user.instructor_for?(@course_queue.course) %>
             <%= render 'admin_panel' %>
         <% else %>
@@ -18,16 +18,13 @@
 
 
 <div class="ten wide column">
-    <div class="ui stacked segment">
+    <div class="ui disabled loading segment" style="min-height: 200px;">
         <h4 class="ui header">Queue 
-            <div id="queue-count" class="ui teal tiny horizontal label">
-                <%= @course_queue.outstanding_requests.count %>
+            <div data-cable-container="requests-count" class="ui teal tiny horizontal label">
             </div>
         </h4>
-        <div class="ui comments">
-            <% @course_queue.outstanding_requests.each do |request| %>
-                <%= render 'request', request: request %>
-            <% end %>
+        <div data-cable-container="requests" class="ui comments">
+            <%= render 'request_template' %>
         </div>
     </div>
 

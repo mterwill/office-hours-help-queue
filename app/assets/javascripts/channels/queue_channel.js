@@ -27,34 +27,42 @@ $(document).ready(function () {
       });
     },
     destroyRequest: function (selector) {
-      const requestId = $(selector).data('id');
+      const requestId = $(selector).closest('[data-cable-type=request]').data('id');
 
       this.perform('destroy_request', {
         id: requestId,
       });
     },
     connected: function () {
-      // Register a generic event handler on everything with this attribute.
-      // Pass the current context into the event handler to eventually call
-      // this.perform, which sends the RPC.
-      //
-      // NOTE: this event handler will also need to be attached to any
-      // new/updated coming in which do not have it.
-      $('[data-cable-action]').click(this, this.handleAction);
+      $(document).on(
+        'click',
+        '[data-cable-action]',
+        this,
+        this.handleAction
+      );
+
+      $('[data-cable-container="requests"]').children().not('script').remove();
+
+      getOutstandingRequests();
+
+    },
+    disconnected: function () {
+      $('[data-cable-container="requests"]').closest('.ui.segment').addClass('disabled loading');
+      $('[data-cable-container="requests"]').hide();
+      $('[data-cable-container="requests-count"]').hide();
     },
     received: function (data) {
       if (data.action === 'new_request') {
-        const containerSelector = $('.ui.comments');
+        const elt = renderRequest(data.request);
 
-        const elt = containerSelector.append(data.data);
+        elt.appendTo('[data-cable-container=requests]');
 
-        console.log(elt);
-
-        // $('[data-cable-action]').click(this, this.handleAction);
+        updateCount(data.outstanding_request_count);
       } else if (data.action === 'destroy_request') {
         const selector = '[data-cable-type=request][data-id=' + data.request.id + ']';
 
         $(selector).detach();
+        updateCount(data.outstanding_request_count);
       }
 
       $('#queue-count').html(data.outstanding_request_count);
