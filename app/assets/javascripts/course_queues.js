@@ -43,11 +43,16 @@ function fixupPage() {
     // handled in renderRequest()
   }
 
-  if ($('[data-requester-id=' + getCurrentUserId() + ']').length === 0) {
+  let numRequestsFromCurrentUser = $('[data-requester-id=' + getCurrentUserId() + ']').length;
+  if (isCurrentUserInstructor()) {
+    renderInstructorForm();
+  } else if (numRequestsFromCurrentUser === 0) {
     renderHelpForm();
   } else {
     // handled in renderRequest()
   }
+
+  toggleQueuePop(newCount > 0);
   
   enablePage();
 }
@@ -111,6 +116,13 @@ function renderRequest(request) {
  */
 function renderHelpForm() {
   renderTemplate('help_request_form', 'action-content', false);
+}
+
+/**
+ * Render the instructor form.
+ */
+function renderInstructorForm() {
+  renderTemplate('instructor_form', 'action-content', false);
 }
 
 /**
@@ -194,4 +206,38 @@ function getCurrentUserId() {
  */
 function isCurrentUserInstructor() {
   return $('[data-current-user-instructor]').data('current-user-instructor');
+}
+
+/**
+ * Display a message to the user.
+ */
+function renderMessage(header, text, append = true) {
+  renderTemplate('message', 'messages', append, function (elt) {
+    elt.find('[data-content=header]').html(header);
+    elt.find('[data-content=text]').html(text);
+  });
+}
+
+/**
+ * Set the instructor button to the appropriate text.
+ */
+function toggleQueuePop(enabled) {
+  if (enabled) {
+    $('[data-cable-action="queue_pop"]').removeClass('disabled');
+  } else {
+    $('[data-cable-action="queue_pop"]').addClass('disabled');
+  }
+}
+
+/**
+ * Set the instructor button to the appropriate text.
+ */
+function setInstructorStatus(online) {
+  if (online) {
+    let text = 'Offline';
+  } else {
+    let text = 'Online';
+  }
+
+  $('[data-cable-action="instructor_toggle"]').html('Go ' + text);
 }

@@ -13,5 +13,7 @@ class CourseQueueEntry < ApplicationRecord
     self.resolved_at = DateTime.now
 
     self.save!
+
+    self
   end
 end

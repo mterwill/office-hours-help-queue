@@ -26,6 +26,18 @@ class QueueChannel < ApplicationCable::Channel
     broadcast_request_change('resolve_request', request)
   end
 
+  def queue_pop(data)
+    # TODO authenticate this
+
+    request = @course_queue.pop!(current_user)
+
+    broadcast_request_change('resolve_request', request)
+  end
+
+  def instructor_status_toggle(data)
+
+  end
+
   def destroy_request(data)
     request = load_request(data)
 
@@ -33,7 +45,7 @@ class QueueChannel < ApplicationCable::Channel
 
     request.destroy!
 
-    broadcast_request_change('destroy_request', request)
+    broadcast_request_change('resolve_request', request)
   end
 
   def update_request(data)

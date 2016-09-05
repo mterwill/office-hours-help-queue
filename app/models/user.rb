@@ -16,7 +16,7 @@ class User < ApplicationRecord
   end
 
   def instructor_for?(course)
-    false
+    true
   end
 
   def as_json(options = {})

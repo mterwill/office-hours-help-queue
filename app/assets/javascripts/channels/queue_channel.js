@@ -12,6 +12,10 @@ CourseQueueClientActionHandler.prototype.fire = function (e) {
 
   if (action === 'new_request') {
     this.newRequest(target);
+  } else if (action === 'queue_pop') {
+    this.queuePop(target);
+  } else if (action === 'resolve_request') {
+    this.resolveRequest(target);
   } else if (action === 'destroy_request') {
     this.destroyRequest(target);
   }
@@ -26,6 +30,18 @@ CourseQueueClientActionHandler.prototype.newRequest = function (selector) {
   this.subscription.perform('new_request', {
     location: location,
     description: description,
+  });
+};
+
+CourseQueueClientActionHandler.prototype.queuePop = function (selector) {
+  this.subscription.perform('queue_pop');
+};
+
+CourseQueueClientActionHandler.prototype.resolveRequest = function (selector) {
+  let requestId = $(selector).data('id');
+
+  this.subscription.perform('resolve_request', {
+    id: requestId,
   });
 };
 
@@ -58,7 +74,7 @@ $(document).ready(function () {
     received: function (data) {
       if (data.action === 'new_request') {
         renderRequest(data.request);
-      } else if (data.action === 'destroy_request') {
+      } else if (data.action === 'resolve_request') {
         deleteRequestById(data.request.id);
       }
 

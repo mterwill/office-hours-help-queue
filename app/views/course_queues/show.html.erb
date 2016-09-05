@@ -6,12 +6,11 @@
     <%= render 'header', instructors: @course_queue.active_instructors %>
 </div>
 
+<div class="sixteen wide column" data-cable-container="messages">
+</div>
+
 <div class="six wide column">
     <div data-cable-container="action-content" class="ui disabled loading min segment">
-        <% if current_user.instructor_for?(@course_queue.course) %>
-            <%= render 'admin_panel' %>
-        <% else %>
-        <% end %>
     </div>
 </div>
 
@@ -33,4 +32,6 @@
     <%= render 'help_request_form_template' %>
     <%= render 'my_request_template' %>
     <%= render 'empty_template' %>
+    <%= render 'admin_panel' %>
+    <%= render 'shared/message_template' %>
 </div>
