@@ -51,5 +51,4 @@ class QueueChannel < ApplicationCable::Channel
   def load_request(data)
     @course_queue.outstanding_requests.find(data['id'])
   end
-
 end

@@ -48,7 +48,7 @@ function fixupPage() {
   } else {
     // handled in renderRequest()
   }
-
+  
   enablePage();
 }
 
@@ -94,6 +94,10 @@ function renderRequest(request) {
       elt.find('[data-field="description"]').html(request.description);
 
       elt.find('[data-cable-action]').data('id', request.id);
+
+      if (isCurrentUserInstructor() === false) {
+        elt.find('[data-require-privilege="instructor"]').remove();
+      }
     }
   );
 
@@ -178,4 +182,8 @@ function deleteRequestById(id) {
 
 function getCurrentUserId() {
   return $('[data-current-user-id]').data('current-user-id');
+}
+
+function isCurrentUserInstructor() {
+  return $('[data-current-user-instructor]').data('current-user-instructor');
 }
