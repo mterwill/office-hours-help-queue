@@ -15,8 +15,26 @@ class User < ApplicationRecord
     end
   end
 
-  def instructor_for?(course)
-    true
+  def instructor_for_course?(course)
+    CourseInstructor.where({ instructor: self, course: course }).count > 0
+  end
+
+  def instructor_for_course_queue?(course_queue)
+    instructor_for_course?(course_queue.course)
+  end
+
+  def sign_in!(course_queue)
+    CourseQueueOnlineInstructor.create!({
+      online_instructor: self,
+      course_queue: course_queue
+    })
+  end
+
+  def sign_out!(course_queue)
+    CourseQueueOnlineInstructor.where({
+      online_instructor: self,
+      course_queue: course_queue
+    }).destroy_all
   end
 
   def as_json(options = {})

@@ -1,6 +1,8 @@
 class CourseQueue < ApplicationRecord
   belongs_to :course
   has_many :course_queue_entries
+  has_many :course_queue_online_instructors
+  has_many :online_instructors, through: :course_queue_online_instructors, class_name: 'User'
 
   def request(requester:, description:, location:)
     logger.debug "fdswa#{description}"
@@ -21,8 +23,8 @@ class CourseQueue < ApplicationRecord
     self.outstanding_requests.first.resolve_by!(user)
   end
 
-  def active_instructors
-    User.all
+  def is_open?
+    self.online_instructors.count > 0
   end
 
   def self.open_queues

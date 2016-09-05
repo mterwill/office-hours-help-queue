@@ -12,7 +12,7 @@
 
 <h1 class="ui left floated header">
     <span id="course-queue-name"
-        data-current-user-instructor="<%= current_user.instructor_for?(@course_queue) %>"
+        data-current-user-instructor="<%= current_user.instructor_for_course_queue?(@course_queue) %>"
         data-current-user-id="<%= current_user.id %>"
         data-course-queue-id="<%= @course_queue.id %>">
         <%= @course_queue.course.name %>

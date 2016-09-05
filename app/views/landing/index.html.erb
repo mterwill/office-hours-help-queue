@@ -8,7 +8,7 @@
             <div class="content">
                 <h4 class="ui sub header">Open Queues</h4>
                 <div class="ui middle aligned selection list">
-                    <% course.open_queues.each do |queue| %>
+                    <% course.available_queues_for(current_user).each do |queue| %>
                         <%= render 'queue', queue: queue %>
                     <% end %>
                 </div>
