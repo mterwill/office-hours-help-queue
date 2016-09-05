@@ -1,0 +1,13 @@
+<a class="item" href="<%= url_for queue %>">
+    <div class="right floated content">
+        <% queue.active_instructors.each do |instructor| %>
+            <span data-tooltip="<%= instructor.name %>" data-position="top center" data-inverted="">
+                <img class="ui avatar image" src="<%= instructor.avatar_url %>">
+            </span>
+        <% end %>
+    </div>
+    <div class="content">
+        <div class="header"><%= queue.name %></div>
+        <%= queue.location %>
+    </div>
+</a>

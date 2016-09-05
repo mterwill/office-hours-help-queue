@@ -49,3 +49,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # For authentication
 gem 'omniauth-google-oauth2'
+
+# For action cable
+gem 'redis'

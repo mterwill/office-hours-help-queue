@@ -5,4 +5,6 @@ Rails.application.routes.draw do
   root 'landing#index'
 
   resources :course_queues, only: [:show]
+
+  mount ActionCable.server => '/cable'
 end

@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>ClassroomHelpQueue</title>
+        <title>Classroom Help Queue</title>
         <%= csrf_meta_tags %>
 
         <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
         <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
     </head>
 
     <body>
         <div class="main">
             <div class="ui stackable grid container">
                 <%= yield %>
+
+                <div class="sixteen wide centered text column">
+                    <%= render 'shared/footer' %>
+                </div>
             </div>
         </div>
     </body>

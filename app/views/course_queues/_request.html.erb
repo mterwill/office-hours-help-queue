@@ -1,0 +1,47 @@
+<div data-cable-type="request" data-id="<%= request.id %>" class="comment">
+    <a class="avatar">
+        <img src="<%= request.requester.avatar_url %>">
+    </a>
+    <div class="content">
+        <span class="author">
+            <%= request.requester.name %>
+        </span>
+        <span class="metadata">
+            <%= request.requester.email %>
+        </span>
+        <div class="ui slightly padded list">
+            <div class="item">
+                <i class="marker icon"></i>
+                <div class="content">
+                    <%= request.location %>
+                </div>
+            </div>
+            <div class="item">
+                <i class="clock icon"></i>
+                <div class="content">
+                    <%= request.created_at %>
+                </div>
+            </div>
+            <div class="item">
+                <i class="write icon"></i>
+                <div class="content">
+                    <%= request.description %>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <% if can_resolve?(request) %>
+                <a data-cable-action="resolve_request" data-id="<%= request.id %>">
+                    Resolve
+                </a>
+            <% end %>
+
+            <% if can_destroy?(request) %>
+                <a data-cable-action="destroy_request" data-id="<%= request.id %>">
+                    Delete
+                </a>
+            <% end %> 
+        </div>
+    </div>
+</div>

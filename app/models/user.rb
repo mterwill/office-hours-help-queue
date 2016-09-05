@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  PROTECTED_FIELDS = %w(oauth_token oauth_expires_at uid provider)
+
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|
       user.provider         = auth.provider
@@ -11,5 +13,15 @@ class User < ApplicationRecord
 
       user.save!
     end
+  end
+
+  def instructor_for?(course)
+    false
+  end
+
+  def as_json(options = {})
+    super(options.merge({
+      except: User::PROTECTED_FIELDS
+    }))
   end
 end

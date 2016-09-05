@@ -1,0 +1,21 @@
+<div class="ui right floated images">
+    <% instructors.each do |instructor| %>
+        <img class="ui mini avatar image"
+        data-popup="true"
+        data-content="<%= instructor.name %>"
+        data-position="top center"
+        data-variation="inverted"
+        src="<%= instructor.avatar_url %>"
+        >
+    <% end %>
+</div>
+
+<h1 class="ui left floated header">
+    <span id="course-queue-name" data-course-queue-id="<%= @course_queue.id %>">
+        <%= @course_queue.course.name %>
+    </span>
+    <div class="sub header">
+        <%= @course_queue.name %> 
+        <small>(<%= @course_queue.location %>)</small>
+    </div>
+</h1>
