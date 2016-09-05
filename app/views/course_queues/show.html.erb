@@ -7,7 +7,7 @@
 </div>
 
 <div class="six wide column">
-    <div data-cable-container="action-content" class="ui disabled loading segment">
+    <div data-cable-container="action-content" class="ui disabled loading min segment">
         <% if current_user.instructor_for?(@course_queue.course) %>
             <%= render 'admin_panel' %>
         <% else %>
@@ -17,7 +17,7 @@
 
 
 <div class="ten wide column">
-    <div class="ui disabled loading segment" style="min-height: 200px;">
+    <div class="ui disabled loading min segment">
         <h4 class="ui header">Queue 
             <div data-cable-container="requests-count" class="ui teal tiny horizontal label">
             </div>
@@ -32,4 +32,5 @@
     <%= render 'request_template' %>
     <%= render 'help_request_form_template' %>
     <%= render 'my_request_template' %>
+    <%= render 'empty_template' %>
 </div>

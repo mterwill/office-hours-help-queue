@@ -14,7 +14,7 @@ class CourseQueue < ApplicationRecord
   end
 
   def outstanding_requests
-    course_queue_entries.where(resolved_at: nil).order('created_at DESC')
+    course_queue_entries.where(resolved_at: nil).order('created_at ASC')
   end
 
   def active_instructors

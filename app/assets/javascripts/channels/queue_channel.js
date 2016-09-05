@@ -1,71 +1,71 @@
+/**
+ * Fired by click events to collect relevant data and dispatch an RPC to the
+ * server via ActionCable's perform() method.
+ */
+function CourseQueueClientActionHandler(subscription) {
+  this.subscription = subscription;
+}
+
+CourseQueueClientActionHandler.prototype.fire = function (e) {
+  let target = e.currentTarget;
+  let action = $(target).data('cable-action');
+
+  if (action === 'new_request') {
+    this.newRequest(target);
+  } else if (action === 'destroy_request') {
+    this.destroyRequest(target);
+  }
+}
+
+CourseQueueClientActionHandler.prototype.newRequest = function (selector) {
+  let form = $(selector).parent();
+
+  let location    = form.find('input[name=location]').val();
+  let description = form.find('textarea[name=description]').val();
+
+  this.subscription.perform('new_request', {
+    location: location,
+    description: description,
+  });
+};
+
+CourseQueueClientActionHandler.prototype.destroyRequest = function (selector) {
+  let requestId = $(selector).data('id');
+
+  this.subscription.perform('destroy_request', {
+    id: requestId,
+  });
+};
+
 $(document).ready(function () {
-  App.cable.subscriptions.create({
-    channel: "QueueChannel",
-    id: $('#course-queue-name').data('course-queue-id')
+  // Create the new ActionCable subscription for this course queue
+  let courseQueueSubscription = App.cable.subscriptions.create({
+    channel: 'QueueChannel',
+    id: $('#course-queue-name').data('course-queue-id'),
   }, {
-    handleAction: function (e) {
-      const action = $(this).data('cable-action');
-      const _this  = e.data;
-
-      if (action === 'new_request') {
-        _this.newRequest(this);
-      } else if (action === 'destroy_request') {
-        _this.destroyRequest(this);
-      } else if (action === 'resolve_request') {
-        _this.resolveRequest(this);
-      }
-    },
-    newRequest: function (selector) {
-      const form = $(selector).parent();
-
-      const location    = form.find('input[name=location]').val();
-      const description = form.find('textarea[name=description]').val();
-
-      this.perform('new_request', {
-        location: location,
-        description: description,
-      });
-    },
-    destroyRequest: function (selector) {
-      const requestId = $(selector).closest('[data-cable-type=request]').data('id');
-
-      this.perform('destroy_request', {
-        id: requestId,
-      });
-    },
     connected: function () {
-      $(document).on(
-        'click',
-        '[data-cable-action]',
-        this,
-        this.handleAction
-      );
-
-      $('[data-cable-container="requests"]').children().not('script').remove();
-
-      getOutstandingRequests();
-
+      getOutstandingRequests(function (requests) {
+        emptyRequestsContainer();
+        requests.forEach(renderRequest);
+        fixupPage();
+      });
     },
     disconnected: function () {
-      $('[data-cable-container="requests"]').closest('.ui.segment').addClass('disabled loading');
-      $('[data-cable-container="requests"]').hide();
-      $('[data-cable-container="requests-count"]').hide();
+      disablePage();
     },
     received: function (data) {
       if (data.action === 'new_request') {
-        const elt = renderRequest(data.request);
-
-        elt.appendTo('[data-cable-container=requests]');
-
-        updateCount(data.outstanding_request_count);
+        renderRequest(data.request);
       } else if (data.action === 'destroy_request') {
-        const selector = '[data-cable-type=request][data-id=' + data.request.id + ']';
-
-        $(selector).detach();
-        updateCount(data.outstanding_request_count);
+        deleteRequestById(data.request.id);
       }
 
-      $('#queue-count').html(data.outstanding_request_count);
+      fixupPage();
     },
   });
+
+  let handler = new CourseQueueClientActionHandler(courseQueueSubscription);
+
+  // Attach the handler to click actions
+  $(document).on('click', '[data-cable-action]', e => handler.fire(e));
 });
