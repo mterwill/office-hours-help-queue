@@ -13,6 +13,10 @@ class CourseQueue < ApplicationRecord
     )
   end
 
+  def open!
+    self.update!(is_open: true)
+  end
+
   def outstanding_requests
     course_queue_entries.where(resolved_at: nil).order('created_at ASC')
   end

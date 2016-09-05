@@ -38,13 +38,15 @@ CourseQueueClientActionHandler.prototype.destroyRequest = function (selector) {
 };
 
 $(document).ready(function () {
+  let queueId = $('#course-queue-name').data('course-queue-id');
+
   // Create the new ActionCable subscription for this course queue
   let courseQueueSubscription = App.cable.subscriptions.create({
     channel: 'QueueChannel',
     id: $('#course-queue-name').data('course-queue-id'),
   }, {
     connected: function () {
-      getOutstandingRequests(function (requests) {
+      getOutstandingRequests(queueId, function (requests) {
         emptyRequestsContainer();
         requests.forEach(renderRequest);
         fixupPage();

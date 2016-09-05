@@ -131,9 +131,9 @@ function renderMyRequest(request) {
  * Used to backfill any pre-existing requests from before the course queue page
  * was loaded. ActionCable will stream in new ones.
  */
-function getOutstandingRequests(callback) {
+function getOutstandingRequests(queueId, callback) {
   $.ajax({
-    url: "/course_queues/715429725/outstanding_requests.json" // TODO: this isn't right
+    url: '/course_queues/' + queueId + '/outstanding_requests.json'
   }).done(callback);
 }
 
@@ -180,10 +180,18 @@ function deleteRequestById(id) {
   findRequestById(id).detach();
 }
 
+/**
+ * Find the current user's id. All validation must be done server-side, this is
+ * just for presenting UI elements.
+ */
 function getCurrentUserId() {
   return $('[data-current-user-id]').data('current-user-id');
 }
 
+/**
+ * Find if the current user is an instructor for this course.  All validation
+ * must be done server-side, this is just for presenting UI elements.
+ */
 function isCurrentUserInstructor() {
   return $('[data-current-user-instructor]').data('current-user-instructor');
 }
