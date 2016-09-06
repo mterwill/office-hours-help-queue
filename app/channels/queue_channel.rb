@@ -35,7 +35,21 @@ class QueueChannel < ApplicationCable::Channel
   end
 
   def instructor_status_toggle(data)
+    if data['online']
+      current_user.sign_in!(@course_queue)
 
+      QueueChannel.broadcast_to(@course_queue, {
+        action: 'instructor_online',
+        instructor: current_user,
+      })
+    else
+      current_user.sign_out!(@course_queue)
+
+      QueueChannel.broadcast_to(@course_queue, {
+        action: 'instructor_offline',
+        instructor: current_user,
+      })
+    end
   end
 
   def destroy_request(data)
@@ -56,7 +70,6 @@ class QueueChannel < ApplicationCable::Channel
     QueueChannel.broadcast_to(@course_queue, {
       action: action,
       request: serialize_request(request),
-      outstanding_request_count: @course_queue.outstanding_requests.count,
     })
   end
 

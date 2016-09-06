@@ -2,12 +2,20 @@
 const requestsContainerSelector       = '[data-cable-container="requests"]';
 const requestsCountContainerSelector  = '[data-cable-container="requests-count"]';
 const actionContentContainerSelector  = '[data-cable-container="action-content"]';
+const instructorsContainerSelector    = '[data-cable-container="instructors"]';
 
 /**
  * Remove everything from the requests container.
  */
 function emptyRequestsContainer() {
-  $(requestsContainerSelector).children().not('script').remove();
+  $(requestsContainerSelector).children().remove();
+}
+
+/**
+ * Remove everything from the requests container.
+ */
+function emptyInstructorsContainer() {
+  $(instructorsContainerSelector).children().remove();
 }
 
 /**
@@ -46,6 +54,7 @@ function fixupPage() {
   let numRequestsFromCurrentUser = $('[data-requester-id=' + getCurrentUserId() + ']').length;
   if (isCurrentUserInstructor()) {
     renderInstructorForm();
+    fixMyInstructorOnlineStatus();
   } else if (numRequestsFromCurrentUser === 0) {
     renderHelpForm();
   } else {
@@ -150,6 +159,15 @@ function getOutstandingRequests(queueId, callback) {
 }
 
 /**
+ * Used to populate the current instructor status.
+ */
+function getOnlineInstructors(queueId, callback) {
+  $.ajax({
+    url: '/course_queues/' + queueId + '/online_instructors.json'
+  }).done(callback);
+}
+
+/**
  * Accept a template (must be in the dom somewhere with data attribute
  * `cable-template` and a container (with data attribute `cable-container`).
  * Either append or overwrite the container contents. Optionally munge the
@@ -172,6 +190,18 @@ function renderTemplate(template, parentContainer, append = true, munge = null) 
 }
 
 /**
+ * Render an online instructor.
+ */
+function renderInstructor(instructor) {
+  renderTemplate('instructor', 'instructors', true, function (elt) {
+    elt.attr('data-id', instructor.id);
+    elt.attr('data-content', instructor.name);
+    elt.attr('src', instructor.avatar_url);
+    elt.popup();
+  });
+}
+
+/**
  * Render the empty requests template in the requests container.
  */
 function renderEmptyRequests() {
@@ -186,10 +216,24 @@ function findRequestById(id) {
 }
 
 /**
+ * Find an instructor by ID and return the corresponding jQuery object.
+ */
+function findInstructorById(id) {
+  return $('[data-cable-type=instructor][data-id=' + id + ']');
+}
+
+/**
  * Find a request by ID and remove it from the DOM.
  */
 function deleteRequestById(id) {
   findRequestById(id).detach();
+}
+
+/**
+ * Find an instructor by ID and remove it from the DOM.
+ */
+function deleteInstructorById(id) {
+  findInstructorById(id).detach();
 }
 
 /**
@@ -230,14 +274,28 @@ function toggleQueuePop(enabled) {
 }
 
 /**
+ * TODO: write me
+ */
+function fixMyInstructorOnlineStatus() {
+  let amIOnline = $(instructorsContainerSelector)
+    .find('[data-id=' + getCurrentUserId() + ']').length > 0;
+
+  setInstructorStatus(amIOnline);
+}
+
+
+/**
  * Set the instructor button to the appropriate text.
  */
 function setInstructorStatus(online) {
+  let text;
+
   if (online) {
-    let text = 'Offline';
+    text = 'Offline';
   } else {
-    let text = 'Online';
+    text = 'Online';
   }
 
-  $('[data-cable-action="instructor_toggle"]').html('Go ' + text);
+  $('[data-cable-action="instructor_status_toggle"]').html('Go ' + text);
+  $('[data-cable-action="instructor_status_toggle"]').data('online', online);
 }

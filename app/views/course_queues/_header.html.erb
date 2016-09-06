@@ -1,13 +1,4 @@
-<div class="ui right floated images">
-    <% instructors.each do |instructor| %>
-        <img class="ui mini avatar image"
-        data-popup="true"
-        data-content="<%= instructor.name %>"
-        data-position="top center"
-        data-variation="inverted"
-        src="<%= instructor.avatar_url %>"
-        >
-    <% end %>
+<div data-cable-container="instructors" class="ui right floated images">
 </div>
 
 <h1 class="ui left floated header">

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :course_queues, only: [:show] do
     member do
       get 'outstanding_requests'
+      get 'online_instructors'
     end
   end
 

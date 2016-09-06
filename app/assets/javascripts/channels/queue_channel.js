@@ -18,6 +18,8 @@ CourseQueueClientActionHandler.prototype.fire = function (e) {
     this.resolveRequest(target);
   } else if (action === 'destroy_request') {
     this.destroyRequest(target);
+  } else if (action === 'instructor_status_toggle') {
+    this.instructorStatusToggle(target);
   }
 }
 
@@ -35,6 +37,16 @@ CourseQueueClientActionHandler.prototype.newRequest = function (selector) {
 
 CourseQueueClientActionHandler.prototype.queuePop = function (selector) {
   this.subscription.perform('queue_pop');
+};
+
+CourseQueueClientActionHandler.prototype.instructorStatusToggle = function (selector) {
+  let newStatus = !$(selector).data('online');
+
+  $(selector).data('online', newStatus);
+
+  this.subscription.perform('instructor_status_toggle', {
+    online: newStatus,
+  });
 };
 
 CourseQueueClientActionHandler.prototype.resolveRequest = function (selector) {
@@ -65,8 +77,15 @@ $(document).ready(function () {
       getOutstandingRequests(queueId, function (requests) {
         emptyRequestsContainer();
         requests.forEach(renderRequest);
-        fixupPage();
+
+        getOnlineInstructors(queueId, function (instructors) {
+          emptyInstructorsContainer();
+          instructors.forEach(renderInstructor);
+
+          fixupPage();
+        });
       });
+
     },
     disconnected: function () {
       disablePage();
@@ -76,6 +95,10 @@ $(document).ready(function () {
         renderRequest(data.request);
       } else if (data.action === 'resolve_request') {
         deleteRequestById(data.request.id);
+      } else if (data.action === 'instructor_offline') {
+        deleteInstructorById(data.instructor.id);
+      } else if (data.action === 'instructor_online') {
+        renderInstructor(data.instructor);
       }
 
       fixupPage();
