@@ -1,9 +1,9 @@
 // TODO: function findContainerFor()
-const requestsContainerSelector       = '[data-cable-container="requests"]';
-const requestsCountContainerSelector  = '[data-cable-container="requests-count"]';
-const actionContentContainerSelector  = '[data-cable-container="action-content"]';
-const instructorsContainerSelector    = '[data-cable-container="instructors"]';
-const messagesContainerSelector       = '[data-cable-container="messages"]';
+var requestsContainerSelector       = '[data-cable-container="requests"]';
+var requestsCountContainerSelector  = '[data-cable-container="requests-count"]';
+var actionContentContainerSelector  = '[data-cable-container="action-content"]';
+var instructorsContainerSelector    = '[data-cable-container="instructors"]';
+var messagesContainerSelector       = '[data-cable-container="messages"]';
 
 /**
  * Remove everything from the requests container.
@@ -44,7 +44,7 @@ function enablePage() {
  * sync. This function should be called whenever data is changed.
  */
 function fixupPage() {
-  let newCount = updateRequestsCount();
+  var newCount = updateRequestsCount();
 
   if (newCount === 0) {
     renderEmptyRequests();
@@ -52,7 +52,7 @@ function fixupPage() {
     // handled in renderRequest()
   }
 
-  let numRequestsFromCurrentUser = $('[data-requester-id=' + getCurrentUserId() + ']').length;
+  var numRequestsFromCurrentUser = $('[data-requester-id=' + getCurrentUserId() + ']').length;
   if (isCurrentUserInstructor()) {
     renderInstructorForm();
     fixMyInstructorOnlineStatus();
@@ -66,7 +66,7 @@ function fixupPage() {
 
   toggleQueuePop(newCount > 0);
 
-  let onlineInstructors = countOnlineInstructors();
+  var onlineInstructors = countOnlineInstructors();
   if (onlineInstructors > 0) {
     deleteMessages(); // TODO: this assumes there are no other messages
     $(actionContentContainerSelector).parent().show();
@@ -94,7 +94,7 @@ function getRequestsCount() {
  * TODO: this could listen for changes on the container.
  */
 function updateRequestsCount() {
-  let count = getRequestsCount();
+  var count = getRequestsCount();
 
   $(requestsCountContainerSelector).html(count);
 
@@ -187,12 +187,12 @@ function getOnlineInstructors(queueId, callback) {
  * Either append or overwrite the container contents. Optionally munge the
  * template to insert any item-specific data via callback.
  */
-function renderTemplate(template, parentContainer, append = true, munge = null) {
-  let parentElt = $('[data-cable-container="' + parentContainer + '"]');
-  let templateElt = $('[data-cable-template="' + template + '"]');
-  let elt       = $(templateElt.html());
+function renderTemplate(template, parentContainer, append, munge) {
+  var parentElt = $('[data-cable-container="' + parentContainer + '"]');
+  var templateElt = $('[data-cable-template="' + template + '"]');
+  var elt       = $(templateElt.html());
 
-  if (munge !== null) {
+  if (typeof munge !== 'undefined') {
     munge(elt);
   }
 
@@ -283,7 +283,7 @@ function isCurrentUserInstructor() {
 /**
  * Display a message to the user.
  */
-function renderMessage(header, text, append = true) {
+function renderMessage(header, text, append) {
   renderTemplate('message', 'messages', append, function (elt) {
     elt.find('[data-content=header]').html(header);
     elt.find('[data-content=text]').html(text);
@@ -305,7 +305,7 @@ function toggleQueuePop(enabled) {
  * TODO: write me
  */
 function fixMyInstructorOnlineStatus() {
-  let amIOnline = $(instructorsContainerSelector)
+  var amIOnline = $(instructorsContainerSelector)
     .find('[data-id=' + getCurrentUserId() + ']').length > 0;
 
   setInstructorStatus(amIOnline);
@@ -316,7 +316,7 @@ function fixMyInstructorOnlineStatus() {
  * Set the instructor button to the appropriate text.
  */
 function setInstructorStatus(online) {
-  let text;
+  var text;
 
   if (online) {
     text = 'Offline';

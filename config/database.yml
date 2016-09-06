@@ -22,4 +22,8 @@ test:
 
 production:
   <<: *default
-  database: db/production.sqlite3
+  adapter:  mysql2
+  encoding: utf8
+  database: <%= ENV['EECSHELP_DATABASE'] %>
+  username: <%= ENV['EECSHELP_DATABASE_USER'] %>
+  password: <%= ENV['EECSHELP_DATABASE_PASSWORD'] %>

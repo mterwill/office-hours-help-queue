@@ -7,8 +7,8 @@ function CourseQueueClientActionHandler(subscription) {
 }
 
 CourseQueueClientActionHandler.prototype.fire = function (e) {
-  let target = e.currentTarget;
-  let action = $(target).data('cable-action');
+  var target = e.currentTarget;
+  var action = $(target).data('cable-action');
 
   if (action === 'new_request') {
     this.newRequest(target);
@@ -24,10 +24,10 @@ CourseQueueClientActionHandler.prototype.fire = function (e) {
 }
 
 CourseQueueClientActionHandler.prototype.newRequest = function (selector) {
-  let form = $(selector).parent();
+  var form = $(selector).parent();
 
-  let location    = form.find('input[name=location]').val();
-  let description = form.find('textarea[name=description]').val();
+  var location    = form.find('input[name=location]').val();
+  var description = form.find('textarea[name=description]').val();
 
   this.subscription.perform('new_request', {
     location: location,
@@ -40,7 +40,7 @@ CourseQueueClientActionHandler.prototype.queuePop = function (selector) {
 };
 
 CourseQueueClientActionHandler.prototype.instructorStatusToggle = function (selector) {
-  let newStatus = !$(selector).data('online');
+  var newStatus = !$(selector).data('online');
 
   $(selector).data('online', newStatus);
 
@@ -50,7 +50,7 @@ CourseQueueClientActionHandler.prototype.instructorStatusToggle = function (sele
 };
 
 CourseQueueClientActionHandler.prototype.resolveRequest = function (selector) {
-  let requestId = $(selector).data('id');
+  var requestId = $(selector).data('id');
 
   this.subscription.perform('resolve_request', {
     id: requestId,
@@ -58,7 +58,7 @@ CourseQueueClientActionHandler.prototype.resolveRequest = function (selector) {
 };
 
 CourseQueueClientActionHandler.prototype.destroyRequest = function (selector) {
-  let requestId = $(selector).data('id');
+  var requestId = $(selector).data('id');
 
   this.subscription.perform('destroy_request', {
     id: requestId,
@@ -66,10 +66,10 @@ CourseQueueClientActionHandler.prototype.destroyRequest = function (selector) {
 };
 
 $(document).ready(function () {
-  let queueId = $('#course-queue-name').data('course-queue-id');
+  var queueId = $('#course-queue-name').data('course-queue-id');
 
   // Create the new ActionCable subscription for this course queue
-  let courseQueueSubscription = App.cable.subscriptions.create({
+  var courseQueueSubscription = App.cable.subscriptions.create({
     channel: 'QueueChannel',
     id: $('#course-queue-name').data('course-queue-id'),
   }, {
@@ -104,8 +104,8 @@ $(document).ready(function () {
     },
   });
 
-  let handler = new CourseQueueClientActionHandler(courseQueueSubscription);
+  var handler = new CourseQueueClientActionHandler(courseQueueSubscription);
 
   // Attach the handler to click actions
-  $(document).on('click', '[data-cable-action]', e => handler.fire(e));
+  $(document).on('click', '[data-cable-action]', handler.fire.bind(handler));
 });

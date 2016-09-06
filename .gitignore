@@ -19,3 +19,12 @@
 
 # Ignore Byebug command history file.
 .byebug_history
+
+/shared/log/*
+/shared/pids/*
+
+/public/assets/*
+
+.rbenv-vars
+
+.DS_Store

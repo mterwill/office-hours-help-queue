@@ -18,6 +18,6 @@ class CourseQueuesController < ApplicationController
 
   private
   def set_course_queue
-    @course_queue = CourseQueue.open_queues.find(params[:id])
+    @course_queue = CourseQueue.find(params[:id])
   end
 end
