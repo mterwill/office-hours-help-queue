@@ -69,15 +69,13 @@ function fixupPage() {
   let onlineInstructors = countOnlineInstructors();
   if (onlineInstructors > 0) {
     deleteMessages(); // TODO: this assumes there are no other messages
-    if (isCurrentUserInstructor() === false) {
-      $(actionContentContainerSelector).parent().show();
-      $(requestsContainerSelector).parent().parent().removeClass('sixteen wide').addClass('ten wide');
-    }
+    $(actionContentContainerSelector).parent().show();
+    $(requestsContainerSelector).parent().parent().attr('class', 'ten wide column');
   } else {
-    renderMessage('Queue closed', 'The queue is now closed.');
+    renderMessage('Queue closed', 'The queue is now closed.', false);
     if (isCurrentUserInstructor() === false) {
       $(actionContentContainerSelector).parent().hide();
-      $(requestsContainerSelector).parent().parent().removeClass('ten wide').addClass('sixteen wide');
+      $(requestsContainerSelector).parent().parent().attr('class', 'sixteen wide column');
     }
   }
 }
