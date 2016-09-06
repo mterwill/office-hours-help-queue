@@ -5,8 +5,6 @@ class CourseQueue < ApplicationRecord
   has_many :online_instructors, through: :course_queue_online_instructors, class_name: 'User'
 
   def request(requester:, description:, location:)
-    logger.debug "fdswa#{description}"
-    logger.debug "asdf#{location}"
     CourseQueueEntry.create!(
       course_queue: self,
       requester: requester,
