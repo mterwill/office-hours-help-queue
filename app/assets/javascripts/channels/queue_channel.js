@@ -85,7 +85,6 @@ $(document).ready(function () {
           fixupPage();
         });
       });
-
     },
     disconnected: function () {
       disablePage();

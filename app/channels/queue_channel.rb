@@ -7,6 +7,8 @@ class QueueChannel < ApplicationCable::Channel
   end
 
   def new_request(data)
+    authorize :open_queue
+
     new_request = @course_queue.request(
       requester: current_user,
       location: data['location'],
@@ -17,9 +19,9 @@ class QueueChannel < ApplicationCable::Channel
   end
 
   def resolve_request(data)
-    request = load_request(data)
+    authorize :instructor_only
 
-    # TODO authenticate this
+    request = load_request(data)
 
     request.resolve_by!(current_user)
 
@@ -27,7 +29,7 @@ class QueueChannel < ApplicationCable::Channel
   end
 
   def queue_pop(data)
-    # TODO authenticate this
+    authorize :instructor_only
 
     request = @course_queue.pop!(current_user)
 
@@ -35,6 +37,8 @@ class QueueChannel < ApplicationCable::Channel
   end
 
   def instructor_status_toggle(data)
+    authorize :instructor_only
+
     if data['online']
       current_user.sign_in!(@course_queue)
 
@@ -55,14 +59,11 @@ class QueueChannel < ApplicationCable::Channel
   def destroy_request(data)
     request = load_request(data)
 
-    # TODO authenticate this
+    authorize(:current_user, request)
 
     request.destroy!
 
     broadcast_request_change('resolve_request', request)
-  end
-
-  def update_request(data)
   end
 
   private
@@ -75,5 +76,19 @@ class QueueChannel < ApplicationCable::Channel
 
   def load_request(data)
     @course_queue.outstanding_requests.find(data['id'])
+  end
+
+  def authorize(requirement, request = nil)
+    if requirement == :instructor_only
+      unless current_user.instructor_for_course_queue?(@course_queue)
+        raise "Current user not instructor" 
+      end
+    elsif requirement == :current_user_only
+      unless current_user == request.requester
+        raise "Current user not requester" 
+      end
+    elsif requirement == :open_queue 
+      raise "Queue is closed" unless @course_queue.is_open?
+    end
   end
 end

@@ -3,6 +3,7 @@ const requestsContainerSelector       = '[data-cable-container="requests"]';
 const requestsCountContainerSelector  = '[data-cable-container="requests-count"]';
 const actionContentContainerSelector  = '[data-cable-container="action-content"]';
 const instructorsContainerSelector    = '[data-cable-container="instructors"]';
+const messagesContainerSelector       = '[data-cable-container="messages"]';
 
 /**
  * Remove everything from the requests container.
@@ -61,9 +62,24 @@ function fixupPage() {
     // handled in renderRequest()
   }
 
-  toggleQueuePop(newCount > 0);
-  
   enablePage();
+
+  toggleQueuePop(newCount > 0);
+
+  let onlineInstructors = countOnlineInstructors();
+  if (onlineInstructors > 0) {
+    deleteMessages(); // TODO: this assumes there are no other messages
+    if (isCurrentUserInstructor() === false) {
+      $(actionContentContainerSelector).parent().show();
+      $(requestsContainerSelector).parent().parent().removeClass('sixteen wide').addClass('ten wide');
+    }
+  } else {
+    renderMessage('Queue closed', 'The queue is now closed.');
+    if (isCurrentUserInstructor() === false) {
+      $(actionContentContainerSelector).parent().hide();
+      $(requestsContainerSelector).parent().parent().removeClass('ten wide').addClass('sixteen wide');
+    }
+  }
 }
 
 /**
@@ -230,10 +246,24 @@ function deleteRequestById(id) {
 }
 
 /**
+ * Delete messages.
+ */
+function deleteMessages() {
+  $(messagesContainerSelector).children().detach();
+}
+
+/**
  * Find an instructor by ID and remove it from the DOM.
  */
 function deleteInstructorById(id) {
   findInstructorById(id).detach();
+}
+
+/**
+ * Count the number of online instructors.
+ */
+function countOnlineInstructors() {
+  return $('[data-cable-type=instructor]').length;
 }
 
 /**

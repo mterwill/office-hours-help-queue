@@ -24,10 +24,10 @@ class User < ApplicationRecord
   end
 
   def sign_in!(course_queue)
-    CourseQueueOnlineInstructor.create!({
+    CourseQueueOnlineInstructor.find_or_create_by(
       online_instructor: self,
       course_queue: course_queue
-    })
+    )
   end
 
   def sign_out!(course_queue)
