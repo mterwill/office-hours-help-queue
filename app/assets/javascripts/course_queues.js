@@ -54,10 +54,9 @@ function fixupPage() {
   }
 
   var numRequestsFromCurrentUser = $('[data-requester-id=' + getCurrentUserId() + ']').length;
-  if (isCurrentUserInstructor() && currentController !== 'instructor') {
+  if (isCurrentUserInstructor()) {
     renderInstructorForm();
     fixMyInstructorOnlineStatus();
-    $(actionContentContainerSelector).data('current-controller', 'instructor');
   } else if (numRequestsFromCurrentUser === 0 && currentController !== 'help_form') {
     renderHelpForm();
     $(actionContentContainerSelector).data('current-controller', 'help_form');
