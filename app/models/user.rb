@@ -4,7 +4,7 @@ class User < ApplicationRecord
   def self.from_omniauth(auth)
     # TODO: we want to unique key on email here, but the provider/uid combo that
     # was here is more conducive to actual omniauth
-    where(email: user.info.email).first_or_initialize.tap do |user|
+    where(email: auth.info.email).first_or_initialize.tap do |user|
       user.provider         = auth.provider
       user.uid              = auth.uid
       user.name             = auth.info.name
