@@ -9,6 +9,11 @@
                 <div class="content">
                     <h4 class="ui sub header">Open Queues</h4>
                     <div class="ui middle aligned selection list">
+                        <% if course.available_queues_for(current_user).empty? %>
+                            <div class="text meta centered">
+                            <em class="disabled">No open queues. Try refreshing.</em>
+                            </div>
+                        <% end %>
                         <% course.available_queues_for(current_user).each do |queue| %>
                             <%= render 'queue', queue: queue %>
                         <% end %>
