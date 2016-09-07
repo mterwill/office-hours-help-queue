@@ -13,6 +13,6 @@ class Course < ApplicationRecord
   end
 
   def open_queues
-    CourseQueue.joins(:course_queue_online_instructors).where(course_id: self.id)
+    CourseQueue.joins(:course_queue_online_instructors).where(course_id: self.id).distinct
   end
 end
