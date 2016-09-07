@@ -1,0 +1,15 @@
+<div class="six wide column">
+    <h1 class="ui header">
+        Add Instructor for <%= @course.name %>
+    </h1>
+
+    <%= form_for [@course, @course_instructor], html: {class: 'ui form'} do |f| %>
+        <div class="field">
+            <label>Email</label>
+            <input type="email" name="instructor_email" placeholder="instructor@umich.edu">
+        </div>
+
+        <%= f.submit 'Add', class: 'ui button' %>
+    <% end %>
+
+</div>

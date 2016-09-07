@@ -1,0 +1,26 @@
+<table class="ui table">
+    <thead>
+        <tr><th style="width: 50%">Course Queue Name</th>
+            <th style="width: 50%">Location</th>
+            <th>
+                <a href="<%= new_course_course_queue_url(@course) %>" class="ui primary labeled icon fluid button">
+                    <i class="plus icon"></i>
+                    New
+                </a>
+            </th>
+    </tr></thead>
+    <tbody>
+        <% @course.course_queues.each do |queue| %>
+            <tr>
+                <td><%= queue.name %></td>
+                <td><%= queue.location %></td>
+                <td>
+                    <div class="ui fluid basic buttons">
+                        <%= link_to 'Edit', edit_course_course_queue_url(@course, queue), class: 'ui button' %>
+                        <%= link_to 'Delete', course_course_queue_url(@course, queue),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'ui button' %>
+                    </div>
+                </td>
+            </tr>
+        <% end %>
+    </tbody>
+</table>

@@ -4,6 +4,12 @@ Rails.application.routes.draw do
 
   root 'landing#index'
 
+
+  resources :courses do
+    resources :course_queues
+    resources :course_instructors
+  end
+
   resources :course_queues, only: [:show] do
     member do
       get 'outstanding_requests'
