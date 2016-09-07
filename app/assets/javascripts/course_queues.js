@@ -45,6 +45,7 @@ function enablePage() {
  */
 function fixupPage() {
   var newCount = updateRequestsCount();
+  var currentController = $(actionContentContainerSelector).data('current-controller');
 
   if (newCount === 0) {
     renderEmptyRequests();
@@ -53,11 +54,13 @@ function fixupPage() {
   }
 
   var numRequestsFromCurrentUser = $('[data-requester-id=' + getCurrentUserId() + ']').length;
-  if (isCurrentUserInstructor()) {
+  if (isCurrentUserInstructor() && currentController !== 'instructor') {
     renderInstructorForm();
     fixMyInstructorOnlineStatus();
-  } else if (numRequestsFromCurrentUser === 0) {
+    $(actionContentContainerSelector).data('current-controller', 'instructor');
+  } else if (numRequestsFromCurrentUser === 0 && currentController !== 'help_form') {
     renderHelpForm();
+    $(actionContentContainerSelector).data('current-controller', 'help_form');
   } else {
     // handled in renderRequest()
   }
@@ -131,6 +134,7 @@ function renderRequest(request) {
 
   if (getCurrentUserId() === request.requester_id) {
     renderMyRequest(request);
+    $(actionContentContainerSelector).data('current-controller', 'my_request');
   }
 }
 
