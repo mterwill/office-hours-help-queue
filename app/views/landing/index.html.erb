@@ -1,18 +1,20 @@
-<div class="six wide centered column">
-    <% @courses.each do |course| %>
-        <div class="ui fluid card" href="#">
-            <div class="content">
-                <div class="header"><%= course.name %></div>
-                <div class="meta"><%= course.long_name %></div>
-            </div>
-            <div class="content">
-                <h4 class="ui sub header">Open Queues</h4>
-                <div class="ui middle aligned selection list">
-                    <% course.available_queues_for(current_user).each do |queue| %>
-                        <%= render 'queue', queue: queue %>
-                    <% end %>
+<div class="twelve wide centered column">
+    <div class="ui centered cards">
+        <% @courses.each do |course| %>
+            <div class="ui card" href="#">
+                <div class="content">
+                    <div class="header"><%= course.name %></div>
+                    <div class="meta"><%= course.long_name %></div>
+                </div>
+                <div class="content">
+                    <h4 class="ui sub header">Open Queues</h4>
+                    <div class="ui middle aligned selection list">
+                        <% course.available_queues_for(current_user).each do |queue| %>
+                            <%= render 'queue', queue: queue %>
+                        <% end %>
+                    </div>
                 </div>
             </div>
-        </div>
-    <% end %>
+        <% end %>
+    </div>
 </div>
