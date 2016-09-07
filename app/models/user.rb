@@ -2,7 +2,9 @@ class User < ApplicationRecord
   PROTECTED_FIELDS = %w(oauth_token oauth_expires_at uid provider)
 
   def self.from_omniauth(auth)
-    where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|
+    # TODO: we want to unique key on email here, but the provider/uid combo that
+    # was here is more conducive to actual omniauth
+    where(email: user.info.email).first_or_initialize.tap do |user|
       user.provider         = auth.provider
       user.uid              = auth.uid
       user.name             = auth.info.name
