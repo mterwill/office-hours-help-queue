@@ -10,7 +10,7 @@
             </th>
     </tr></thead>
     <tbody>
-        <% @course.course_instructors.each do |course_instructor| %>
+        <% @course_instructors.each do |course_instructor| %>
             <tr>
                 <td><%= course_instructor.instructor.name %></td>
                 <td><%= course_instructor.instructor.email %></td>

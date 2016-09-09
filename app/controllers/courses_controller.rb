@@ -7,6 +7,7 @@ class CoursesController < ApplicationController
   private
   def set_course
     @course = Course.find(params[:id])
+    @course_instructors = @course.course_instructors.joins(:instructor).order("users.name")
   end
 
   def authorize_current_user
