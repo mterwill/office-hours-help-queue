@@ -1,15 +1,28 @@
-APP_DIR="/home/deploy/eecshelp"
+ENV_FILE="/home/deploy/.profile"
+APP_ROOT="/home/deploy/eecshelp"
 
 task :deploy do
-  run_command "git pull origin master && bundle install && rake db:migrate assets:precompile"
+  commands = [
+    "source #{ENV_FILE}",
+    "cd #{APP_ROOT}",
+    "git pull origin master",
+    "sudo chown -R deploy:www-data .",
+    "bundle install",
+    "rake db:migrate",
+    "rake tmp:cache:clear",
+    "rake assets:precompile",
+    "sudo restart puma app=#{APP_ROOT}",
+  ].join(" && ")
+
+  sh "ssh eecshelp \"#{commands}\""
 end
 
-namespace :deploy do
-  task :restart do
-    run_command "sudo restart puma app=#{APP_DIR}"
-  end
-end
+task :console do
+  commands = [
+    "source #{ENV_FILE}",
+    "cd #{APP_ROOT}",
+    "bundle exec rails c",
+  ].join(" && ")
 
-def run_command(command)
-    sh "ssh eecshelp \"cd #{APP_DIR} && #{command}\""
+  sh "ssh eecshelp -t \"#{commands}\""
 end
