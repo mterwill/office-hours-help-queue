@@ -1,6 +1,6 @@
 task :make_admin, [:course_id, :email] => :environment do |task, args|
   instructor = User.find_or_create_by({
-    email: :email
+    email: args.email
   })
 
   puts CourseInstructor.create!(

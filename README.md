@@ -17,7 +17,7 @@ The easiest way to spin up a development environment is to use
 [Docker](https://docker.com).
 
 ```bash
-$ docker-compose up
+$ docker-compose up -d
 
 # Create tables and seed a first course and queue
 $ docker-compose run web rake db:migrate db:seed
