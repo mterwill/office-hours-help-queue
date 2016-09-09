@@ -5,3 +5,14 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+Course.create(
+  name: 'EECS 398',
+  long_name: 'Computing for Computer Scientists'
+)
+
+CourseQueue.create(
+  name: 'TA Office Hours',
+  location: '1695 BBB',
+  course: Course.first
+)
