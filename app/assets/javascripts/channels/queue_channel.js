@@ -66,6 +66,8 @@ CourseQueueClientActionHandler.prototype.destroyRequest = function (selector) {
 };
 
 $(document).ready(function () {
+  setInterval(updateRelativeTimestamps, 15000);
+
   var queueId = $('#course-queue-name').data('course-queue-id');
 
   // Create the new ActionCable subscription for this course queue

@@ -120,7 +120,10 @@ function renderRequest(request) {
       elt.find('[data-field="requester.name"]').html(request.requester.name);
       elt.find('[data-field="requester.email"]').html(request.requester.email);
       elt.find('[data-field="location"]').html(request.location);
-      elt.find('[data-field="created_at"]').html(request.created_at);
+
+      elt.find('[data-field="created_at"]').data('timestamp', request.created_at);
+      updateRelativeTimestamp(elt);
+
       elt.find('[data-field="description"]').html(request.description);
 
       elt.find('[data-cable-action]').data('id', request.id);
@@ -329,4 +332,23 @@ function setInstructorStatus(online) {
 
   $('[data-cable-action="instructor_status_toggle"]').html('Go ' + text);
   $('[data-cable-action="instructor_status_toggle"]').data('online', online);
+}
+
+/**
+ *
+ */
+function updateRelativeTimestamp(elt) {
+  var tsElt = elt.find('[data-field="created_at"]');
+  var ts    = moment($(tsElt).data('timestamp'));
+
+  tsElt.html(ts.fromNow());
+}
+
+/**
+ *
+ */
+function updateRelativeTimestamps() {
+  $('[data-cable-type="request"]').each(function () {
+    updateRelativeTimestamp($(this));
+  });
 }
