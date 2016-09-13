@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   root to: redirect('/courses')
 
-  resources :courses
+  resources :courses, only: [:index, :show]
 
   namespace :admin do
     resources :course_queues, except: [:new, :show]
