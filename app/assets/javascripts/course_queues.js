@@ -124,7 +124,11 @@ function renderRequest(request) {
       elt.find('[data-field="created_at"]').data('timestamp', request.created_at);
       updateRelativeTimestamp(elt);
 
-      elt.find('[data-field="description"]').html(request.description);
+      if (request.description.trim()) {
+        elt.find('[data-field="description"]').html(request.description);
+      } else {
+        elt.find('[data-field="description"]').parent().hide();
+      }
 
       elt.find('[data-cable-action]').data('id', request.id);
 
