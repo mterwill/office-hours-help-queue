@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require_tree .
 //= require semantic.min.js
+//= require moment.min.js
 
 $(document).ready(function () {
   $('[data-popup=true]').popup();
