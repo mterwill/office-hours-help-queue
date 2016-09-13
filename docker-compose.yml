@@ -6,6 +6,6 @@ services:
       - web-variables.env
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
     volumes:
-      - .:/eecshelp
+      - .:/usr/src/eecshelp
     ports:
       - "3000:3000"
