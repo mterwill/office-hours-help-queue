@@ -1,4 +1,4 @@
-<%= form_for [@course, @course_queue], html: {class: 'ui form'} do |f| %>
+<%= form_for [:admin, @course_queue], html: {class: 'ui form'} do |f| %>
     <div class="field">
         <%= f.label :name %>
         <%= f.text_field :name %>
@@ -8,11 +8,6 @@
         <%= f.label :location %>
         <%= f.text_field :location %>
     </div>
-
-    <div class="field">
-        <%= f.label :description %>
-        <%= f.text_field :description %>
-    </div>
-
+    <%= f.hidden_field :course_id %>
     <%= f.submit 'Submit', class: 'ui button' %>
 <% end %>

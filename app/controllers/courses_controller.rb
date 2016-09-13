@@ -1,18 +1,16 @@
 class CoursesController < ApplicationController
-  before_action :set_course, :authorize_current_user
+  before_action :set_course_and_queues, except: [:index]
+
+  def index
+    @courses = Course.order(:name)
+  end
 
   def show
   end
 
   private
-  def set_course
-    @course = Course.find(params[:id])
-    @course_instructors = @course.course_instructors.joins(:instructor).order("users.name")
-  end
-
-  def authorize_current_user
-    unless @course.instructors.include?(current_user)
-      redirect_to root_url
-    end
+  def set_course_and_queues
+    @course = Course.find_by!(slug: params[:id])
+    @queues = @course.available_queues_for(current_user).order(:name)
   end
 end

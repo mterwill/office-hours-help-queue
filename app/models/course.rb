@@ -15,4 +15,8 @@ class Course < ApplicationRecord
   def open_queues
     CourseQueue.joins(:course_queue_online_instructors).where(course_id: self.id).distinct
   end
+
+  def to_param
+    slug
+  end
 end

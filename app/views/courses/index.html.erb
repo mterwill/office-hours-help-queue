@@ -1,0 +1,13 @@
+<div class="eight wide centered column">
+    <h1>All Courses</h1>
+    <div class="ui massive fluid vertical menu">
+        <% @courses.each do |course| %>
+            <a href="<%= url_for course %>" class="item">
+                <strong><%= course.name %>:</strong> <%= course.long_name %>
+                <% if current_user.instructor_for_course?(course) %>
+                    <div class="ui teal label">Instructor</div>
+                <% end %>
+            </a>
+        <% end %>
+    </div>
+</div>

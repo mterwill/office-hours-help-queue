@@ -1,0 +1,16 @@
+<div class="sixteen wide column">
+    <%= render 'shared/breadcrumbs', trail: [{ title: @course.name, href: url_for(@course)}, {title: 'Admin'}] %>
+</div>
+
+<div class="ten wide column">
+    <h1 class="ui header">
+        <%= @course.name %>
+        Course Administration
+    </h1>
+
+    <h2>Course Queues</h2>
+    <%= render 'queues', queues: @queues %>
+
+    <h2>Course Instructors</h2>
+    <%= render 'instructors', instructors: @instructors %>
+</div>

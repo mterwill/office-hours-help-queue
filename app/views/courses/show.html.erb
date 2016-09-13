@@ -1,12 +1,25 @@
-<div class="ten wide column">
-    <h1 class="ui header">
-        <%= @course.name %>
-        Course Administration
-    </h1>
+<div class="one wide row">
+    <div class="column">
+        <%= render 'shared/breadcrumbs', trail: [ { title: @course.name } ] %>
+    </div>
+</div>
 
-    <h2>Course Queues</h2>
-    <%= render 'queues' %>
-
-    <h2>Course Instructors</h2>
-    <%= render 'instructors' %>
+<div class="eight wide centered column">
+    <h1 class="ui header"> Available Queues for <%= @course.name %> </h1>
+    <div class="ui fluid segment">
+        <% if @queues.empty? %>
+            <h4>No open queues. Try refreshing.</h4>
+        <% else %>
+            <div class="ui large middle aligned selection list">
+                <% @queues.each do |queue| %>
+                    <%= render 'queue', queue: queue %>
+                <% end %>
+            </div>
+        <% end %>
+    </div>
+    <% if current_user.instructor_for_course?(@course) %>
+        <a class="ui large fluid primary button" href="<%= url_for [:admin, @course] %>">
+            Admin Panel
+        </a>
+    <% end %>
 </div>

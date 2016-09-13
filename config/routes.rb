@@ -2,12 +2,20 @@ Rails.application.routes.draw do
   get 'auth/:provider/callback', to: 'sessions#create'
   # get 'auth/failure', to: redirect('/')
 
-  root 'landing#index'
+  root to: redirect('/courses')
 
+  resources :courses
 
-  resources :courses do
-    resources :course_queues
-    resources :course_instructors
+  namespace :admin do
+    resources :course_queues, except: [:new, :show]
+    resources :course_instructors, except: [:new, :show]
+
+    resources :courses do
+      member do
+        resources :course_queues, only: [:new]
+        resources :course_instructors, only: [:new]
+      end
+    end
   end
 
   resources :course_queues, only: [:show] do

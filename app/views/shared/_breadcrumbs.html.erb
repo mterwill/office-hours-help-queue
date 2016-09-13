@@ -2,8 +2,12 @@
     <a href="<%= url_for :root %>" class="section">All Courses</a>
     <% trail[0..-2].each do |crumb| %>
         <i class="right chevron icon divider"></i>
-        <div class="section"><%= crumb %></div>
+        <% if crumb.is_a?(String) %>
+            <div class="section"><%= crumb %></div>
+        <% else %>
+            <a href="<%= crumb[:href] %>" class="section"><%= crumb[:title] %></a>
+        <% end %>
     <% end %>
     <i class="right chevron icon divider"></i>
-    <div class="active section"><%= trail[-1] %></div>
+    <div class="active section"><%= trail[-1][:title] %></div>
 </div>

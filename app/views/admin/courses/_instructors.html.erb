@@ -3,20 +3,20 @@
         <tr><th style="width: 50%">Name</th>
             <th style="width: 50%">Email</th>
             <th>
-                <a href="<%= new_course_course_instructor_url(@course) %>" class="ui primary fluid labeled icon button">
+                <a href="<%= new_admin_course_instructor_url(@course) %>" class="ui primary fluid labeled icon button">
                     <i class="plus icon"></i>
                     Add
                 </a>
             </th>
     </tr></thead>
     <tbody>
-        <% @course_instructors.each do |course_instructor| %>
+        <% instructors.each do |course_instructor| %>
             <tr>
                 <td><%= course_instructor.instructor.name %></td>
                 <td><%= course_instructor.instructor.email %></td>
                 <td>
                     <div class="ui fluid basic buttons">
-                        <%= link_to 'Delete', course_course_instructor_url(@course, course_instructor),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'ui button' %>
+                        <%= link_to 'Delete', admin_course_instructor_path(course_instructor),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'ui button' %>
                     </div>
                 </td>
             </tr>
