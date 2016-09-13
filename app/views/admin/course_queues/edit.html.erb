@@ -1,3 +1,9 @@
+<%= render 'shared/breadcrumbs', trail: [
+    { title: @course_queue.course.name, href: url_for(@course_queue.course)},
+    { title: 'Admin', href: admin_course_url(@course_queue.course) },
+    'Edit Queue'
+] %>
+
 <div class="six wide column">
     <h1 class="ui header">
         Edit Queue for <%= @course_queue.course.name %>

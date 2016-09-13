@@ -1,6 +1,7 @@
-<div class="sixteen wide column">
-    <%= render 'shared/breadcrumbs', trail: [{ title: @course.name, href: url_for(@course)}, {title: 'Admin'}] %>
-</div>
+<%= render 'shared/breadcrumbs', trail: [
+    { title: @course.name, href: url_for(@course)},
+    'Admin'
+] %>
 
 <div class="ten wide column">
     <h1 class="ui header">

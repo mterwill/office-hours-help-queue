@@ -1,9 +1,7 @@
-<div class="sixteen wide column">
-    <%= render 'shared/breadcrumbs', trail: [
-        { title: @course_queue.course.name, href: url_for(@course_queue.course) },
-        { title: @course_queue.name }
-    ] %>
-</div>
+<%= render 'shared/breadcrumbs', trail: [
+    { title: @course_queue.course.name, href: url_for(@course_queue.course) },
+    @course_queue.name
+] %>
 
 <div class="sixteen wide column">
     <%= render 'header', instructors: @course_queue.online_instructors %>

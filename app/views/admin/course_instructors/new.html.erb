@@ -1,3 +1,9 @@
+<%= render 'shared/breadcrumbs', trail: [
+    { title: @course_instructor.course.name, href: url_for(@course_instructor.course)},
+    { title: 'Admin', href: admin_course_url(@course_instructor.course) },
+    'Add Instructor'
+] %>
+
 <div class="six wide column">
     <h1 class="ui header">
         Add Instructor for <%= @course_instructor.course.name %>

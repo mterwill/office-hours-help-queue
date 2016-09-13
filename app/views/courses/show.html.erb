@@ -1,8 +1,4 @@
-<div class="one wide row">
-    <div class="column">
-        <%= render 'shared/breadcrumbs', trail: [ { title: @course.name } ] %>
-    </div>
-</div>
+<%= render 'shared/breadcrumbs', trail: [ @course.name ] %>
 
 <div class="eight wide centered column">
     <h1 class="ui header"> Available Queues for <%= @course.name %> </h1>
