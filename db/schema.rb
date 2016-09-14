@@ -10,54 +10,60 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160913181024) do
+ActiveRecord::Schema.define(version: 20160914132425) do
 
   create_table "course_instructors", force: :cascade do |t|
-    t.integer  "course_id"
-    t.integer  "instructor_id"
+    t.integer  "course_id",     null: false
+    t.integer  "instructor_id", null: false
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.index ["course_id", "instructor_id"], name: "index_course_instructors_on_course_id_and_instructor_id", unique: true
   end
 
   create_table "course_queue_entries", force: :cascade do |t|
-    t.integer  "requester_id"
-    t.integer  "course_queue_id"
+    t.integer  "requester_id",    null: false
+    t.integer  "course_queue_id", null: false
     t.text     "description"
     t.integer  "resolver_id"
     t.datetime "resolved_at"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.string   "location"
+    t.index ["course_queue_id"], name: "index_course_queue_entries_on_course_queue_id"
   end
 
   create_table "course_queue_online_instructors", force: :cascade do |t|
-    t.integer  "course_queue_id"
-    t.integer  "online_instructor_id"
+    t.integer  "course_queue_id",      null: false
+    t.integer  "online_instructor_id", null: false
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+    t.index ["course_queue_id"], name: "index_course_queue_online_instructors_on_course_queue_id"
   end
 
   create_table "course_queues", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",        null: false
     t.string   "location"
     t.text     "description"
     t.boolean  "is_open"
-    t.integer  "course_id"
+    t.integer  "course_id",   null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.index ["course_id", "name"], name: "index_course_queues_on_course_id_and_name", unique: true
   end
 
   create_table "courses", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string   "long_name"
-    t.string   "slug"
+    t.string   "long_name",  null: false
+    t.string   "slug",       null: false
+    t.index ["name"], name: "index_courses_on_name", unique: true
+    t.index ["slug"], name: "index_courses_on_slug", unique: true
   end
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
-    t.string   "email"
+    t.string   "email",            null: false
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.string   "uid"
@@ -65,6 +71,7 @@ ActiveRecord::Schema.define(version: 20160913181024) do
     t.datetime "oauth_expires_at"
     t.string   "provider"
     t.string   "avatar_url"
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
 end
