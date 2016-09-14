@@ -1,5 +1,10 @@
 version: '2'
 services:
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: eecshelp
+      MYSQL_DATABASE: eecshelp
   web:
     build: .
     env_file:
@@ -9,3 +14,5 @@ services:
       - .:/usr/src/eecshelp
     ports:
       - "3000:3000"
+    depends_on:
+      - db
