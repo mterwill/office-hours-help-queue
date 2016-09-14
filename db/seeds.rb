@@ -8,7 +8,8 @@
 
 Course.create(
   name: 'EECS 398',
-  long_name: 'Computing for Computer Scientists'
+  long_name: 'Computing for Computer Scientists',
+  slug: 'eecs398'
 )
 
 CourseQueue.create(
