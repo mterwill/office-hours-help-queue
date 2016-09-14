@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    @current_user ||= User.find(cookies.signed[:user_id]) if cookies.signed[:user_id]
+    @current_user ||= User.find_by_id(cookies.signed[:user_id]) if cookies.signed[:user_id]
   end
 
   def authenticate_user!
