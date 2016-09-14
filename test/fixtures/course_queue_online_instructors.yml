@@ -1,9 +1,5 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  course_queue_id: 1
-  online_instructor_id: 1
-
-two:
-  course_queue_id: 1
-  online_instructor_id: 1
+matt_online:
+  course_queue: eecs398_queue
+  online_instructor: matt

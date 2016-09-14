@@ -1,11 +1,5 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  course_id: 1
-  instructor_id: 1
-  online: false
-
-two:
-  course_id: 1
-  instructor_id: 1
-  online: false
+matt_eecs398:
+  course: eecs398
+  instructor: matt

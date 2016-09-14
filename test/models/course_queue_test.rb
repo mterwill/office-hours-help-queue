@@ -8,7 +8,9 @@ class CourseQueueTest < ActiveSupport::TestCase
 
   test "request creates a new CourseQueueEntry for this queue" do
     entry = @queue.request(
-      requester: @requester
+      requester: @requester,
+      description: '',
+      location: ''
     )
 
     assert entry.course_queue == @queue
@@ -18,25 +20,29 @@ class CourseQueueTest < ActiveSupport::TestCase
   end
 
   test "outstanding requests returns only unresolved entries" do
-    assert_not @queue.outstanding_requests.include?(
+    assert @queue.outstanding_requests.include?(
       course_queue_entries(:unresolved_entry)
     )
 
-    assert @queue.outstanding_requests.include?(
+    assert_not @queue.outstanding_requests.include?(
       course_queue_entries(:resolved_entry)
     )
   end
 
-  test "requests ordered by created at time" do
-    assert false
-  end
-
   test "request adds you to the bottom of the queue" do
-    entry = @queue.request(
-      requester: @requester
+    first_entry = @queue.request(
+      requester: users(:mary),
+      description: '',
+      location: ''
     )
 
-    assert false
+    last_entry = @queue.request(
+      requester: users(:jim),
+      description: '',
+      location: ''
+    )
+
+    assert @queue.outstanding_requests[-1] == last_entry
   end
 
   test "open queues returns only open queues" do
