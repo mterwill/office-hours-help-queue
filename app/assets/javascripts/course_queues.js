@@ -119,7 +119,12 @@ function renderRequest(request) {
       elt.find('[data-field="requester.avatar_url"]').attr('src', request.requester.avatar_url);
       elt.find('[data-field="requester.name"]').html(request.requester.name);
       elt.find('[data-field="requester.email"]').html(request.requester.email);
-      elt.find('[data-field="location"]').html(request.location);
+
+      if (request.location.trim()) {
+        elt.find('[data-field="location"]').html(request.location);
+      } else {
+        elt.find('[data-field="location"]').parent().hide();
+      }
 
       elt.find('[data-field="created_at"]').data('timestamp', request.created_at);
       updateRelativeTimestamp(elt);
