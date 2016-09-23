@@ -56,3 +56,5 @@ gem 'omniauth-google-oauth2'
 
 # For action cable
 gem 'redis'
+
+gem 'react-rails'

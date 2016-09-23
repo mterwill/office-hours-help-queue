@@ -8,6 +8,7 @@
 </div>
 
 <div class="sixteen wide column" data-cable-container="messages">
+
 </div>
 
 <div class="six wide column">
@@ -15,25 +16,11 @@
     </div>
 </div>
 
+<div class="ten wide column" id="queue"></div>
 
-<div class="ten wide column">
-    <div class="ui disabled loading min segment">
-        <h4 class="ui header">Queue 
-            <div data-cable-container="requests-count" class="ui teal tiny horizontal label">
-            </div>
-        </h4>
-        <div data-cable-container="requests" class="ui comments">
-        </div>
-    </div>
-
-</div>
-
-<div class="templates" style="display: none;">
-    <%= render 'request_template' %>
-    <%= render 'help_request_form_template' %>
-    <%= render 'my_request_template' %>
-    <%= render 'empty_template' %>
-    <%= render 'admin_panel' %>
-    <%= render 'shared/message_template' %>
-    <%= render 'instructor_template' %>
-</div>
+<script type="text/babel">
+    ReactDOM.render(
+      <RequestBox />,
+      document.getElementById('queue')
+    );
+</script>
