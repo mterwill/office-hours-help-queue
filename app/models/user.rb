@@ -18,7 +18,7 @@ class User < ApplicationRecord
   end
 
   def instructor_for_course?(course)
-    CourseInstructor.where({ instructor: self, course: course }).count > 0
+    CourseInstructor.where({ instructor: self, course: course }).count > 0 || self.global_admin
   end
 
   def instructor_for_course_queue?(course_queue)

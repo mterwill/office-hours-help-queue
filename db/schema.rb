@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160914132425) do
+ActiveRecord::Schema.define(version: 20160930183807) do
 
   create_table "course_instructors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer  "course_id",     null: false
@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 20160914132425) do
     t.datetime "oauth_expires_at"
     t.string   "provider"
     t.string   "avatar_url"
+    t.boolean  "global_admin"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
 
