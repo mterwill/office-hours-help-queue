@@ -7,20 +7,11 @@
     <%= render 'header', instructors: @course_queue.online_instructors %>
 </div>
 
-<div class="sixteen wide column" data-cable-container="messages">
-
-</div>
-
-<div class="six wide column">
-    <div data-cable-container="action-content" class="ui disabled loading min segment">
-    </div>
-</div>
-
-<div class="ten wide column" id="queue"></div>
+<div id="app" class="row"></div>
 
 <script type="text/babel">
     ReactDOM.render(
-      <RequestBox />,
-      document.getElementById('queue')
+      <CourseQueue id={<%= @course_queue.id %>} />,
+      document.getElementById('app')
     );
 </script>
