@@ -36,23 +36,19 @@ class QueueChannel < ApplicationCable::Channel
     broadcast_request_change('resolve_request', request)
   end
 
+  def take_queue_offline(data)
+    authorize :instructor_only
+
+    @course_queue.online_instructors.map { |i| i.sign_out!(@course_queue) }
+  end
+
   def instructor_status_toggle(data)
     authorize :instructor_only
 
     if data['online']
       current_user.sign_in!(@course_queue)
-
-      QueueChannel.broadcast_to(@course_queue, {
-        action: 'instructor_online',
-        instructor: current_user,
-      })
     else
       current_user.sign_out!(@course_queue)
-
-      QueueChannel.broadcast_to(@course_queue, {
-        action: 'instructor_offline',
-        instructor: current_user,
-      })
     end
   end
 

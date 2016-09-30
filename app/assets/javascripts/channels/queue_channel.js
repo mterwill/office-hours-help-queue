@@ -20,6 +20,8 @@ CourseQueueClientActionHandler.prototype.fire = function (e) {
     this.destroyRequest(target);
   } else if (action === 'instructor_status_toggle') {
     this.instructorStatusToggle(target);
+  } else if (action === 'take_queue_offline') {
+    this.takeQueueOffline(target);
   }
 }
 
@@ -37,6 +39,10 @@ CourseQueueClientActionHandler.prototype.newRequest = function (selector) {
 
 CourseQueueClientActionHandler.prototype.queuePop = function (selector) {
   this.subscription.perform('queue_pop');
+};
+
+CourseQueueClientActionHandler.prototype.takeQueueOffline = function (selector) {
+  this.subscription.perform('take_queue_offline');
 };
 
 CourseQueueClientActionHandler.prototype.instructorStatusToggle = function (selector) {

@@ -30,6 +30,11 @@ class User < ApplicationRecord
       online_instructor: self,
       course_queue: course_queue
     )
+
+    QueueChannel.broadcast_to(course_queue, {
+      action: 'instructor_online',
+      instructor: self,
+    })
   end
 
   def sign_out!(course_queue)
@@ -37,6 +42,11 @@ class User < ApplicationRecord
       online_instructor: self,
       course_queue: course_queue
     }).destroy_all
+
+    QueueChannel.broadcast_to(course_queue, {
+      action: 'instructor_offline',
+      instructor: self,
+    })
   end
 
   def as_json(options = {})
