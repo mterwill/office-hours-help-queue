@@ -21,9 +21,6 @@ $ docker-compose up -d
 
 # Create tables and seed a first course and queue
 $ docker-compose run web rake db:migrate db:seed
-
-# Add your email as an admin for the first course (populated by db:seed)
-$ docker-compose run web rake "make_admin[1, jsmith@example.org]"
 ```
 
 Now add an entry for `dev.eecs.help` to `127.0.0.1` in your `/etc/hosts` file.

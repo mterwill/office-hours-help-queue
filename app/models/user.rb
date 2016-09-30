@@ -13,6 +13,10 @@ class User < ApplicationRecord
       user.oauth_token      = auth.credentials.token
       user.oauth_expires_at = Time.at(auth.credentials.expires_at)
 
+      if User.count == 0
+        user.global_admin = true
+      end
+
       user.save!
     end
   end
