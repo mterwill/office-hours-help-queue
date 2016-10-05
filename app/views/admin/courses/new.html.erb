@@ -1,0 +1,12 @@
+<%= render 'shared/breadcrumbs', trail: [
+    { title: 'Admin', href: admin_courses_path},
+    'New Course',
+] %>
+
+<div class="six wide column">
+    <h1 class="ui header">
+        New Course
+    </h1>
+
+    <%= render 'form' %>
+</div>

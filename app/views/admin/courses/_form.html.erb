@@ -1,0 +1,18 @@
+<%= form_for [:admin, @course], html: {class: 'ui form'} do |f| %>
+    <div class="field">
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+    </div>
+
+    <div class="field">
+        <%= f.label :long_name %>
+        <%= f.text_field :long_name %>
+    </div>
+
+    <div class="field">
+        <%= f.label :slug %>
+        <%= f.text_field :slug %>
+    </div>
+
+    <%= f.submit 'Submit', class: 'ui button' %>
+<% end %>
