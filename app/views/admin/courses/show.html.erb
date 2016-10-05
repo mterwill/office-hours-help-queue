@@ -9,6 +9,10 @@
         Course Administration
     </h1>
 
+    <a href="<%= edit_admin_course_url(@course) %>" class="ui button">
+        Edit Course Details
+    </a>
+
     <h2>Course Queues</h2>
     <%= render 'queues', queues: @queues %>
 
