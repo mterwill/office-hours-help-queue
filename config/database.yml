@@ -22,10 +22,10 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  host: db
-  database: eecshelp
-  username: root
-  password: eecshelp
+  host: <%= ENV['EECSHELP_TEST_DATABASE_HOST'] %>
+  database: <%= ENV['EECSHELP_TEST_DATABASE'] %>
+  username: <%= ENV['EECSHELP_TEST_DATABASE_USERNAME'] %>
+  password: <%= ENV['EECSHELP_TEST_DATABASE_PASSWORD'] %>
 
 production:
   <<: *default
