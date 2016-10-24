@@ -1,5 +1,7 @@
 # classroom-help-queue
 
+[![Build Status](https://travis-ci.org/mterwill/classroom-help-queue.svg?branch=master)](https://travis-ci.org/mterwill/classroom-help-queue)
+
 A help queue for office hours written in Ruby on Rails. The frontend uses
 [Semantic UI](http://semantic-ui.com/). We use
 [Action Cable](http://guides.rubyonrails.org/action_cable_overview.html) to
