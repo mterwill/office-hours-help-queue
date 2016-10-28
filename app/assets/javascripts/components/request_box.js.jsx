@@ -6,7 +6,7 @@ var RequestBox = React.createClass({
           Queue
           <RequestCountLabel count={this.props.requests.length} />
         </h4>
-        <RequestList requests={this.props.requests} handler={this.handler} />
+        <RequestList requests={this.props.requests} handler={this.props.handler} />
       </div>
     );
   }
