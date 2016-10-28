@@ -1,4 +1,10 @@
 var CourseQueue = React.createClass({
+  getInitialState: function () {
+    return {
+      enabled: false,
+      requests: [],
+    };
+  },
   enable: function () {
     this.setState({ enabled: true });
   },
@@ -52,11 +58,18 @@ var CourseQueue = React.createClass({
     this.handler = new CourseQueueClientActionHandler(courseQueueSubscription);
   },
   render: function () {
-    var disabled = this.state.enabled ? '' : 'disabled loading ';
+    var segmentClass = this.state.enabled ?
+      'ui min segment' : 'ui disabled loading min segment';
 
     return (
-      <div className="sixteen wide column">
-        <div className={'ui ' + disabled + 'min segment'}>
+      <div className="ui grid">
+        <div className="six wide column">
+        </div>
+        <div className="ten wide column">
+          <RequestBox
+            segmentClass={segmentClass}
+            requests={this.state.requests}
+          />
         </div>
       </div>
     );

@@ -1,10 +1,14 @@
 var RequestList = React.createClass({
-  render: () => {
-    var requestNodes = this.props.data.map((request) => {
+  render: function () {
+    var requestNodes = this.props.requests.map(function (request) {
       return (
-        <Request request={request} handler={this.props.handler} />
+        <Request 
+          key={request.id}
+          request={request}
+          handler={this.props.handler}
+        />
       );
-    });
+    }.bind(this));
 
     return (
       <div className="ui comments">

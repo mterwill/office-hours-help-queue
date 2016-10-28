@@ -1,18 +1,12 @@
 var RequestBox = React.createClass({
-  getInitialState: function() {
-    return {
-      requests: []
-    };
-  },
-  render: function() {
-    var disabled = this.state.enabled ? '' : 'disabled loading ';
+  render: function () {
     return (
-      <div className={'ui ' + disabled + 'min segment'}>
+      <div className={this.props.segmentClass}>
         <h4 className="ui header">
           Queue
-          <RequestCountLabel count={this.state.requests.length} />
+          <RequestCountLabel count={this.props.requests.length} />
         </h4>
-        <RequestList data={this.state.requests} handler={this.handler} />
+        <RequestList requests={this.props.requests} handler={this.handler} />
       </div>
     );
   }

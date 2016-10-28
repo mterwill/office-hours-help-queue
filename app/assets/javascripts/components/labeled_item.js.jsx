@@ -1,6 +1,6 @@
 var LabeledItem = React.createClass({
   render: function () {
-    if (this.props.children == false) {
+    if (this.props.children == null) {
       return false;
     }
 
