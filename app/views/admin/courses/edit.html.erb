@@ -1,0 +1,12 @@
+<%= render 'shared/breadcrumbs', trail: [
+    { title: 'Admin', href: admin_courses_path},
+    "Edit #{@course.name}",
+] %>
+
+<div class="six wide column">
+    <h1 class="ui header">
+        Edit <%= @course.name %>
+    </h1>
+
+    <%= render 'form' %>
+</div>

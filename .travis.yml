@@ -1,0 +1,13 @@
+language: ruby
+rvm:
+  - 2.3.1
+services:
+  - mysql
+before_script:
+  - mysql -e 'create database eecshelp_test;'
+env:
+    global:
+      - EECSHELP_TEST_DATABASE_HOST=""
+      - EECSHELP_TEST_DATABASE=eecshelp_test
+      - EECSHELP_TEST_DATABASE_USERNAME=travis
+      - EECSHELP_TEST_DATABASE_PASSWORD=""

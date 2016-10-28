@@ -1,5 +1,7 @@
 # classroom-help-queue
 
+[![Build Status](https://travis-ci.org/mterwill/classroom-help-queue.svg?branch=master)](https://travis-ci.org/mterwill/classroom-help-queue)
+
 A help queue for office hours written in Ruby on Rails. The frontend uses
 [Semantic UI](http://semantic-ui.com/). We use
 [Action Cable](http://guides.rubyonrails.org/action_cable_overview.html) to
@@ -21,9 +23,6 @@ $ docker-compose up -d
 
 # Create tables and seed a first course and queue
 $ docker-compose run web rake db:migrate db:seed
-
-# Add your email as an admin for the first course (populated by db:seed)
-$ docker-compose run web rake "make_admin[1, jsmith@example.org]"
 ```
 
 Now add an entry for `dev.eecs.help` to `127.0.0.1` in your `/etc/hosts` file.

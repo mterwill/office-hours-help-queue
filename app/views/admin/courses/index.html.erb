@@ -1,0 +1,34 @@
+<%= render 'shared/breadcrumbs', trail: [
+    'Admin'
+] %>
+
+<div class="ten wide column">
+    <h1 class="ui header">
+        All Courses
+    </h1>
+
+    <table class="ui table">
+        <thead>
+            <tr><th style="width: 80%">Course Name</th>
+                <th>
+                    <a href="<%= new_admin_course_path %>" class="ui primary labeled icon fluid button">
+                        <i class="plus icon"></i>
+                        New
+                    </a>
+                </th>
+            </tr></thead>
+            <tbody>
+                <% @courses.each do |course| %>
+                    <tr>
+                        <td><%= course.name %></td>
+                        <td>
+                            <div class="ui fluid basic buttons">
+                                <%= link_to 'Edit', edit_admin_course_path(course), class: 'ui button' %>
+                                <%= link_to 'Delete', admin_course_path(course),  method: :delete, data: { confirm: 'Are you sure?' }, class: 'ui button' %>
+                            </div>
+                        </td>
+                    </tr>
+                <% end %>
+            </tbody>
+    </table>
+</div>

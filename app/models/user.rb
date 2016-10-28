@@ -13,12 +13,16 @@ class User < ApplicationRecord
       user.oauth_token      = auth.credentials.token
       user.oauth_expires_at = Time.at(auth.credentials.expires_at)
 
+      if User.count == 0
+        user.global_admin = true
+      end
+
       user.save!
     end
   end
 
   def instructor_for_course?(course)
-    CourseInstructor.where({ instructor: self, course: course }).count > 0
+    CourseInstructor.where({ instructor: self, course: course }).count > 0 || self.global_admin
   end
 
   def instructor_for_course_queue?(course_queue)
@@ -30,6 +34,11 @@ class User < ApplicationRecord
       online_instructor: self,
       course_queue: course_queue
     )
+
+    QueueChannel.broadcast_to(course_queue, {
+      action: 'instructor_online',
+      instructor: self,
+    })
   end
 
   def sign_out!(course_queue)
@@ -37,6 +46,11 @@ class User < ApplicationRecord
       online_instructor: self,
       course_queue: course_queue
     }).destroy_all
+
+    QueueChannel.broadcast_to(course_queue, {
+      action: 'instructor_offline',
+      instructor: self,
+    })
   end
 
   def as_json(options = {})
