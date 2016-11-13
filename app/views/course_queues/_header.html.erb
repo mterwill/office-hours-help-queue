@@ -10,6 +10,9 @@
     </span>
     <div class="sub header">
         <%= @course_queue.name %> 
+
+        <% if @course_queue.location.present? %>
         <small>(<%= @course_queue.location %>)</small>
+        <% end %>
     </div>
 </h1>
