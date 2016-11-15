@@ -5,10 +5,11 @@ var StudentPanel = React.createClass({
     };
   },
   componentWillReceiveProps: function (nextProps) {
-    // TODO: this wipes stuff out
-    this.setState({
-      myRequest: this.getState(nextProps.myRequest),
-    });
+    if (this.props.myRequest || nextProps.myRequest) {
+      this.setState({
+        myRequest: this.getState(nextProps.myRequest),
+      });
+    }
   },
   getState: function (myRequest) {
     if (myRequest) {
@@ -45,25 +46,33 @@ var StudentPanel = React.createClass({
         </div>
       );
     } else {
+      if (this.props.queueClosed) {
+        var btnClass = "ui disabled fluid button";
+      } else {
+        var btnClass = "ui fluid button";
+      }
+
       return (
-        <div onClick={this.requestHelp} className="ui fluid button" tabIndex="0">
+        <div onClick={this.requestHelp} className={btnClass} tabIndex="0">
           Request Help
         </div>
       );
     }
   },
   render: function () {
+    var isDisabled = this.state.myRequest.hasOwnProperty('created_at') || this.props.queueClosed;
+
     return (
       <div className={this.props.segmentClass}>
         <h4 className="ui header">Request Help</h4>
         <div className="ui form">
           <div className="field">
             <label>Location</label>
-            <input disabled={this.state.myRequest.hasOwnProperty('created_at')} onChange={this.update.bind(this, 'location')} value={this.state.myRequest.location} type="text" />
+            <input disabled={isDisabled} onChange={this.update.bind(this, 'location')} value={this.state.myRequest.location} type="text" />
           </div>
           <div className="field">
             <label>Description</label>
-            <textarea disabled={this.state.myRequest.hasOwnProperty('created_at')} onChange={this.update.bind(this, 'description')} value={this.state.myRequest.description}
+            <textarea disabled={isDisabled} onChange={this.update.bind(this, 'description')} value={this.state.myRequest.description}
               type="text" rows="2"></textarea>
           </div>
           {this.renderButton()}

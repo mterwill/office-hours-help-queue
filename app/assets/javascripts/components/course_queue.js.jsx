@@ -136,6 +136,7 @@ var CourseQueue = React.createClass({
           requestHelp={this.handler.newRequest.bind(this.handler)}
           cancelRequest={this.handler.cancelRequest.bind(this.handler)}
           myRequest={this.getMyFirstRequest()}
+          queueClosed={this.state.instructors.length <= 0}
         />
       );
     }
