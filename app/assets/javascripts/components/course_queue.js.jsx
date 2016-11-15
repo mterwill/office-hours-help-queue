@@ -52,7 +52,7 @@ var CourseQueue = React.createClass({
           // TODO
           renderInstructor(data.instructor);
         }
-      },
+      }.bind(this),
     });
 
     this.handler = new CourseQueueClientActionHandler(courseQueueSubscription);
@@ -64,12 +64,17 @@ var CourseQueue = React.createClass({
     return (
       <div className="ui grid">
         <div className="six wide column">
+          <InstructorPanel
+            segmentClass={segmentClass}
+            requests={this.state.requests}
+            queuePop={this.handler.queuePop.bind(this.handler)}
+          />
         </div>
         <div className="ten wide column">
           <RequestBox
             segmentClass={segmentClass}
             requests={this.state.requests}
-            handler={this.handler}
+            resolve={this.handler.resolveRequest.bind(this.handler)}
           />
         </div>
       </div>

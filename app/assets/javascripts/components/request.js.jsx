@@ -12,13 +12,10 @@ var Request = React.createClass({
             <LabeledItem icon="write">{this.props.request.description}</LabeledItem>
           </div>
           <Actions>
-            <Action title="Resolve" onClick={this.resolveRequest} />
+            <Action data={{ title: 'Resolve', action: this.props.resolve}} />
           </Actions>
         </div>
       </div>
     );
   },
-  resolveRequest: function () {
-    this.props.handler.resolveRequest(this.props.request);
-  }
 });

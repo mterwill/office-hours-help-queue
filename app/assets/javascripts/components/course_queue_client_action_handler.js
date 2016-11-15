@@ -18,7 +18,7 @@ CourseQueueClientActionHandler.prototype.newRequest = function (selector) {
   });
 };
 
-CourseQueueClientActionHandler.prototype.queuePop = function (selector) {
+CourseQueueClientActionHandler.prototype.queuePop = function () {
   this.subscription.perform('queue_pop');
 };
 
@@ -32,9 +32,9 @@ CourseQueueClientActionHandler.prototype.instructorStatusToggle = function (sele
   });
 };
 
-CourseQueueClientActionHandler.prototype.resolveRequest = function (request) {
+CourseQueueClientActionHandler.prototype.resolveRequest = function (requestId) {
   this.subscription.perform('resolve_request', {
-    id: request.id,
+    id: requestId,
   });
 };
 
