@@ -1,4 +1,21 @@
 var Request = React.createClass({
+  getInitialState: function () {
+    return {
+      ts: this.props.request.created_at,
+    };
+  },
+  componentWillMount: function () {
+    this.updateMomentTimestamp();
+    this.interval = setInterval(this.updateMomentTimestamp, 300);
+  },
+  componentWillUnmount: function () {
+    clearInterval(this.interval);
+  },
+  updateMomentTimestamp: function () {
+    this.setState({
+      ts: moment(this.props.request.created_at).fromNow(),
+    });
+  },
   render: function () {
     return (
       <div className="comment">
@@ -7,7 +24,7 @@ var Request = React.createClass({
           <span className="author">{this.props.request.requester.name}</span>
           <span className="metadata">{this.props.request.requester.email}</span>
           <div className="ui slightly padded list">
-            <LabeledItem icon="clock">{this.props.request.created_at}</LabeledItem>
+            <LabeledItem icon="clock">{this.state.ts}</LabeledItem>
             <LabeledItem icon="marker">{this.props.request.location}</LabeledItem>
             <LabeledItem icon="write">{this.props.request.description}</LabeledItem>
           </div>
