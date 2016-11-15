@@ -8,9 +8,9 @@
 <script type="text/babel">
     ReactDOM.render(
       <CourseQueue
-          courseName={"<%= @course_queue.course.name %>"}
-          queueName={"<%= @course_queue.name %>"}
-          queueLoc={"<%= @course_queue.location %>"}
+          courseName={"<%= j @course_queue.course.name.html_safe %>"}
+          queueName={"<%= j @course_queue.name.html_safe %>"}
+          queueLoc={"<%= j @course_queue.location.html_safe %>"}
           currentUserId={<%= current_user.id %>}
           instructor={<%= @is_instructor %>}
           id={<%= @course_queue.id %>}
