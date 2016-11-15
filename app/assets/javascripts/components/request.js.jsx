@@ -17,6 +17,15 @@ var Request = React.createClass({
     });
   },
   render: function () {
+    var actions;
+    if (this.props.resolve) {
+      actions = (
+        <Actions>
+          <Action data={{ title: 'Resolve', action: this.props.resolve.bind(null, this.props.request.id)}} />
+        </Actions>
+      );
+    }
+
     return (
       <div className="comment">
         <Avatar url={this.props.request.requester.avatar_url} />
@@ -28,9 +37,7 @@ var Request = React.createClass({
             <LabeledItem icon="marker">{this.props.request.location}</LabeledItem>
             <LabeledItem icon="write">{this.props.request.description}</LabeledItem>
           </div>
-          <Actions>
-            <Action data={{ title: 'Resolve', action: this.props.resolve}} />
-          </Actions>
+          {actions}
         </div>
       </div>
     );

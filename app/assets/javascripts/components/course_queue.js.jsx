@@ -114,7 +114,7 @@ var CourseQueue = React.createClass({
           <RequestBox
             segmentClass={segmentClass}
             requests={this.state.requests}
-            resolve={this.handler.resolveRequest.bind(this.handler)}
+            resolve={this.props.instructor ? this.handler.resolveRequest.bind(this.handler) : null}
           />
         </div>
       </div>

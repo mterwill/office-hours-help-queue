@@ -5,7 +5,7 @@ var RequestList = React.createClass({
         <Request 
           key={request.id}
           request={request}
-          resolve={this.props.resolve.bind(null, request.id)}
+          resolve={this.props.resolve}
         />
       );
     }.bind(this));
