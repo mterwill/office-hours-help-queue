@@ -3,6 +3,7 @@ class CourseQueuesController < ApplicationController
 
   # GET /course_queues/1
   def show
+    @is_instructor =current_user.instructor_for_course_queue?(@course_queue).to_s 
   end
 
   # GET /course_queues/1/outstanding_requests.json

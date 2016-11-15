@@ -12,6 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require react
+//= require react_ujs
+//= require components
 //= require_tree .
 //= require semantic.min.js
 //= require moment.min.js
