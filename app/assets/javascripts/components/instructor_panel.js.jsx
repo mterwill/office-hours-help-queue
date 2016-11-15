@@ -4,7 +4,7 @@ var InstructorPanel = React.createClass({
     return {
       title: 'Queue Pop',
       className: this.buttonBaseClass + "huge primary " + (this.props.requests.length <= 0 ? "disabled" : ""),
-      action: this.popQueue,
+      action: this.props.queuePop,
     };
   },
   getInstructorToggleButtonData: function () {
@@ -35,10 +35,4 @@ var InstructorPanel = React.createClass({
       </div>
     );
   },
-  popQueue: function () {
-    this.props.queuePop();
-  },
-  toggleInstructorStatus: function () {
-
-  }
 });

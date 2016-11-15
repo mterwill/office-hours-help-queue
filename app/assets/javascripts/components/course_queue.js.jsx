@@ -22,8 +22,15 @@ var CourseQueue = React.createClass({
       return elt.id;
     }).indexOf(request.id);
 
+    // splice returns the elements removed from the array, we want the opposite.
+    // to make sure the state stays clean, copy the array, remove the element,
+    // then update the state.
+    var arrCopy = this.state.requests.slice();
+    console.log(arrCopy);
+    arrCopy.splice(index, 1);
+
     this.setState({
-      requests: this.state.requests.splice(index, 1)
+      requests: arrCopy,
     });
   },
   componentWillMount: function () {
