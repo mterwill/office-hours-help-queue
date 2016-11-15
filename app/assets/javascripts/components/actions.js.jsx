@@ -1,5 +1,5 @@
 var Actions = React.createClass({
-  render: function() {
+  render: function () {
     return (
       <div className="actions">
         {this.props.children}
