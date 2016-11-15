@@ -10,6 +10,14 @@ var RequestList = React.createClass({
       );
     }.bind(this));
 
+    if (requestNodes.length <= 0) {
+      requestNodes.push((
+        <div key="smile" className="centered text">
+          <i className="massive disabled smile icon"></i>
+        </div>
+      ));
+    }
+
     return (
       <div className="ui comments">
         {requestNodes}
