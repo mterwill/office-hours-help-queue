@@ -134,6 +134,7 @@ var CourseQueue = React.createClass({
         <StudentPanel
           segmentClass={segmentClass}
           requestHelp={this.handler.newRequest.bind(this.handler)}
+          cancelRequest={this.handler.cancelRequest.bind(this.handler)}
           myRequest={this.getMyFirstRequest()}
         />
       );
@@ -169,6 +170,7 @@ var CourseQueue = React.createClass({
           />
           <Instructors instructors={this.state.instructors} />
         </div>
+        <QueueClosedMessage instructors={this.state.instructors} />
         {this.renderLeftPanel(segmentClass, "six wide column")}
         <div className="ten wide column">
           <RequestBox

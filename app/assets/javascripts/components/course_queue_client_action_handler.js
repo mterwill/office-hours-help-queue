@@ -30,10 +30,8 @@ CourseQueueClientActionHandler.prototype.resolveRequest = function (requestId) {
   });
 };
 
-CourseQueueClientActionHandler.prototype.destroyRequest = function (selector) {
-  var requestId = $(selector).data('id');
-
+CourseQueueClientActionHandler.prototype.cancelRequest = function (id) {
   this.subscription.perform('destroy_request', {
-    id: requestId,
+    id: id,
   });
 };

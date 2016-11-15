@@ -5,6 +5,7 @@ var StudentPanel = React.createClass({
     };
   },
   componentWillReceiveProps: function (nextProps) {
+    // TODO: this wipes stuff out
     this.setState({
       myRequest: this.getState(nextProps.myRequest),
     });
@@ -30,16 +31,16 @@ var StudentPanel = React.createClass({
     this.props.requestHelp({
       location: this.state.myRequest.location,
       description: this.state.myRequest.description,
-    })
+    });
   },
   cancelRequest: function () {
-    this.state.myRequest.id
+    this.props.cancelRequest(this.state.myRequest.id);
   },
   renderButton: function () {
     if (this.state.myRequest.hasOwnProperty('created_at')) {
       // existing request
       return (
-        <div onClick={this.props.myRequest.resolver} className="ui negative fluid button" tabIndex="0">
+        <div onClick={this.cancelRequest} className="ui negative fluid button" tabIndex="0">
           Cancel Request
         </div>
       );
