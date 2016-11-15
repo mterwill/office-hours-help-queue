@@ -4,10 +4,14 @@ var CourseQueue = React.createClass({
       enabled: false,
       instructorMode: this.props.instructor,
       requests: [],
+      instructors: [],
     };
   },
   enable: function () {
     this.setState({ enabled: true });
+  },
+  amIOnline: function () {
+    return mapById(this.state.instructors, this.props.current_user_id) >= 0;
   },
   disable: function () {
     this.setState({ enabled: false });
@@ -18,24 +22,47 @@ var CourseQueue = React.createClass({
     });
   },
   removeRequest: function (request) {
-    var index = this.state.requests.map(function (elt) {
-      return elt.id;
-    }).indexOf(request.id);
+    var index = mapById(this.state.requests, request.id);
 
     // splice returns the elements removed from the array, we want the opposite.
     // to make sure the state stays clean, copy the array, remove the element,
     // then update the state.
     var arrCopy = this.state.requests.slice();
-    console.log(arrCopy);
     arrCopy.splice(index, 1);
 
     this.setState({
       requests: arrCopy,
     });
   },
+  pushInstructor: function (instructor) {
+    this.setState({
+      instructors: this.state.instructors.concat([instructor])
+    });
+  },
+  removeInstructor: function (instructor) {
+    var index = mapById(this.state.instructors, instructor.id);
+
+    // splice returns the elements removed from the array, we want the opposite.
+    // to make sure the state stays clean, copy the array, remove the element,
+    // then update the state.
+    var arrCopy = this.state.instructors.slice();
+    arrCopy.splice(index, 1);
+
+    this.setState({
+      instructors: arrCopy,
+    });
+  },
   componentWillMount: function () {
-    getOutstandingRequests(this.props.id, function (requests) {
+    $.ajax({
+      url: '/course_queues/' + this.props.id + '/outstanding_requests.json'
+    }).done(function (requests) {
       this.setState({requests: requests});
+    }.bind(this));
+
+    $.ajax({
+      url: '/course_queues/' + this.props.id + '/online_instructors.json'
+    }).done(function (instructors) {
+      this.setState({instructors: instructors});
     }.bind(this));
 
     var courseQueueSubscription = App.cable.subscriptions.create({
@@ -54,11 +81,9 @@ var CourseQueue = React.createClass({
         } else if (data.action === 'resolve_request') {
           this.removeRequest(data.request);
         } else if (data.action === 'instructor_offline') {
-          // TODO
-          deleteInstructorById(data.instructor.id);
+          this.removeInstructor(data.instructor);
         } else if (data.action === 'instructor_online') {
-          // TODO
-          renderInstructor(data.instructor);
+          this.pushInstructor(data.instructor);
         }
       }.bind(this),
     });
@@ -95,7 +120,12 @@ var CourseQueue = React.createClass({
         <InstructorPanel
           segmentClass={segmentClass}
           requests={this.state.requests}
+          instructors={this.state.instructors}
+          online={this.amIOnline()}
+          currentUserId={this.props.current_user_id}
           queuePop={this.handler.queuePop.bind(this.handler)}
+          setInstructorStatus={this.handler.setInstructorStatus.bind(this.handler)}
+          takeQueueOffline={this.handler.takeQueueOffline.bind(this.handler)}
         />
       );
     } else {
@@ -131,6 +161,9 @@ var CourseQueue = React.createClass({
 
     return (
       <div className="ui grid">
+        <div className="sixteen wide column">
+          <Instructors instructors={this.state.instructors} />
+        </div>
         {this.renderLeftPanel(segmentClass, "six wide column")}
         <div className="ten wide column">
           <RequestBox

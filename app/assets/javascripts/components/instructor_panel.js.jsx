@@ -8,19 +8,19 @@ var InstructorPanel = React.createClass({
     };
   },
   getInstructorToggleButtonData: function () {
-    var instructorOnline = false;
-
     return {
-      title: instructorOnline ?  'Go Offline' : 'Go Online',
+      title: this.props.online ?  'Go Offline' : 'Go Online',
       className: this.buttonBaseClass + "large",
+      action: this.props.setInstructorStatus.bind(null, !this.props.online),
     };
   },
   getTakeQueueOfflineButtonData: function () {
-    var instructorCount = 0;
+    var instructorCount = this.props.instructors.length;
 
     return {
       title: 'Take All Instructors Offline',
       className: this.buttonBaseClass + "large " + (instructorCount <= 0 ? "disabled" : ""),
+      action: this.props.takeQueueOffline,
     };
   },
   render: function () {

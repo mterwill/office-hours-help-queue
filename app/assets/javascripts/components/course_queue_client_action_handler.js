@@ -14,11 +14,11 @@ CourseQueueClientActionHandler.prototype.queuePop = function () {
   this.subscription.perform('queue_pop');
 };
 
-CourseQueueClientActionHandler.prototype.instructorStatusToggle = function (selector) {
-  var newStatus = !$(selector).data('online');
+CourseQueueClientActionHandler.prototype.takeQueueOffline = function () {
+  this.subscription.perform('take_queue_offline');
+};
 
-  $(selector).data('online', newStatus);
-
+CourseQueueClientActionHandler.prototype.setInstructorStatus = function (newStatus) {
   this.subscription.perform('instructor_status_toggle', {
     online: newStatus,
   });
