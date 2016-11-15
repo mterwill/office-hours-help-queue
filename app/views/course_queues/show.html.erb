@@ -11,7 +11,7 @@
 
 <script type="text/babel">
     ReactDOM.render(
-      <CourseQueue instructor={<%= current_user.instructor_for_course_queue?(@course_queue) %>} id={<%= @course_queue.id %>} />,
+      <CourseQueue current_user_id={<%= current_user.id %>} instructor={<%= current_user.instructor_for_course_queue?(@course_queue).to_s %>} id={<%= @course_queue.id %>} />,
       document.getElementById('app')
     );
 </script>

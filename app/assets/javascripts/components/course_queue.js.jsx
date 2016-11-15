@@ -72,6 +72,20 @@ var CourseQueue = React.createClass({
       instructorMode: mode,
     });
   },
+  getMyFirstRequest: function () {
+    var index = this.state.requests.map(function (elt) {
+      return elt.requester_id;
+    }).indexOf(this.props.current_user_id);
+
+    if (index >= 0) {
+      return {
+        request: this.state.requests[index],
+        resolver: this.handler.resolveRequest.bind(this.handler, this.state.requests[index].id),
+      }
+    }
+
+    return null;
+  },
   renderLeftPanel: function (segmentClass, columnClass) {
     var panel, instructorButton, studentButton, buttons;
 
@@ -90,6 +104,7 @@ var CourseQueue = React.createClass({
         <StudentPanel
           segmentClass={segmentClass}
           requestHelp={this.handler.newRequest.bind(this.handler)}
+          myRequest={this.getMyFirstRequest()}
         />
       );
     }
