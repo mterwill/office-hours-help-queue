@@ -162,7 +162,7 @@ var CourseQueue = React.createClass({
       'ui min segment' : 'ui disabled loading min segment';
 
     return (
-      <div className="ui grid">
+      <div className="ui stackable grid">
         <div className="sixteen wide column">
           <Header
             courseName={this.props.courseName}
