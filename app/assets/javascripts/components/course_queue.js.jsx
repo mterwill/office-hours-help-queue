@@ -69,6 +69,11 @@ var CourseQueue = React.createClass({
             requests={this.state.requests}
             queuePop={this.handler.queuePop.bind(this.handler)}
           />
+
+          <StudentPanel
+            segmentClass={segmentClass}
+            requestHelp={this.handler.newRequest.bind(this.handler)}
+          />
         </div>
         <div className="ten wide column">
           <RequestBox

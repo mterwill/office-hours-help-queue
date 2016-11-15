@@ -6,16 +6,8 @@ function CourseQueueClientActionHandler(subscription) {
   this.subscription = subscription;
 }
 
-CourseQueueClientActionHandler.prototype.newRequest = function (selector) {
-  var form = $(selector).parent();
-
-  var location    = form.find('input[name=location]').val();
-  var description = form.find('textarea[name=description]').val();
-
-  this.subscription.perform('new_request', {
-    location: location,
-    description: description,
-  });
+CourseQueueClientActionHandler.prototype.newRequest = function (data) {
+  this.subscription.perform('new_request', data);
 };
 
 CourseQueueClientActionHandler.prototype.queuePop = function () {
