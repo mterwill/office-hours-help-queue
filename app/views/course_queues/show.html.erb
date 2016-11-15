@@ -3,15 +3,18 @@
     @course_queue.name
 ] %>
 
-<div class="sixteen wide column">
-    <%= render 'header', instructors: @course_queue.online_instructors %>
-</div>
-
 <div id="app" class="sixteen wide column"></div>
 
 <script type="text/babel">
     ReactDOM.render(
-      <CourseQueue current_user_id={<%= current_user.id %>} instructor={<%= current_user.instructor_for_course_queue?(@course_queue).to_s %>} id={<%= @course_queue.id %>} />,
+      <CourseQueue
+          courseName={"<%= @course_queue.course.name %>"}
+          queueName={"<%= @course_queue.name %>"}
+          queueLoc={"<%= @course_queue.location %>"}
+          currentUserId={<%= current_user.id %>}
+          instructor={<%= @is_instructor %>}
+          id={<%= @course_queue.id %>}
+      />,
       document.getElementById('app')
     );
 </script>

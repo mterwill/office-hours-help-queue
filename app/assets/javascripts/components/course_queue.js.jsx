@@ -11,7 +11,7 @@ var CourseQueue = React.createClass({
     this.setState({ enabled: true });
   },
   amIOnline: function () {
-    return mapById(this.state.instructors, this.props.current_user_id) >= 0;
+    return mapById(this.state.instructors, this.props.currentUserId) >= 0;
   },
   disable: function () {
     this.setState({ enabled: false });
@@ -100,7 +100,7 @@ var CourseQueue = React.createClass({
   getMyFirstRequest: function () {
     var index = this.state.requests.map(function (elt) {
       return elt.requester_id;
-    }).indexOf(this.props.current_user_id);
+    }).indexOf(this.props.currentUserId);
 
     if (index >= 0) {
       return {
@@ -122,7 +122,7 @@ var CourseQueue = React.createClass({
           requests={this.state.requests}
           instructors={this.state.instructors}
           online={this.amIOnline()}
-          currentUserId={this.props.current_user_id}
+          currentUserId={this.props.currentUserId}
           queuePop={this.handler.queuePop.bind(this.handler)}
           setInstructorStatus={this.handler.setInstructorStatus.bind(this.handler)}
           takeQueueOffline={this.handler.takeQueueOffline.bind(this.handler)}
@@ -162,6 +162,11 @@ var CourseQueue = React.createClass({
     return (
       <div className="ui grid">
         <div className="sixteen wide column">
+          <Header
+            courseName={this.props.courseName}
+            queueName={this.props.queueName}
+            queueLoc={this.props.queueLoc}
+          />
           <Instructors instructors={this.state.instructors} />
         </div>
         {this.renderLeftPanel(segmentClass, "six wide column")}
