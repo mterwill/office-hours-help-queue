@@ -5,6 +5,10 @@ class CourseQueue < ApplicationRecord
   has_many :online_instructors, through: :course_queue_online_instructors, class_name: 'User'
 
   def request(requester:, description:, location:)
+    if outstanding_requests.where(requester: requester).count > 0
+      raise "Limit one open request per user"
+    end
+
     CourseQueueEntry.create!(
       course_queue: self,
       requester: requester,
