@@ -55,7 +55,7 @@ class QueueChannel < ApplicationCable::Channel
   def destroy_request(data)
     request = load_request(data)
 
-    authorize(:current_user, request)
+    authorize(:current_user_only, request)
 
     request.destroy!
 
@@ -85,6 +85,8 @@ class QueueChannel < ApplicationCable::Channel
       end
     elsif requirement == :open_queue 
       raise "Queue is closed" unless @course_queue.is_open?
+    else
+      raise "Invalid option"
     end
   end
 end
