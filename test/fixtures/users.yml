@@ -11,3 +11,11 @@ jim:
 mary:
   name: Mary Smith
   email: marysmith@umich.edu
+
+sue:
+  name: Sue Sue
+  email: suesue@umich.edu
+
+steve:
+  name: Steve Sue
+  email: steve@umich.edu

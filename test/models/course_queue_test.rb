@@ -31,7 +31,7 @@ class CourseQueueTest < ActiveSupport::TestCase
 
   test "request adds you to the bottom of the queue" do
     first_entry = @queue.request(
-      requester: users(:mary),
+      requester: users(:sue),
       description: '',
       location: ''
     )
@@ -43,6 +43,18 @@ class CourseQueueTest < ActiveSupport::TestCase
     )
 
     assert @queue.outstanding_requests[-1] == last_entry
+  end
+
+  test "request validates duplicates" do
+    assert_raise do
+      2.times {
+        @queue.request(
+          requester: users(:steve),
+          description: '',
+          location: ''
+        )
+      }
+    end
   end
 
   test "open queues returns only open queues" do
