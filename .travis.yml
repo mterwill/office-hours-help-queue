@@ -11,3 +11,6 @@ env:
       - EECSHELP_TEST_DATABASE=eecshelp_test
       - EECSHELP_TEST_DATABASE_USERNAME=travis
       - EECSHELP_TEST_DATABASE_PASSWORD=""
+addons:
+    code_climate:
+        repo_token: 1cf5f43943029d7d3527fdf79206a87cd36fe0a87a49d11eb3a3ff89ab64fd11
