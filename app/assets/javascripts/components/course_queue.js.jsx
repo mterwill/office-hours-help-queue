@@ -52,24 +52,29 @@ var CourseQueue = React.createClass({
       instructors: arrCopy,
     });
   },
-  componentWillMount: function () {
+  fetchOutstandingRequests: function () {
     $.ajax({
       url: '/course_queues/' + this.props.id + '/outstanding_requests.json'
     }).done(function (requests) {
       this.setState({requests: requests});
     }.bind(this));
-
+  },
+  fetchOnlineInstructors: function () {
     $.ajax({
       url: '/course_queues/' + this.props.id + '/online_instructors.json'
     }).done(function (instructors) {
       this.setState({instructors: instructors});
     }.bind(this));
 
+  },
+  componentWillMount: function () {
     var courseQueueSubscription = App.cable.subscriptions.create({
       channel: 'QueueChannel',
       id: this.props.id
     }, {
       connected: function () {
+        this.fetchOutstandingRequests();
+        this.fetchOnlineInstructors();
         this.enable();
       }.bind(this),
       disconnected: function () {
