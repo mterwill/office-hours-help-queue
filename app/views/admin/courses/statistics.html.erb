@@ -1,0 +1,31 @@
+<%= render 'shared/breadcrumbs', trail: [
+    { title: @course.name, href: url_for(@course)},
+    'Statistics'
+] %>
+
+<div class="sixteen wide column">
+    <h1 class="ui header">
+        <%= @course.name %>
+        Statistics
+    </h1>
+</div>
+
+<div class="ten wide column">
+    <canvas id="resolved-by-day" style="width: 100%; height: 250px;"></canvas>
+</div>
+<div class="six wide column">
+    <canvas id="staff-contributions" style="height: 198px;"></canvas>
+</div>
+
+
+<div class="sixteen wide column">
+    <%= render 'contribution_stats', title: "Student Contributions (top 10)", data: @student_contributions %>
+</div>
+
+<div class="sixteen wide column">
+    <%= render 'recent_request_stats', requests: @recent_requests %>
+</div>
+
+<%= javascript_include_tag "Chart.min" %>
+<%= javascript_include_tag "randomColor" %>
+<%= javascript_include_tag "statistics" %>

@@ -1,0 +1,23 @@
+<h3 class="ui top attached block header">
+    <%= title %>
+</h3>
+<div class="ui bottom attached fluid segment">
+    <table class="ui very basic fluid table">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% data.each do |point| %>
+                <tr>
+                    <td>
+                        <%= point[0] %> (<%= point[1].split('@')[0] %>)<br />
+                    </td>
+                    <td><%= point[2] %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>

@@ -14,8 +14,11 @@
         <% end %>
     </div>
     <% if current_user.instructor_for_course?(@course) %>
-        <a class="ui large fluid primary button" href="<%= url_for [:admin, @course] %>">
+        <a class="ui large fluid primary bottom padded button" href="<%= url_for [:admin, @course] %>">
             Admin Panel
+        </a>
+        <a class="ui large fluid button" href="<%= statistics_admin_course_url(@course) %>">
+            Statistics
         </a>
     <% end %>
 </div>

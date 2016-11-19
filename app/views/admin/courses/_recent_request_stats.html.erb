@@ -1,0 +1,36 @@
+<h3 class="ui top attached block header">
+    Recent Requests
+</h3>
+<div class="ui bottom attached fluid segment">
+    <table class="ui very basic fluid table">
+        <thead>
+            <tr>
+                <th>Requester</th>
+                <th>Queue</th>
+                <th>Request Details</th>
+                <th>Resolver Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% requests.each do |request| %>
+                <tr>
+                    <td>
+                        <%= request.requester.name %> (<%= request.requester.email.split('@')[0] %>)<br />
+                        at <%= request.created_at %>
+                </td>
+                <td><%= request.course_queue.name %></td>
+                <td>
+                    <strong>Location:</strong> <%= request.location.present? ? request.location : "N/A" %><br />
+                    <strong>Description:</strong> <%= request.description.present? ? request.description : "N/A" %>
+            </td>
+            <td>
+                <%= request.resolver.name %> (<%= request.resolver.email.split('@')[0] %>)<br />
+                at <%= request.resolved_at %>
+        </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
+
+

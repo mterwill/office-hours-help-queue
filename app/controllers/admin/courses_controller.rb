@@ -1,6 +1,6 @@
 class Admin::CoursesController < Admin::AdminController
   before_action :set_course, :authorize_current_user, except: [:index, :new, :create]
-  before_action :authorize_global_admin, except: [:show, :edit, :update]
+  before_action :authorize_global_admin, except: [:show, :edit, :update, :statistics]
 
   def index
     @courses = Course.all
@@ -36,6 +36,13 @@ class Admin::CoursesController < Admin::AdminController
   def show
     @queues      = @course.course_queues.order(:name)
     @instructors = @course.course_instructors.joins(:instructor).order("users.name")
+  end
+
+  def statistics
+    @resolved_by_day       = @course.get_resolved_by_day
+    @student_contributions = @course.get_contributions(:student).first(10)
+    @staff_contributions   = @course.get_contributions(:staff)
+    @recent_requests       = @course.get_recent_requests
   end
 
   private
