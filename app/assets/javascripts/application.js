@@ -15,9 +15,11 @@
 //= require react
 //= require react_ujs
 //= require components
-//= require_tree .
 //= require semantic.min.js
 //= require moment.min.js
+//= require cable
+//= require course_queues
+//= require helpers
 
 $(document).ready(function () {
   $('[data-popup=true]').popup();
