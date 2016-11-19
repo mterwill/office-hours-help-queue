@@ -4,6 +4,13 @@ var Request = React.createClass({
       ts: this.props.request.created_at,
     };
   },
+  ref: function (ref) {
+    if (ref) {
+      this.clippy = new Clipboard(ref);
+    } else if (this.clippy) {
+      this.clippy.destroy();
+    }
+  },
   componentWillMount: function () {
     this.updateMomentTimestamp();
     this.interval = setInterval(this.updateMomentTimestamp, 300);
@@ -31,7 +38,9 @@ var Request = React.createClass({
         <Avatar url={this.props.request.requester.avatar_url} />
         <div className="content">
           <span className="author">{this.props.request.requester.name}</span>
-          <span className="metadata">{this.props.request.requester.email}</span>
+          <a ref={this.ref} href="" onClick={function (e) { e.preventDefault(); }}
+             data-clipboard-text={this.props.request.requester.email}
+             className="metadata">{this.props.request.requester.email}</a>
           <div className="ui slightly padded list">
             <LabeledItem icon="clock">{this.state.ts}</LabeledItem>
             <LabeledItem icon="marker">{this.props.request.location}</LabeledItem>
