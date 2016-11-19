@@ -17,6 +17,7 @@
 //= require components
 //= require semantic.min.js
 //= require moment.min.js
+//= require clipboard.min.js
 //= require cable
 //= require course_queues
 //= require helpers
