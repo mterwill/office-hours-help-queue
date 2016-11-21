@@ -35,7 +35,9 @@ var StudentPanel = React.createClass({
     });
   },
   cancelRequest: function () {
-    this.props.cancelRequest(this.state.myRequest.id);
+    if (confirm('Are you sure?')) {
+      this.props.cancelRequest(this.state.myRequest.id);
+    }
   },
   renderButton: function () {
     if (this.state.myRequest.hasOwnProperty('created_at')) {
