@@ -14,6 +14,18 @@ var InstructorPanel = React.createClass({
       action: this.props.setInstructorStatus.bind(null, !this.props.online),
     };
   },
+  emptyQueueButtonData: function () {
+    return {
+      title: 'Empty Queue',
+      className: this.buttonBaseClass + "large " + (this.props.queueLength <= 0 ? "disabled" : ""),
+      action: function () {
+        if (confirm('Are you sure? This will permanently delete ' + this.props.queueLength + ' request(s).')) {
+          this.props.emptyQueue();
+        }
+      }.bind(this),
+    };
+
+  },
   getTakeQueueOfflineButtonData: function () {
     var instructorCount = this.props.instructors.length;
 
@@ -35,6 +47,7 @@ var InstructorPanel = React.createClass({
         <Action data={this.getQueuePopButtonData()} />
         <Action data={this.getInstructorToggleButtonData()} />
         <Action data={this.getTakeQueueOfflineButtonData()} />
+        <Action data={this.emptyQueueButtonData()} />
 
       </div>
     );

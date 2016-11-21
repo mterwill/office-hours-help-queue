@@ -18,6 +18,10 @@ CourseQueueClientActionHandler.prototype.takeQueueOffline = function () {
   this.subscription.perform('take_queue_offline');
 };
 
+CourseQueueClientActionHandler.prototype.emptyQueue = function () {
+  this.subscription.perform('empty_queue');
+};
+
 CourseQueueClientActionHandler.prototype.setInstructorStatus = function (newStatus) {
   this.subscription.perform('instructor_status_toggle', {
     online: newStatus,

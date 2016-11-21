@@ -42,6 +42,15 @@ class QueueChannel < ApplicationCable::Channel
     @course_queue.online_instructors.map { |i| i.sign_out!(@course_queue) }
   end
 
+  def empty_queue(data)
+    authorize :instructor_only
+
+    @course_queue.outstanding_requests.each do |request|
+      broadcast_request_change('resolve_request', request)
+      request.destroy!
+    end
+  end
+
   def instructor_status_toggle(data)
     authorize :instructor_only
 
