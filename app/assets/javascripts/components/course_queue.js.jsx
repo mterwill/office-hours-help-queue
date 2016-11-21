@@ -53,19 +53,14 @@ var CourseQueue = React.createClass({
     });
   },
   fetchOutstandingRequests: function () {
-    $.ajax({
+    return $.ajax({
       url: '/course_queues/' + this.props.id + '/outstanding_requests.json'
-    }).done(function (requests) {
-      this.setState({requests: requests});
-    }.bind(this));
+    });
   },
   fetchOnlineInstructors: function () {
-    $.ajax({
+    return $.ajax({
       url: '/course_queues/' + this.props.id + '/online_instructors.json'
-    }).done(function (instructors) {
-      this.setState({instructors: instructors});
-    }.bind(this));
-
+    });
   },
   componentWillMount: function () {
     var courseQueueSubscription = App.cable.subscriptions.create({
@@ -73,9 +68,13 @@ var CourseQueue = React.createClass({
       id: this.props.id
     }, {
       connected: function () {
-        this.fetchOutstandingRequests();
-        this.fetchOnlineInstructors();
-        this.enable();
+        $.when(this.fetchOutstandingRequests(), this.fetchOnlineInstructors())
+          .done(function (requests, instructors) {
+            this.setState({
+              instructors: instructors[0],
+              requests: requests[0],
+            }, this.enable);
+          }.bind(this));
       }.bind(this),
       disconnected: function () {
         this.disable();
@@ -146,7 +145,7 @@ var CourseQueue = React.createClass({
       );
     }
 
-    if (this.props.instructor) {
+    if (this.props.instructor && this.state.enabled) {
       buttons = (
         <div className="ui two basic buttons">
           <div onClick={this.setMode.bind(this, true)} className={"ui button " + instructorButton}>Instructor Mode</div>
@@ -176,7 +175,9 @@ var CourseQueue = React.createClass({
           />
           <Instructors instructors={this.state.instructors} />
         </div>
-        <QueueClosedMessage instructors={this.state.instructors} />
+        <QueueClosedMessage
+          enabled={this.state.enabled}
+          instructors={this.state.instructors} />
         {this.renderLeftPanel(segmentClass, "six wide column")}
         <div className="ten wide column">
           <RequestBox
