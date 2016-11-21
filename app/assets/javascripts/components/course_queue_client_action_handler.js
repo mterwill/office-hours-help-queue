@@ -26,6 +26,12 @@ CourseQueueClientActionHandler.prototype.emptyQueue = function () {
   this.subscription.perform('empty_queue');
 };
 
+CourseQueueClientActionHandler.prototype.bump = function (requestId) {
+  this.subscription.perform('bump', {
+    id: requestId,
+  });
+};
+
 CourseQueueClientActionHandler.prototype.setInstructorStatus = function (newStatus) {
   this.subscription.perform('instructor_status_toggle', {
     online: newStatus,

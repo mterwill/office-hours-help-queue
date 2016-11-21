@@ -6,6 +6,7 @@ var RequestList = React.createClass({
           key={request.id}
           request={request}
           resolve={this.props.resolve}
+          bump={this.props.bump}
         />
       );
     }.bind(this));

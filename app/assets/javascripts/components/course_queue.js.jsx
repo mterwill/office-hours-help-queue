@@ -92,6 +92,9 @@ var CourseQueue = React.createClass({
           this.removeInstructor(data.instructor);
         } else if (data.action === 'instructor_online') {
           this.pushInstructor(data.instructor);
+        } else if (data.action === 'bump'
+                   && data.requester_id === this.props.currentUserId) {
+          alert(data.bump_by.name + ' is looking for you!');
         }
       }.bind(this),
     });
@@ -191,6 +194,7 @@ var CourseQueue = React.createClass({
             segmentClass={segmentClass}
             requests={this.state.requests}
             resolve={this.props.instructor ? this.handler.resolveRequest.bind(this.handler) : null}
+            bump={this.props.instructor ? this.handler.bump.bind(this.handler) : null}
           />
         </div>
       </div>

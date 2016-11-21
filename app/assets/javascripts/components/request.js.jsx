@@ -29,6 +29,7 @@ var Request = React.createClass({
       actions = (
         <Actions>
           <Action data={{ title: 'Resolve', action: this.props.resolve.bind(null, this.props.request.id)}} />
+          <Action data={{ title: 'Bump', action: this.props.bump.bind(null, this.props.request.id)}} />
         </Actions>
       );
     }

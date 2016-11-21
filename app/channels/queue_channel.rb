@@ -18,6 +18,18 @@ class QueueChannel < ApplicationCable::Channel
     broadcast_request_change('new_request', new_request)
   end
 
+  def bump(data)
+    authorize :instructor_only
+
+    request = load_request(data)
+
+    QueueChannel.broadcast_to(@course_queue, {
+      action: 'bump',
+      requester_id: request.requester.id,
+      bump_by: current_user
+    })
+  end
+
   def update_request(data)
     request = load_request(data)
     authorize(:current_user_only, request)

@@ -6,7 +6,10 @@ var RequestBox = React.createClass({
           Queue
           <RequestCountLabel count={this.props.requests.length} />
         </h4>
-        <RequestList requests={this.props.requests} resolve={this.props.resolve} />
+        <RequestList
+          requests={this.props.requests}
+          resolve={this.props.resolve}
+          bump={this.props.bump} />
       </div>
     );
   }
