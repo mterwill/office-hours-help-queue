@@ -10,6 +10,10 @@ CourseQueueClientActionHandler.prototype.newRequest = function (data) {
   this.subscription.perform('new_request', data);
 };
 
+CourseQueueClientActionHandler.prototype.updateRequest = function (data) {
+  this.subscription.perform('update_request', data);
+};
+
 CourseQueueClientActionHandler.prototype.queuePop = function () {
   this.subscription.perform('queue_pop');
 };

@@ -2,6 +2,7 @@ var StudentPanel = React.createClass({
   getInitialState: function () {
     return {
       myRequest: this.getState(this.props.myRequest),
+      editMode: false,
     };
   },
   componentWillReceiveProps: function (nextProps) {
@@ -39,12 +40,26 @@ var StudentPanel = React.createClass({
       this.props.cancelRequest(this.state.myRequest.id);
     }
   },
+  updateRequest: function () {
+    this.props.updateRequest(this.state.myRequest);
+  },
   renderButton: function () {
-    if (this.state.myRequest.hasOwnProperty('created_at')) {
+    if (this.state.myRequest.hasOwnProperty('created_at') && !this.state.editMode) {
       // existing request
       return (
-        <div onClick={this.cancelRequest} className="ui negative fluid button" tabIndex="0">
-          Cancel Request
+        <div className="ui two buttons">
+          <div onClick={function () { this.setState({editMode: true})}.bind(this)} className="ui fluid button" tabIndex="0">
+            Edit
+          </div>
+          <div onClick={this.cancelRequest} className="ui negative fluid button" tabIndex="1">
+            Cancel
+          </div>
+        </div>
+      );
+    } else if (this.state.editMode) {
+      return (
+        <div onClick={function () { this.setState({editMode: false}); this.updateRequest();}.bind(this)} className="ui fluid button" tabIndex="0">
+          Save
         </div>
       );
     } else {
@@ -62,7 +77,9 @@ var StudentPanel = React.createClass({
     }
   },
   render: function () {
-    var isDisabled = this.state.myRequest.hasOwnProperty('created_at') || this.props.queueClosed;
+    var isDisabled = this.props.queueClosed
+      || (!this.state.editMode
+        && this.state.myRequest.hasOwnProperty('created_at'));
 
     return (
       <div className={this.props.segmentClass}>

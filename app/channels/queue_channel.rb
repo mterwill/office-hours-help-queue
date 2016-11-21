@@ -18,6 +18,18 @@ class QueueChannel < ApplicationCable::Channel
     broadcast_request_change('new_request', new_request)
   end
 
+  def update_request(data)
+    request = CourseQueueEntry.find(data['id'])
+    authorize(:current_user_only, request)
+
+    request.update!(
+      location: data['location'],
+      description: data['description']
+    )
+
+    broadcast_request_change('update_request', request)
+  end
+
   def resolve_request(data)
     authorize :instructor_only
 

@@ -21,6 +21,16 @@ var CourseQueue = React.createClass({
       requests: this.state.requests.concat([request])
     });
   },
+  updateRequest: function (request) {
+    var index   = mapById(this.state.requests, request.id);
+    var arrCopy = copyArr(this.state.requests);
+
+    arrCopy[index] = request;
+
+    this.setState({
+      requests: arrCopy,
+    });
+  },
   removeRequest: function (request) {
     var index = mapById(this.state.requests, request.id);
     var arrCopy = copyArr(this.state.requests);
@@ -74,6 +84,8 @@ var CourseQueue = React.createClass({
       received: function (data) {
         if (data.action === 'new_request') {
           this.pushRequest(data.request);
+        } else if (data.action === 'update_request') {
+          this.updateRequest(data.request);
         } else if (data.action === 'resolve_request') {
           this.removeRequest(data.request);
         } else if (data.action === 'instructor_offline') {
@@ -133,6 +145,7 @@ var CourseQueue = React.createClass({
           segmentClass={segmentClass}
           requestHelp={this.handler.newRequest.bind(this.handler)}
           cancelRequest={this.handler.cancelRequest.bind(this.handler)}
+          updateRequest={this.handler.updateRequest.bind(this.handler)}
           myRequest={this.getMyFirstRequest()}
           queueClosed={this.state.instructors.length <= 0}
         />
