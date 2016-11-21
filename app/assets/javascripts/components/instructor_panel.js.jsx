@@ -20,7 +20,11 @@ var InstructorPanel = React.createClass({
     return {
       title: 'Take All Instructors Offline',
       className: this.buttonBaseClass + "large " + (instructorCount <= 0 ? "disabled" : ""),
-      action: this.props.takeQueueOffline,
+      action: function () {
+        if (confirm('Are you sure?')) {
+          this.props.takeQueueOffline();
+        }
+      }.bind(this),
     };
   },
   render: function () {
