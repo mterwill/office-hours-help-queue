@@ -20,6 +20,7 @@
 //= require clipboard.min.js
 //= require cable
 //= require helpers
+//= require analytics
 
 $(document).ready(function () {
   $('[data-popup=true]').popup();
