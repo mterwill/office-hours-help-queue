@@ -19,7 +19,7 @@ class QueueChannel < ApplicationCable::Channel
   end
 
   def update_request(data)
-    request = CourseQueueEntry.find(data['id'])
+    request = load_request(data)
     authorize(:current_user_only, request)
 
     request.update!(
