@@ -1,8 +1,12 @@
 class CoursesController < ApplicationController
-  before_action :set_course_and_queues, except: [:index]
+  before_action :set_course_and_queues, except: [:index, :archive]
 
   def index
-    @courses = Course.order(:name)
+    @courses = Course.where(archived: false).order(:name)
+  end
+
+  def archive
+    @courses = Course.where(archived: true).order(:name)
   end
 
   def show

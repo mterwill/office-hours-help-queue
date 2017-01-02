@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
   root to: redirect('/courses')
 
+  get '/courses/archive', to: 'courses#archive'
+
   resources :courses, only: [:index, :show]
 
   namespace :admin do
