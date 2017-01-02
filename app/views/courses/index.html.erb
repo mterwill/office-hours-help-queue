@@ -5,7 +5,7 @@
             <a href="<%= url_for course %>" class="item">
                 <strong><%= course.name %>:</strong> <%= course.long_name %>
                 <% if current_user.instructor_for_course?(course) %>
-                    <div class="ui teal label">Instructor</div>
+                    <div class="ui teal label">i</div>
                 <% end %>
             </a>
         <% end %>
