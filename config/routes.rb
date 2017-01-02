@@ -16,7 +16,10 @@ Rails.application.routes.draw do
       member do
         get :statistics
         resources :course_queues, only: [:new]
-        resources :course_instructors, only: [:new]
+        resources :course_instructors, only: [:new] do
+          get :promote, on: :collection
+          post :promote, on: :collection
+        end
       end
     end
   end

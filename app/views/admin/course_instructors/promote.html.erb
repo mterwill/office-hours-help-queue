@@ -1,0 +1,16 @@
+<div class="six wide column">
+    <h1 class="ui header">
+        Self Enroll for <%= @course_instructor.course.name %>
+    </h1>
+
+    <%= form_for [:admin, @course_instructor], url: promote_admin_course_instructors_path(@course), html: {class: 'ui form'} do |f| %>
+        <div class="field">
+            <label>Instructor Enrollment Code</label>
+            <input type="text" name="enrollment_code" autocomplete="off">
+        </div>
+
+        <%= f.hidden_field :course_id %>
+        <%= f.submit 'Enroll', class: 'ui button' %>
+    <% end %>
+
+</div>

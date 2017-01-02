@@ -17,5 +17,6 @@
     <%= render 'queues', queues: @queues %>
 
     <h2>Course Instructors</h2>
+    <%= render 'self_enroll', code: @course.enrollment_code %>
     <%= render 'instructors', instructors: @instructors %>
 </div>
