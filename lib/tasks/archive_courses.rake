@@ -10,9 +10,10 @@ task :archive_courses => :environment do
     Course.where(archived: false).each do |course|
       puts "Archiving #{course.slug}"
 
-      # first copy the course and instructors
+      # first copy the course and instructors and queues
       new_course = course.dup
       new_course.instructors = course.instructors
+      new_course.course_queues << course.course_queues.collect { |q| q.dup }
 
       # now archive the old one
       course.update(
