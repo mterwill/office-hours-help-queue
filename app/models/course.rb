@@ -4,6 +4,14 @@ class Course < ApplicationRecord
   has_many :instructors, through: :course_instructors
   has_many :course_queue_entries, through: :course_queues
 
+  # Produce a deterministic but secret code used to self-enroll instructors
+  def enrollment_code
+    OpenSSL::HMAC.hexdigest(
+      OpenSSL::Digest.new('sha1'),
+      Rails.application.secrets.secret_key_base,
+      "#{id}"
+    ).upcase[0,8]
+  end
 
   def available_queues_for(user)
     if user.instructor_for_course?(self)
