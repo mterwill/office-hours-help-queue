@@ -50,7 +50,7 @@ class Course < ApplicationRecord
   def get_resolved_by_day
     ActiveRecord::Base.connection.execute(<<-SQL
       SELECT
-        DATE(resolved_at) AS resolved_day,
+        DATE(CONVERT_TZ(resolved_at, 'GMT', 'EST')) AS resolved_day,
         COUNT(*) AS resolved_day_count
       FROM
         course_queue_entries, course_queues
