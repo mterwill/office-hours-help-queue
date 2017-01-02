@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160930183807) do
+ActiveRecord::Schema.define(version: 20170102061150) do
 
   create_table "course_instructors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer  "course_id",     null: false
@@ -52,11 +52,12 @@ ActiveRecord::Schema.define(version: 20160930183807) do
   end
 
   create_table "courses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.string   "name",       null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string   "long_name",  null: false
-    t.string   "slug",       null: false
+    t.string   "name",                       null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "long_name",                  null: false
+    t.string   "slug",                       null: false
+    t.boolean  "archived",   default: false, null: false
     t.index ["name"], name: "index_courses_on_name", unique: true, using: :btree
     t.index ["slug"], name: "index_courses_on_slug", unique: true, using: :btree
   end
