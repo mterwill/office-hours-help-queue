@@ -29,3 +29,12 @@ Now add an entry for `dev.eecs.help` to `127.0.0.1` in your `/etc/hosts` file.
 Google OAuth2 behaves a little weirdly when the callback URI is `localhost`.
 
 The app should now be accessible at http://dev.eecs.help:3000.
+
+## Archiving courses
+At the beginning of a new semester to reset statistics while preserving old data
+there is a [rake task](https://github.com/mterwill/classroom-help-queue/blob/master/lib/tasks/archive_courses.rake)
+available to copy/archive courses. On your server:
+
+```
+$ bundle exec rake archive_courses
+```
