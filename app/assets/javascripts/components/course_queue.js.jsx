@@ -1,7 +1,8 @@
 var CourseQueue = React.createClass({
   getInitialState: function () {
     return {
-      enabled: false,
+      enabled: false, // whether or not we're connecting or connected
+      focused: true, // whether we're the currently active window
       instructorMode: this.props.instructor,
       requests: [],
       instructors: [],
@@ -19,7 +20,15 @@ var CourseQueue = React.createClass({
   pushRequest: function (request) {
     this.setState({
       requests: this.state.requests.concat([request])
-    });
+    }, function () {
+      var wasEmpty         = this.state.requests.length === 1;
+      var isInactiveWindow = this.state.focused === false;
+      var isInstructor     = this.props.instructor;
+
+      if (wasEmpty && isInactiveWindow && isInstructor) {
+        alert('New request from ' + request.requester.name);
+      }
+    }.bind(this));
   },
   updateRequest: function (request) {
     var index   = mapById(this.state.requests, request.id);
@@ -121,6 +130,20 @@ var CourseQueue = React.createClass({
     }
 
     return null;
+  },
+  componentDidMount: function () {
+    this.addFocusListeners();
+  },
+  addFocusListeners: function () {
+    // Set some state to keep track of if we're the currently active window
+
+    window.addEventListener('blur', function () {
+      this.setState({ focused: false });
+    }.bind(this));
+
+    window.addEventListener('focus', function () {
+      this.setState({ focused: true });
+    }.bind(this));
   },
   renderLeftPanel: function (segmentClass, columnClass) {
     var panel, instructorButton, studentButton, buttons;
