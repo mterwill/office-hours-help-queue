@@ -63,8 +63,8 @@ class Course < ApplicationRecord
     )
   end
 
-  def get_recent_requests(limit = 10)
-    course_queue_entries.order('resolved_at DESC').limit(limit)
+  def get_recently_resolved_requests(limit = 10)
+    course_queue_entries.where.not(resolved_at: nil).order('resolved_at DESC').limit(limit)
   end
 
   def to_param

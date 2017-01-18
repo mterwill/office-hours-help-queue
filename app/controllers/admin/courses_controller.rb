@@ -42,7 +42,7 @@ class Admin::CoursesController < Admin::AdminController
     @resolved_by_day       = @course.get_resolved_by_day
     @student_contributions = @course.get_contributions(:student).first(10)
     @staff_contributions   = @course.get_contributions(:staff)
-    @recent_requests       = @course.get_recent_requests
+    @recent_requests       = @course.get_recently_resolved_requests
   end
 
   private
