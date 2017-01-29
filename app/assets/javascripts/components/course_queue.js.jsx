@@ -26,7 +26,10 @@ var CourseQueue = React.createClass({
       var isInstructor     = this.props.instructor;
 
       if (wasEmpty && isInactiveWindow && isInstructor) {
-        alert('New request from ' + request.requester.name);
+        this.notify('New request from ' + request.requester.name, false, {
+          icon: request.requester.avatar_url,
+          body: request.description || request.location,
+        });
       }
     }.bind(this));
   },
@@ -44,6 +47,11 @@ var CourseQueue = React.createClass({
     var index = mapById(this.state.requests, request.id);
     var arrCopy = copyArr(this.state.requests);
     arrCopy.splice(index, 1);
+
+    // are we up next?
+    if (arrCopy.length > 0 && arrCopy[0].requester.id === this.props.currentUserId) {
+      this.notify('You are next to be helped.');
+    }
 
     this.setState({
       requests: arrCopy,
@@ -72,6 +80,24 @@ var CourseQueue = React.createClass({
     return $.ajax({
       url: '/course_queues/' + this.props.id + '/online_instructors.json'
     });
+  },
+  notify: function (msg, force = false, options = {}) {
+    if (!("Notification" in window)) {
+      alert(msg); // fall back on alert
+    } else if (force && Notification.permission !== "granted") {
+      alert(msg); // sorry to be annoying
+    } else if (Notification.permission === "granted") {
+      var notification = new Notification(msg, options);
+      notification.onclick = function (event) {
+        // this should be the default behavior but click was doing nothing in
+        // Chrome 56, so we'll just make it explicit.
+        event.preventDefault();
+        window.focus();
+        notification.close();
+      };
+    } else {
+      // leave the user in peace
+    }
   },
   componentWillMount: function () {
     var courseQueueSubscription = App.cable.subscriptions.create({
@@ -103,7 +129,9 @@ var CourseQueue = React.createClass({
           this.pushInstructor(data.instructor);
         } else if (data.action === 'bump'
                    && data.requester_id === this.props.currentUserId) {
-          alert(data.bump_by.name + ' is looking for you!');
+           this.notify(data.bump_by.name + ' is looking for you!', true, {
+             icon: data.bump_by.avatar_url,
+           });
         }
       }.bind(this),
     });
@@ -213,6 +241,7 @@ var CourseQueue = React.createClass({
           instructors={this.state.instructors} />
         {this.renderLeftPanel(segmentClass, "six wide column")}
         <div className="ten wide column">
+          <NotificationsPanel instructorMode={this.state.instructorMode} />
           <RequestBox
             segmentClass={segmentClass}
             requests={this.state.requests}
