@@ -1,7 +1,13 @@
 function mapById(arr, id) {
-  return arr.map(function (elt) {
+  var index = arr.map(function (elt) {
     return elt.id;
   }).indexOf(id);
+
+  if (index < 0) {
+    throw "Not found";
+  }
+
+  return index;
 }
 
 function copyArr(initial) {

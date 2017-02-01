@@ -12,7 +12,12 @@ var CourseQueue = React.createClass({
     this.setState({ enabled: true });
   },
   amIOnline: function () {
-    return mapById(this.state.instructors, this.props.currentUserId) >= 0;
+    try {
+      mapById(this.state.instructors, this.props.currentUserId);
+      return true;
+    } catch (e) {
+      return false;
+    }
   },
   disable: function () {
     this.setState({ enabled: false });
