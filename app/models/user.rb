@@ -58,4 +58,11 @@ class User < ApplicationRecord
       except: User::PROTECTED_FIELDS
     }))
   end
+
+  def course_group_id_for_course(course)
+    CourseGroupStudent.joins(:course_group)
+                      .where('course_groups.course_id': course.id, student: self)
+                      .pluck(:course_group_id)
+                      .first
+  end
 end

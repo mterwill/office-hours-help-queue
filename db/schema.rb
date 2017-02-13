@@ -10,7 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170102061150) do
+ActiveRecord::Schema.define(version: 20170215204213) do
+
+  create_table "course_group_students", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "course_group_id", null: false
+    t.integer "student_id",      null: false
+    t.index ["student_id"], name: "index_course_group_students_on_student_id", using: :btree
+  end
+
+  create_table "course_groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer  "course_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_course_groups_on_course_id", using: :btree
+  end
 
   create_table "course_instructors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer  "course_id",     null: false
@@ -29,6 +42,8 @@ ActiveRecord::Schema.define(version: 20170102061150) do
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
     t.string   "location"
+    t.boolean  "anonymous"
+    t.integer  "course_group_id"
     t.index ["course_queue_id"], name: "index_course_queue_entries_on_course_queue_id", using: :btree
   end
 
@@ -41,13 +56,14 @@ ActiveRecord::Schema.define(version: 20170102061150) do
   end
 
   create_table "course_queues", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.string   "name",                      null: false
+    t.string   "name",                                      null: false
     t.string   "location"
     t.text     "description", limit: 65535
     t.boolean  "is_open"
-    t.integer  "course_id",                 null: false
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.integer  "course_id",                                 null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+    t.boolean  "group_mode",                default: false, null: false
     t.index ["course_id", "name"], name: "index_course_queues_on_course_id_and_name", unique: true, using: :btree
   end
 
