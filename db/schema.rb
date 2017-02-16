@@ -10,11 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170215204213) do
+ActiveRecord::Schema.define(version: 20170215215714) do
 
   create_table "course_group_students", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "course_group_id", null: false
     t.integer "student_id",      null: false
+    t.index ["student_id", "course_group_id"], name: "index_course_group_students_on_student_id_and_course_group_id", unique: true, using: :btree
     t.index ["student_id"], name: "index_course_group_students_on_student_id", using: :btree
   end
 
