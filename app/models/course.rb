@@ -68,6 +68,16 @@ class Course < ApplicationRecord
     course_queue_entries.where.not(resolved_at: nil).order('resolved_at DESC').limit(limit)
   end
 
+  def get_group_string
+    groups = []
+
+    course_groups.each do |group|
+      groups << group.students.pluck(:email).join(',')
+    end
+
+    groups.join("\n")
+  end
+
   def to_param
     slug
   end

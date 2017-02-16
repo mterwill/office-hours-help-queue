@@ -1,6 +1,6 @@
 class Admin::CoursesController < Admin::AdminController
   before_action :set_course, :authorize_current_user, except: [:index, :new, :create]
-  before_action :authorize_global_admin, except: [:show, :edit, :update, :statistics]
+  before_action :authorize_global_admin, except: [:show, :edit, :update, :statistics, :groups]
 
   def index
     @courses = Course.all
@@ -36,6 +36,7 @@ class Admin::CoursesController < Admin::AdminController
   def show
     @queues      = @course.course_queues.order(:name)
     @instructors = @course.course_instructors.joins(:instructor).order("users.name")
+    @groups      = @course.course_groups
   end
 
   def statistics
@@ -43,6 +44,34 @@ class Admin::CoursesController < Admin::AdminController
     @student_contributions = @course.get_contributions(:student).first(10)
     @staff_contributions   = @course.get_contributions(:staff)
     @recent_requests       = @course.get_recently_resolved_requests
+  end
+
+  def groups
+    if request.method == 'GET'
+      @course_group_string = @course.get_group_string
+      return
+    end
+
+    begin
+      ActiveRecord::Base.transaction do
+        @course.course_groups.destroy_all
+        params[:groups].strip().split("\n").each do |emails_csv|
+          emails = emails_csv.strip().split(',')
+          next unless emails.any?
+
+          group = @course.course_groups.create!
+
+          emails.map do |email|
+            group.students << User.find_or_create_by(email: email.strip())
+          end
+        end
+      end
+      redirect_to admin_course_url(@course)
+    rescue ActiveRecord::RecordInvalid => err
+      @course_group_string = params[:groups]
+      @err = err
+      render :groups
+    end
   end
 
   private

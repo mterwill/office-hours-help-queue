@@ -1,0 +1,35 @@
+<%= render 'shared/breadcrumbs', trail: [
+    { title: @course.name, href: url_for(@course)},
+    'Groups'
+] %>
+
+<div class="sixteen wide column">
+    <h1 class="ui header">
+        <%= @course.name %> Course Groups
+    </h1>
+</div>
+
+<div class="eight wide column">
+    <% if @err.present? %>
+        <div class="ui error message">
+            <%= @err %>
+        </div>
+    <% end %>
+
+    <p>Upload a comma-separated list of emails. One group per line. e.g.</p>
+    <pre>
+bob@umich.edu,mary@umich.edu,sue@umich.edu
+josh@umich.edu,matt@umich.edu,anna@umich.edu</pre>
+    <p>Would create two groups: [Bob, Mary, Sue] and [Josh, Matt, Anna].</p>
+    <%= form_tag(nil, {class: 'ui form'}) do %>
+        <div class="field">
+            <textarea name="groups"
+             style="font-family: monospace;"
+             placeholder="user1@umich.edu,user2@umich.edu,user3@umich.edu"
+             ><%= h(@course_group_string) %></textarea>
+        </div>
+        <div class="field">
+            <button type="submit" class="ui button">Upload</div>
+        </div>
+    <% end %>
+</div>

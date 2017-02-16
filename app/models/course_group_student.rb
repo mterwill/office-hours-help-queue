@@ -10,7 +10,7 @@ class CourseGroupStudent < ApplicationRecord
                       .where('course_groups.course_id': course_group.course.id,
                              student: student)
                       .count > 0
-      errors.add(:student_id, "already belongs to a group in this course")
+      errors.add(:student_id, "#{student.email} already belongs to a group in this course.")
     end
   end
 end

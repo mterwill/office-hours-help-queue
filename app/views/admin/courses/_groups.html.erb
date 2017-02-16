@@ -1,0 +1,14 @@
+<% if @groups.empty? %>
+    <div class="ui message">
+        <strong>This course does not have any groups created.</strong>
+        Import a list of groups above, and enable group mode on queues to allow
+        students to share queue requests with their groupmmates and limit to
+        one request per group.
+    </div>
+<% else %>
+<pre style="width: 100%; font-family: monospace;" disabled>
+<% @groups.each do |group| %>
+<%= group.students.pluck(:email).join(',') %>
+<% end %>
+</pre>
+<% end %>
