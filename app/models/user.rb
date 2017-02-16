@@ -59,10 +59,12 @@ class User < ApplicationRecord
     }))
   end
 
-  def course_group_id_for_course(course)
-    CourseGroupStudent.joins(:course_group)
-                      .where('course_groups.course_id': course.id, student: self)
-                      .pluck(:course_group_id)
-                      .first
+  def course_group_for_course(course)
+    id = CourseGroupStudent.joins(:course_group)
+                           .where('course_groups.course_id': course.id, student: self)
+                           .pluck(:course_group_id)
+                           .first
+
+    id.nil? ? nil : CourseGroup.find(id)
   end
 end

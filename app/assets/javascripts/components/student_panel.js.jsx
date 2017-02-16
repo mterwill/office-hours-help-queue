@@ -81,9 +81,18 @@ var StudentPanel = React.createClass({
       || (!this.state.editMode
         && this.state.myRequest.hasOwnProperty('created_at'));
 
+    if (this.props.groupMode) {
+      var groupModeLabel = (
+          <div className="ui tiny teal label">Group Mode</div>
+      );
+    }
+
     return (
       <div className={this.props.segmentClass}>
-        <h4 className="ui header">Request Help</h4>
+        <h4 className="ui header">
+          Request Help
+          {groupModeLabel}
+        </h4>
         <div className="ui form">
           <div className="field">
             <label>Location</label>
