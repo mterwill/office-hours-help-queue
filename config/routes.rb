@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   get 'auth/:provider/callback', to: 'sessions#create'
   # get 'auth/failure', to: redirect('/')
 
+  get '/heartbeat', to: 'heartbeat#index'
+
   root to: redirect('/courses')
 
   get '/courses/archive', to: 'courses#archive'
