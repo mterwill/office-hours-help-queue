@@ -8,6 +8,19 @@
         <%= f.label :location %>
         <%= f.text_field :location %>
     </div>
+
+    <div class="field">
+        <%= f.label :group_mode %>
+        <div class="ui small message">
+            <p>Import a list of groups for this course <a href="<%=
+            groups_admin_course_url(@course_queue.course) %>">here</a>.</p>
+        </div>
+        <div class="ui toggle checkbox">
+            <%= f.check_box :group_mode %>
+            <label>Enable course groups for this queue</label>
+        </div>
+    </div>
+
     <%= f.hidden_field :course_id %>
     <%= f.submit 'Submit', class: 'ui button' %>
 <% end %>
