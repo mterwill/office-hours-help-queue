@@ -10,7 +10,8 @@ class CourseQueueTest < ActiveSupport::TestCase
     entry = @queue.request(
       requester: @requester,
       description: '',
-      location: ''
+      location: '',
+      group: nil
     )
 
     assert entry.course_queue == @queue
@@ -33,13 +34,15 @@ class CourseQueueTest < ActiveSupport::TestCase
     first_entry = @queue.request(
       requester: users(:sue),
       description: '',
-      location: ''
+      location: '',
+      group: nil
     )
 
     last_entry = @queue.request(
       requester: users(:jim),
       description: '',
-      location: ''
+      location: '',
+      group: nil
     )
 
     assert @queue.outstanding_requests[-1] == last_entry
