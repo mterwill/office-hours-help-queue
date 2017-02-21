@@ -34,8 +34,13 @@ var Request = React.createClass({
       );
     }
 
+    var active = "";
+    if (this.props.request.requester.id === this.props.currentUserId) {
+      active = 'active ';
+    }
+
     return (
-      <div className="comment">
+      <div className={active + "comment"}>
         <Avatar url={this.props.request.requester.avatar_url} />
         <div className="content">
           <span className="author">{this.props.request.requester.name}</span>

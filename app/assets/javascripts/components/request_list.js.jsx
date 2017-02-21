@@ -5,6 +5,7 @@ var RequestList = React.createClass({
         <Request 
           key={request.id}
           request={request}
+          currentUserId={this.props.currentUserId}
           resolve={this.props.resolve}
           bump={this.props.bump}
         />
@@ -20,7 +21,7 @@ var RequestList = React.createClass({
     }
 
     return (
-      <div className="ui comments">
+      <div className="ui requests comments">
         {requestNodes}
       </div>
     );

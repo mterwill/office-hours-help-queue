@@ -38,3 +38,13 @@
 .card {
     width: 400px!important;
 }
+
+.requests > .comment {
+    padding-left: 12px !important;
+}
+
+.active.comment {
+    border-radius: .1rem 0 0 .1rem !important;
+    border-left: 2px solid #FBBD08 !important;
+    padding-left: 10px !important;
+}
