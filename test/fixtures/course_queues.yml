@@ -6,6 +6,15 @@ eecs398_queue:
   description: ''
   is_open: true
   course: eecs398
+  group_mode: false
+
+eecs482_group_queue:
+  name: Project Help
+  location: 1670 BBB
+  description: ''
+  is_open: true
+  course: eecs482
+  group_mode: true
 
 closed_queue:
   name: I am not real

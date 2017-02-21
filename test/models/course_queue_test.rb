@@ -2,8 +2,9 @@ require 'test_helper'
 
 class CourseQueueTest < ActiveSupport::TestCase
   setup do
-    @queue     = course_queues(:eecs398_queue)
-    @requester = users(:matt)
+    @queue       = course_queues(:eecs398_queue)
+    @group_queue = course_queues(:eecs482_group_queue)
+    @requester   = users(:matt)
   end
 
   test "request creates a new CourseQueueEntry for this queue" do
@@ -49,15 +50,52 @@ class CourseQueueTest < ActiveSupport::TestCase
   end
 
   test "request validates duplicates" do
-    assert_raise do
+    assert_raise RuntimeError do
       2.times {
         @queue.request(
           requester: users(:steve),
           description: '',
-          location: ''
+          location: '',
+          group: nil
         )
       }
     end
+  end
+
+  test "request validates duplicates in group mode" do
+    @group_queue.request(
+      requester: users(:steve),
+      description: '',
+      location: '',
+      group: course_groups(:group1)
+    )
+
+    assert_raise RuntimeError do
+      @group_queue.request(
+        requester: users(:matt),
+        description: '',
+        location: '',
+        group: course_groups(:group1)
+      )
+    end
+  end
+
+  test "request ignores group if group mode is off" do
+    @group_queue.update!(group_mode: false)
+
+    @group_queue.request(
+      requester: users(:steve),
+      description: '',
+      location: '',
+      group: course_groups(:group1)
+    )
+
+    @group_queue.request(
+      requester: users(:matt),
+      description: '',
+      location: '',
+      group: course_groups(:group1)
+    )
   end
 
   test "open queues returns only open queues" do
