@@ -269,6 +269,7 @@ var CourseQueue = React.createClass({
             segmentClass={segmentClass}
             requests={this.state.requests}
             currentUserId={this.props.currentUserId}
+            currentGroupId={this.props.groupMode ? this.props.courseGroupId : null}
             resolve={this.props.instructor ? this.handler.resolveRequest.bind(this.handler) : null}
             bump={this.props.instructor ? this.handler.bump.bind(this.handler) : null}
           />

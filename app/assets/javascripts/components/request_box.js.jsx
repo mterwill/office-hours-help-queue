@@ -9,6 +9,7 @@ var RequestBox = React.createClass({
         <RequestList
           requests={this.props.requests}
           currentUserId={this.props.currentUserId}
+          currentGroupId={this.props.currentGroupId}
           resolve={this.props.resolve}
           bump={this.props.bump} />
       </div>
