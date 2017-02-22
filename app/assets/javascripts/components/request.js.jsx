@@ -35,7 +35,9 @@ var Request = React.createClass({
     }
 
     var active = "";
-    if (this.props.request.requester.id === this.props.currentUserId) {
+    var isUserRequester  = this.props.request.requester.id === this.props.currentUserId;
+    var isGroupRequester = this.props.request.course_group_id === this.props.currentGroupId;
+    if (isUserRequester || (this.props.currentGroupId && isGroupRequester)) {
       active = 'active ';
     }
 

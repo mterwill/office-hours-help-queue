@@ -12,6 +12,8 @@
           queueName={"<%= j @course_queue.name.html_safe %>"}
           queueLoc={"<%= j @course_queue.location.html_safe %>"}
           currentUserId={<%= current_user.id %>}
+          courseGroupId={<%= @course_group_id %>}
+          groupMode={<%= @course_queue.group_mode.to_s %>}
           instructor={<%= @is_instructor %>}
           id={<%= @course_queue.id %>}
       />,

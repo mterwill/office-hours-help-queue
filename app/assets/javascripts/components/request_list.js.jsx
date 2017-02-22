@@ -6,6 +6,7 @@ var RequestList = React.createClass({
           key={request.id}
           request={request}
           currentUserId={this.props.currentUserId}
+          currentGroupId={this.props.currentGroupId}
           resolve={this.props.resolve}
           bump={this.props.bump}
         />

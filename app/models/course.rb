@@ -3,6 +3,7 @@ class Course < ApplicationRecord
   has_many :course_instructors
   has_many :instructors, through: :course_instructors
   has_many :course_queue_entries, through: :course_queues
+  has_many :course_groups
 
   # Produce a deterministic but secret code used to self-enroll instructors
   def enrollment_code
@@ -65,6 +66,16 @@ class Course < ApplicationRecord
 
   def get_recently_resolved_requests(limit = 10)
     course_queue_entries.where.not(resolved_at: nil).order('resolved_at DESC').limit(limit)
+  end
+
+  def get_group_string
+    groups = []
+
+    course_groups.each do |group|
+      groups << group.students.pluck(:email).join(',')
+    end
+
+    groups.join("\n")
   end
 
   def to_param

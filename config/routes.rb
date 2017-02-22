@@ -17,6 +17,8 @@ Rails.application.routes.draw do
     resources :courses do
       member do
         get :statistics
+        get :groups
+        post :groups
         resources :course_queues, only: [:new]
         resources :course_instructors, only: [:new] do
           get :promote, on: :collection

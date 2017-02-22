@@ -1,7 +1,8 @@
 <table class="ui table">
     <thead>
         <tr><th style="width: 50%">Course Queue Name</th>
-            <th style="width: 50%">Location</th>
+            <th style="width: 40%">Location</th>
+            <th style="width: 10%">Group Mode</th>
             <th>
                 <a href="<%= new_admin_course_queue_path(@course) %>" class="ui primary labeled icon fluid button">
                     <i class="plus icon"></i>
@@ -14,6 +15,10 @@
             <tr>
                 <td><%= queue.name %></td>
                 <td><%= queue.location %></td>
+                <td><div class="ui disabled toggle checkbox">
+                        <input type="checkbox" disabled="disabled" <%= 'checked' if queue.group_mode %>>
+                        <label></label>
+                    </div></td>
                 <td>
                     <div class="ui fluid basic buttons">
                         <%= link_to 'Edit', edit_admin_course_queue_path(queue), class: 'ui button' %>

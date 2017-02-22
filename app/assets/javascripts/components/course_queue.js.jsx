@@ -151,9 +151,26 @@ var CourseQueue = React.createClass({
     });
   },
   getMyFirstRequest: function () {
-    var index = this.state.requests.map(function (elt) {
-      return elt.requester_id;
-    }).indexOf(this.props.currentUserId);
+    var index = -1;
+    if (this.props.groupMode) {
+      index = this.state.requests.map(function (elt) {
+        if (elt.course_group_id !== null) {
+          return elt.course_group_id;
+        } else {
+          // don't count queue items without a group id
+          return -1;
+        }
+      }).indexOf(this.props.courseGroupId);
+    }
+
+    if (index < 0) {
+      // look for requests by our user if we didn't find one by the same group
+      // or are not in group mode. the reason being if for some reason the group
+      // id changes, we don't want the request to just get stranded.
+      index = this.state.requests.map(function (elt) {
+        return elt.requester_id;
+      }).indexOf(this.props.currentUserId);
+    }
 
     if (index >= 0) {
       return {
@@ -207,6 +224,7 @@ var CourseQueue = React.createClass({
           updateRequest={this.handler.updateRequest.bind(this.handler)}
           myRequest={this.getMyFirstRequest()}
           queueClosed={this.state.instructors.length <= 0}
+          groupMode={this.props.groupMode}
         />
       );
     }
@@ -251,6 +269,7 @@ var CourseQueue = React.createClass({
             segmentClass={segmentClass}
             requests={this.state.requests}
             currentUserId={this.props.currentUserId}
+            currentGroupId={this.props.groupMode ? this.props.courseGroupId : null}
             resolve={this.props.instructor ? this.handler.resolveRequest.bind(this.handler) : null}
             bump={this.props.instructor ? this.handler.bump.bind(this.handler) : null}
           />

@@ -11,6 +11,7 @@ class QueueChannel < ApplicationCable::Channel
 
     new_request = @course_queue.request(
       requester: current_user,
+      group: current_user.course_group_for_course(@course_queue.course),
       location: data['location'],
       description: data['description']
     )
@@ -113,7 +114,12 @@ class QueueChannel < ApplicationCable::Channel
         raise "Current user not instructor" 
       end
     elsif requirement == :current_user_only
-      unless current_user == request.requester
+      group = current_user.course_group_for_course(@course_queue.course)
+      if current_user == request.requester
+        return
+      elsif @course_queue.group_mode && group && group.id == request.course_group_id
+        return
+      else
         raise "Current user not requester" 
       end
     elsif requirement == :open_queue 
