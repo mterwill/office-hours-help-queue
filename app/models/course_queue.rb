@@ -30,7 +30,11 @@ class CourseQueue < ApplicationRecord
   end
 
   def pop!(user)
-    self.outstanding_requests.first.resolve_by!(user)
+    if first_pinned = self.outstanding_requests.where(resolver: user).first
+      first_pinned.resolve_by!(user)
+    else
+      self.outstanding_requests.first.resolve_by!(user)
+    end
   end
 
   def is_open?
