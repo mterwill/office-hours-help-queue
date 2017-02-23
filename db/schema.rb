@@ -43,7 +43,6 @@ ActiveRecord::Schema.define(version: 20170215215714) do
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
     t.string   "location"
-    t.boolean  "anonymous"
     t.integer  "course_group_id"
     t.index ["course_queue_id"], name: "index_course_queue_entries_on_course_queue_id", using: :btree
   end
