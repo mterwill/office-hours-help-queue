@@ -32,6 +32,12 @@ CourseQueueClientActionHandler.prototype.bump = function (requestId) {
   });
 };
 
+CourseQueueClientActionHandler.prototype.pin = function (requestId) {
+  this.subscription.perform('pin', {
+    id: requestId,
+  });
+};
+
 CourseQueueClientActionHandler.prototype.setInstructorStatus = function (newStatus) {
   this.subscription.perform('instructor_status_toggle', {
     online: newStatus,

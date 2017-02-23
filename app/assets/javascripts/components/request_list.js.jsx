@@ -9,6 +9,7 @@ var RequestList = React.createClass({
           currentGroupId={this.props.currentGroupId}
           resolve={this.props.resolve}
           bump={this.props.bump}
+          pin={this.props.pin}
         />
       );
     }.bind(this));

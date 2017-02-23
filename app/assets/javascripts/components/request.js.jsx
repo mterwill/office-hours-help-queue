@@ -26,9 +26,12 @@ var Request = React.createClass({
   render: function () {
     var actions;
     if (this.props.resolve) {
+      var pinText = this.props.request.resolver_id === null ? 'Pin' : 'Unpin';
+
       actions = (
         <Actions>
           <Action data={{ title: 'Resolve', action: this.props.resolve.bind(null, this.props.request.id)}} />
+          <Action data={{ title: pinText, action: this.props.pin.bind(null, this.props.request.id)}} />
           <Action data={{ title: 'Ping', action: this.props.bump.bind(null, this.props.request.id)}} />
         </Actions>
       );
