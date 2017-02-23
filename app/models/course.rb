@@ -1,3 +1,5 @@
+require 'csv'
+
 class Course < ApplicationRecord
   has_many :course_queues
   has_many :course_instructors
@@ -76,6 +78,25 @@ class Course < ApplicationRecord
     end
 
     groups.join("\n")
+  end
+
+  def requests_to_csv
+    attributes = %w(id course_queue_id requester.email created_at location
+                    description resolver.email resolved_at)
+
+    CSV.generate(headers: true) do |csv|
+      csv << attributes.map { |attr|
+        attr.sub('.', '_') # s/requester.email/requester_email/ for appearance
+      }
+
+      course_queue_entries.order(:id).each do |request|
+        csv << attributes.map{ |attr|
+          # query the request, nil if an error is raised
+          # (e.g. requester.email on unresolved request)
+          request.instance_eval(attr) rescue nil
+        }
+      end
+    end
   end
 
   def to_param

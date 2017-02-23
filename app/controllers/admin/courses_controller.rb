@@ -1,6 +1,6 @@
 class Admin::CoursesController < Admin::AdminController
   before_action :set_course, :authorize_current_user, except: [:index, :new, :create]
-  before_action :authorize_global_admin, except: [:show, :edit, :update, :statistics, :groups]
+  before_action :authorize_global_admin, except: [:show, :edit, :update, :statistics, :groups, :requests]
 
   def index
     @courses = Course.all
@@ -44,6 +44,15 @@ class Admin::CoursesController < Admin::AdminController
     @student_contributions = @course.get_contributions(:student).first(10)
     @staff_contributions   = @course.get_contributions(:staff)
     @recent_requests       = @course.get_recently_resolved_requests
+  end
+
+  def requests
+    respond_to do |format|
+      format.csv {
+        send_data @course.requests_to_csv,
+        filename: "#{@course.slug}-requests.csv"
+      }
+    end
   end
 
   def groups
