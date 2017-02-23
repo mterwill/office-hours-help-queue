@@ -245,9 +245,40 @@ var CourseQueue = React.createClass({
       </div>
     );
   },
+  filterRequests: function (pinned) {
+    if (!this.props.instructor) {
+      // students should see all requests regardless
+      return this.state.requests;
+    }
+
+    return this.state.requests.filter(function (request) {
+      if (pinned) {
+        // only show people we pinned
+        return request.resolver_id === this.props.currentUserId;
+      } else {
+        return request.resolver_id === null;
+      }
+    }.bind(this));
+  },
   render: function () {
     var segmentClass = this.state.enabled ?
       'ui min segment' : 'ui disabled loading min segment';
+
+    if (this.props.instructor) {
+      var pinnedBox = (
+          <RequestBox
+            title="Pinned Requests"
+            hideEmpty={true}
+            segmentClass={segmentClass}
+            requests={this.filterRequests(true)}
+            currentUserId={this.props.currentUserId}
+            currentGroupId={this.props.groupMode ? this.props.courseGroupId : null}
+            resolve={this.props.instructor ? this.handler.resolveRequest.bind(this.handler) : null}
+            bump={this.props.instructor ? this.handler.bump.bind(this.handler) : null}
+            pin={this.props.instructor ? this.handler.pin.bind(this.handler) : null}
+          />
+      );
+    }
 
     return (
       <div className="ui stackable grid">
@@ -265,13 +296,15 @@ var CourseQueue = React.createClass({
         {this.renderLeftPanel(segmentClass, "six wide column")}
         <div className="ten wide column">
           <NotificationsPanel instructorMode={this.state.instructorMode} />
+          {pinnedBox}
           <RequestBox
             segmentClass={segmentClass}
-            requests={this.state.requests}
+            requests={this.filterRequests(false)}
             currentUserId={this.props.currentUserId}
             currentGroupId={this.props.groupMode ? this.props.courseGroupId : null}
             resolve={this.props.instructor ? this.handler.resolveRequest.bind(this.handler) : null}
             bump={this.props.instructor ? this.handler.bump.bind(this.handler) : null}
+            pin={this.props.instructor ? this.handler.pin.bind(this.handler) : null}
           />
         </div>
       </div>

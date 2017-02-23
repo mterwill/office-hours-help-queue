@@ -1,9 +1,13 @@
 var RequestBox = React.createClass({
   render: function () {
+    if (this.props.hideEmpty && this.props.requests.length === 0) {
+      return null;
+    }
+
     return (
       <div className={this.props.segmentClass}>
         <h4 className="ui header">
-          Queue
+          { this.props.title ? this.props.title : 'Queue' }
           <RequestCountLabel count={this.props.requests.length} />
         </h4>
         <RequestList
@@ -11,6 +15,7 @@ var RequestBox = React.createClass({
           currentUserId={this.props.currentUserId}
           currentGroupId={this.props.currentGroupId}
           resolve={this.props.resolve}
+          pin={this.props.pin}
           bump={this.props.bump} />
       </div>
     );

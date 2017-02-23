@@ -31,6 +31,20 @@ class QueueChannel < ApplicationCable::Channel
     })
   end
 
+  def pin(data)
+    authorize :instructor_only
+
+    request = load_request(data)
+
+    if request.resolver # unpin
+      request.update! resolver: nil
+    else # pin
+      request.update! resolver: current_user
+    end
+
+    broadcast_request_change('update_request', request)
+  end
+
   def update_request(data)
     request = load_request(data)
     authorize(:current_user_only, request)
