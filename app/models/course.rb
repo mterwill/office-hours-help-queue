@@ -59,7 +59,8 @@ class Course < ApplicationRecord
         course_queue_entries, course_queues
       WHERE
         course_queue_entries.course_queue_id = course_queues.id AND
-        course_queues.course_id = #{id}
+        course_queues.course_id = #{id} AND
+        course_queue_entries.resolved_at IS NOT NULL
       GROUP BY
         resolved_day
       SQL
