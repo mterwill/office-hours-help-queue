@@ -51,7 +51,7 @@ class Course < ApplicationRecord
   end
 
   def get_resolved_by_day
-    ActiveRecord::Base.connection.execute(<<-SQL
+    resolved_by_day_raw = ActiveRecord::Base.connection.execute(<<-SQL
       SELECT
         DATE(CONVERT_TZ(resolved_at, 'GMT', 'EST')) AS resolved_day,
         COUNT(*) AS resolved_day_count
@@ -64,7 +64,20 @@ class Course < ApplicationRecord
       GROUP BY
         resolved_day
       SQL
-    )
+    ).to_h
+
+    return [] if resolved_by_day_raw.empty?
+
+    # merge in dates that had no requests
+    first_date = resolved_by_day_raw.keys.first
+    last_date = resolved_by_day_raw.keys.last
+
+    # creates [{2017-03-08: 0}, ...] from start to end date
+    zeros = (first_date..last_date).map {|day| [day, 0]}.to_h
+
+    # merge in real data to ordered keys and convert back to
+    # an array for the chart library
+    zeros.merge(resolved_by_day_raw).to_a
   end
 
   def get_recently_resolved_requests(limit = 10)
