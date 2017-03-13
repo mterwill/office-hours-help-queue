@@ -70,7 +70,12 @@ class Course < ApplicationRecord
 
     # merge in dates that had no requests
     first_date = resolved_by_day_raw.keys.first
-    last_date = resolved_by_day_raw.keys.last
+
+    if archived?
+      last_date = resolved_by_day_raw.keys.last
+    else
+      last_date = Date.today
+    end
 
     # creates [{2017-03-08: 0}, ...] from start to end date
     zeros = (first_date..last_date).map {|day| [day, 0]}.to_h
