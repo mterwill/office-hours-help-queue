@@ -8,7 +8,9 @@ var RequestBox = React.createClass({
       <div className={this.props.segmentClass}>
         <h4 className="ui header">
           { this.props.title ? this.props.title : 'Queue' }
-          <RequestCountLabel count={this.props.requests.length} />
+          <RequestCountLabel
+            myRequestIdx={this.props.myRequestIdx}
+            total={this.props.requests.length} />
         </h4>
         <RequestList
           requests={this.props.requests}

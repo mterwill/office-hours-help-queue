@@ -280,6 +280,15 @@ var CourseQueue = React.createClass({
       );
     }
 
+    var myRequest = this.getMyFirstRequest();
+
+    if (myRequest) {
+      var unpinnedRequests = this.filterRequests(false);
+      if (unpinnedRequests.indexOf(myRequest.request) >= 0) {
+        var myRequestIdx = unpinnedRequests.indexOf(myRequest.request);
+      }
+    }
+
     return (
       <div className="ui stackable grid">
         <div className="sixteen wide column">
@@ -300,6 +309,7 @@ var CourseQueue = React.createClass({
           <RequestBox
             segmentClass={segmentClass}
             requests={this.filterRequests(false)}
+            myRequestIdx={myRequestIdx}
             currentUserId={this.props.currentUserId}
             currentGroupId={this.props.groupMode ? this.props.courseGroupId : null}
             resolve={this.props.instructor ? this.handler.resolveRequest.bind(this.handler) : null}
