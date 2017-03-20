@@ -62,6 +62,40 @@ class CourseQueueTest < ActiveSupport::TestCase
     end
   end
 
+  test "pop pops your pinned entry first" do
+    pinned_by_matt = @queue.request(
+      requester: users(:steve),
+      description: '',
+      location: '',
+      group: nil
+    )
+
+    pinned_by_matt.update!(resolver: users(:matt))
+
+    request = @queue.pop!(users(:matt))
+    @queue.pop!(users(:matt)) # clean up the db
+
+    assert request == pinned_by_matt
+  end
+
+  test "pop respects others pinned entries" do
+    pinned_by_matt = @queue.request(
+      requester: users(:steve),
+      description: '',
+      location: '',
+      group: nil
+    )
+
+    pinned_by_matt.update!(resolver: users(:matt))
+
+    request = @queue.pop!(users(:jim))
+
+    assert request == course_queue_entries(:unresolved_entry)
+
+    # pinned by matt shouldn't be resolvable by jim
+    assert_nil @queue.pop!(users(:jim))
+  end
+
   test "request validates duplicates in group mode" do
     @group_queue.request(
       requester: users(:steve),
