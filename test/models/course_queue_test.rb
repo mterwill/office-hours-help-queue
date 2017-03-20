@@ -73,7 +73,6 @@ class CourseQueueTest < ActiveSupport::TestCase
     pinned_by_matt.update!(resolver: users(:matt))
 
     request = @queue.pop!(users(:matt))
-    @queue.pop!(users(:matt)) # clean up the db
 
     assert request == pinned_by_matt
   end
