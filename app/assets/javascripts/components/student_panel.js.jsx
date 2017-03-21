@@ -77,9 +77,17 @@ var StudentPanel = React.createClass({
     }
   },
   render: function () {
-    var isDisabled = this.props.queueClosed
-      || (!this.state.editMode
-        && this.state.myRequest.hasOwnProperty('created_at'));
+    var existingRequest = this.state.myRequest.hasOwnProperty('created_at');
+    if (existingRequest && !this.state.editMode) {
+      // click the edit button to edit
+      var isDisabled = true;
+    } else if (this.props.queueClosed && !existingRequest) {
+      // you can't make a request into a closed queue
+      var isDisabled = true;
+    } else {
+      // you can make a request in any other case
+      var isDisabled = false;
+    }
 
     if (this.props.groupMode) {
       var groupModeLabel = (
