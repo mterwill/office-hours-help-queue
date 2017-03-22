@@ -104,12 +104,12 @@ var StudentPanel = React.createClass({
         <div className="ui form">
           <div className="field">
             <label>Location</label>
-            <input disabled={isDisabled} onChange={this.update.bind(this, 'location')} value={this.state.myRequest.location} type="text" />
+            <input disabled={isDisabled} onChange={this.update.bind(this, 'location')} value={this.state.myRequest.location} type="text" maxLength="50" />
           </div>
           <div className="field">
             <label>Description</label>
             <textarea disabled={isDisabled} onChange={this.update.bind(this, 'description')} value={this.state.myRequest.description}
-              type="text" rows="2"></textarea>
+              maxLength="100" type="text" rows="2"></textarea>
           </div>
           {this.renderButton()}
         </div>
