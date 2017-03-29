@@ -84,5 +84,5 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  Rails.application.config.action_cable.allowed_request_origins = ['https://eecs.help']
+  Rails.application.config.action_cable.allowed_request_origins = [ENV['FULL_HOST']]
 end
