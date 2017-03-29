@@ -1,6 +1,6 @@
 OmniAuth.config.logger = Rails.logger
 
-OmniAuth.config.full_host = Rails.env.production? ? 'https://eecs.help' : 'http://dev.eecs.help:3000'
+OmniAuth.config.full_host = Rails.env.production? ? ENV['FULL_HOST'] : 'http://dev.eecs.help:3000'
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   if Rails.env.production?
