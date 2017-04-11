@@ -1,7 +1,7 @@
 # Change these
 server 'oh.eecs.umich.edu', port: 22, roles: [:web, :app, :db], primary: true
 
-set :repo_url,        'git@github.com:mterwill/classroom-help-queue.git'
+set :repo_url,        'git@github.com:mterwill/office-hours-help-queue.git'
 set :application,     'eecshelp'
 set :user,            'deploy'
 set :puma_threads,    [4, 16]
