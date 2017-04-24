@@ -31,6 +31,23 @@ class QueueChannel < ApplicationCable::Channel
     })
   end
 
+  def update_instructor_message(data)
+      authorize :instructor_only
+      @course_queue.update_instructor_message!(data['message'])
+
+      publish_data('update_instructor_message', data['message'])
+  end
+
+  def broadcast_instructor_message(data)
+      authorize :instructor_only
+
+      QueueChannel.broadcast_to(@course_queue, {
+        action: 'broadcast_instructor_message',
+        message: data['message'],
+        instructor: current_user,
+      })
+  end
+
   def pin(data)
     authorize :instructor_only
 
@@ -116,6 +133,13 @@ class QueueChannel < ApplicationCable::Channel
       action: action,
       request: serialize_request(request),
     })
+  end
+
+  def publish_data(action, message)
+      QueueChannel.broadcast_to(@course_queue, {
+          action: action,
+          message: message
+      })
   end
 
   def load_request(data)

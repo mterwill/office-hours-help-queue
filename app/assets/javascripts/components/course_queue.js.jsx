@@ -6,6 +6,7 @@ var CourseQueue = React.createClass({
       instructorMode: this.props.instructor,
       requests: [],
       instructors: [],
+      instructorMessage: '',
     };
   },
   enable: function () {
@@ -67,6 +68,17 @@ var CourseQueue = React.createClass({
       instructors: this.state.instructors.concat([instructor])
     });
   },
+  updateInstructorMessage: function (message) {
+    this.setState({
+      instructorMessage: message,
+    });
+  },
+  broadcastInstructorMessage: function (data) {
+    if (this.props.currentUserId !== data.instructor.id){
+      this.notify(data.instructor.name + ' said:\n' + data.message, true,
+                  {icon: data.instructor.avatar_url});
+    }
+  },
   removeInstructor: function (instructor) {
     var index = mapById(this.state.instructors, instructor.id);
     var arrCopy = copyArr(this.state.instructors);
@@ -84,6 +96,11 @@ var CourseQueue = React.createClass({
   fetchOnlineInstructors: function () {
     return $.ajax({
       url: '/course_queues/' + this.props.id + '/online_instructors.json'
+    });
+  },
+  fetchInstructorMessage: function () {
+    return $.ajax({
+      url: '/course_queues/' + this.props.id + '/instructor_message.json'
     });
   },
   notify: function (msg, force = false, options = {}) {
@@ -110,11 +127,12 @@ var CourseQueue = React.createClass({
       id: this.props.id
     }, {
       connected: function () {
-        $.when(this.fetchOutstandingRequests(), this.fetchOnlineInstructors())
-          .done(function (requests, instructors) {
+        $.when(this.fetchOutstandingRequests(), this.fetchOnlineInstructors(), this.fetchInstructorMessage())
+          .done(function (requests, instructors, message) {
             this.setState({
               instructors: instructors[0],
               requests: requests[0],
+              instructorMessage: message[0].instructor_message,
             }, this.enable);
           }.bind(this));
       }.bind(this),
@@ -132,6 +150,10 @@ var CourseQueue = React.createClass({
           this.removeInstructor(data.instructor);
         } else if (data.action === 'instructor_online') {
           this.pushInstructor(data.instructor);
+        } else if (data.action === 'update_instructor_message'){
+          this.updateInstructorMessage(data.message);
+        } else if (data.action === 'broadcast_instructor_message'){
+          this.broadcastInstructorMessage(data);
         } else if (data.action === 'bump'
                    && data.requester_id === this.props.currentUserId) {
            this.notify(data.bump_by.name + ' is looking for you!', true, {
@@ -302,6 +324,13 @@ var CourseQueue = React.createClass({
         <QueueClosedMessage
           enabled={this.state.enabled}
           instructors={this.state.instructors} />
+        <InstructorMessage
+          enabled={this.state.enabled}
+          instructors={this.state.instructors}
+          instructorMode={this.state.instructorMode}
+          instructorMessage={this.state.instructorMessage}
+          updateInstructorMessage={this.handler.broadcastMessage.bind(this.handler)}
+          broadcastInstructorMessage={this.handler.broadcastMessage.bind(this.handler)} />
         {this.renderLeftPanel(segmentClass, "six wide column")}
         <div className="ten wide column">
           <NotificationsPanel instructorMode={this.state.instructorMode} />

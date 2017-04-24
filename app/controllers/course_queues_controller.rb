@@ -22,6 +22,11 @@ class CourseQueuesController < ApplicationController
     @instructors = @course_queue.online_instructors
   end
 
+  # GET /course_queues/1/instructor_message.json
+  def instructor_message
+    @instructor_message = @course_queue.instructor_message
+  end
+
   private
   def set_course_queue
     @course_queue = CourseQueue.find(params[:id])

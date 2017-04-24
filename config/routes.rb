@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     member do
       get 'outstanding_requests'
       get 'online_instructors'
+      get 'instructor_message'
     end
   end
 
