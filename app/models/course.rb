@@ -1,11 +1,11 @@
 require 'csv'
 
 class Course < ApplicationRecord
-  has_many :course_queues
-  has_many :course_instructors
+  has_many :course_queues, dependent: :destroy
+  has_many :course_instructors, dependent: :destroy
+  has_many :course_groups, dependent: :destroy
   has_many :instructors, through: :course_instructors
   has_many :course_queue_entries, through: :course_queues
-  has_many :course_groups
 
   # Produce a deterministic but secret code used to self-enroll instructors
   def enrollment_code

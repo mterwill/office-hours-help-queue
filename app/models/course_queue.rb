@@ -1,7 +1,7 @@
 class CourseQueue < ApplicationRecord
   belongs_to :course
   has_many :course_queue_entries
-  has_many :course_queue_online_instructors
+  has_many :course_queue_online_instructors, dependent: :destroy
   has_many :online_instructors, through: :course_queue_online_instructors, class_name: 'User'
 
   def request(requester:, description:, location:, group:)
