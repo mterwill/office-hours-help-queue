@@ -5,29 +5,22 @@ var InstructorMessage = React.createClass({
       instructorMessage: this.props.instructorMessage,
     };
   },
-  buttonBaseClass: "ui fluid button ",
   update: function (event) {
     this.setState({
       instructorMessage: event.target.value,
     });
   },
+  // allows <a> elements with an href to be tab indexable and handle the onEnter
+  // event by default
+  NO_LINK: "#",
   componentWillReceiveProps: function (nextProps) {
     // don't overwrite what we're editing
     if ((this.props.instructorMessage || nextProps.instructorMessage)
          && !this.state.editMode) {
 
-      // empty the message if the queue closes
-      if (this.props.instructors.length > 0 &&
-          nextProps.instructors.length <= 0){
-
-        this.setState({ instructorMessage: '' }, function (){
-          this.updateMessage();
-        });
-      } else {
-        this.setState({
-          instructorMessage: nextProps.instructorMessage,
-        });
-      }
+      this.setState({
+        instructorMessage: nextProps.instructorMessage,
+      });
     }
   },
   updateMessage: function () {
@@ -54,54 +47,67 @@ var InstructorMessage = React.createClass({
   },
   renderBroadcastBtn: function () {
     return (
-      <button type="button" onClick={this.broadcastConfirm} className={this.buttonBaseClass} tabIndex="0">
-        <i className="send outline icon"></i>
-        {this.state.editMode ? "Save and Broadcast" : "Broadcast"}
-      </button>
+      <a onClick={this.broadcastConfirm} className="item" href={this.NO_LINK} role="button">
+        Broadcast
+      </a>
     );
   },
   renderEditOrSaveBtn: function () {
     if (this.state.editMode){
       return (
-        <button type="button" onClick={this.save} className={this.buttonBaseClass} tabIndex="0">
-          <i className="save icon"></i>
-            Save
-        </button>
+        <a onClick={this.save} className="item" href={this.NO_LINK} role="button">
+          Save
+        </a>
       );
     } else {
       return (
-        <button type="button" onClick={this.updateEditMode.bind(this, true)} className={this.buttonBaseClass} tabIndex="0">
-          <i className="edit icon"></i>
-            Edit
-        </button>
+        <a onClick={this.updateEditMode.bind(this, true)} className="item" href={this.NO_LINK} role="button">
+          Edit
+        </a>
       );
     }
   },
-  renderButtons: function () {
-    return (
-      <div className="ui stackable grid">
-        <div className="ui six wide column">
-          <div className="ui icon two buttons">
-            {this.renderEditOrSaveBtn()}
-            {this.renderBroadcastBtn()}
+  renderText: function () {
+    if (this.state.editMode){
+      return (
+        <div className="ui form">
+          <div className="field">
+            <textarea rows="1" onChange={this.update} value={this.state.instructorMessage} type="text"></textarea>
           </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className="ui fluid">
+          { this.state.instructorMessage ? this.state.instructorMessage : <i>No message yet</i> }
+        </div>
+      );
+    }
+  },
+  renderBoldSectionOfHeader: function() {
+    return (
+      <div className="item">
+        <div className="content">
+          <div className="header">Instructor's message</div>
         </div>
       </div>
     );
   },
+  renderHeader: function() {
+    return (
+      <div className="ui horizontal list">
+        {this.renderBoldSectionOfHeader()}
+        {this.renderEditOrSaveBtn()}
+        {this.renderBroadcastBtn()}
+      </div>
+    );
+  },
   renderInstructorMode: function () {
-    var isDisabled = true;
-    if (this.state.editMode){
-      isDisabled = false;
-    }
     return (
       <div className="sixteen wide column">
         <div className="ui message">
-          <div className="bottom padded header">Instructor's message</div>
-          <div className="ui bottom padded fluid input">
-            <input disabled={isDisabled} onChange={this.update} value={this.state.instructorMessage} type="text" maxLength="150" />
-          </div>
-          {this.renderButtons()}
+          {this.renderHeader()}
+          {this.renderText()}
         </div>
       </div>
     );
@@ -128,7 +134,7 @@ var InstructorMessage = React.createClass({
     var messageBar = null;
     if (this.props.instructorMode){
       messageBar = this.renderInstructorMode();
-    } else if (this.props.instructors.length > 0) {
+    } else {
       messageBar = this.renderStudentMode();
     }
     return messageBar;

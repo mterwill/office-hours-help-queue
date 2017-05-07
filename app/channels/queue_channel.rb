@@ -35,7 +35,11 @@ class QueueChannel < ApplicationCable::Channel
       authorize :instructor_only
       @course_queue.update_instructor_message!(data['message'])
 
-      publish_data('update_instructor_message', data['message'])
+      QueueChannel.broadcast_to(@course_queue, {
+          action: update_instructor_message,
+          message: data['message'],
+      })
+
   end
 
   def broadcast_instructor_message(data)
@@ -133,13 +137,6 @@ class QueueChannel < ApplicationCable::Channel
       action: action,
       request: serialize_request(request),
     })
-  end
-
-  def publish_data(action, message)
-      QueueChannel.broadcast_to(@course_queue, {
-          action: action,
-          message: message
-      })
   end
 
   def load_request(data)
