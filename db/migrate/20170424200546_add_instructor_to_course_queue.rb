@@ -1,5 +1,5 @@
 class AddInstructorToCourseQueue < ActiveRecord::Migration[5.0]
   def change
-    add_column :course_queues, :instructor_message, :string
+    add_column :course_queues, :instructor_message, :text
   end
 end

@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 20170424200546) do
     t.datetime "created_at",                                       null: false
     t.datetime "updated_at",                                       null: false
     t.boolean  "group_mode",                       default: false, null: false
-    t.string   "instructor_message"
+    t.text     "instructor_message", limit: 65535
     t.index ["course_id", "name"], name: "index_course_queues_on_course_id_and_name", unique: true, using: :btree
   end
 
