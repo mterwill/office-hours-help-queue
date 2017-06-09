@@ -55,3 +55,9 @@ CourseQueueClientActionHandler.prototype.cancelRequest = function (id) {
     id: id,
   });
 };
+
+CourseQueueClientActionHandler.prototype.broadcastMessage = function (action, message) {
+  this.subscription.perform(action, {
+    message: message
+  });
+};

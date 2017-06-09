@@ -31,6 +31,11 @@ class CourseQueue < ApplicationRecord
     course_queue_entries.where(resolved_at: nil).order('created_at ASC')
   end
 
+  def update_instructor_message!(message)
+      self.instructor_message = message
+      self.save!
+  end
+
   def pop!(user)
     if first_pinned = self.outstanding_requests.where(resolver: user).first
       first_pinned.resolve_by!(user)
