@@ -48,3 +48,7 @@
     border-left: 2px solid #FBBD08 !important;
     padding-left: 10px !important;
 }
+
+.ack-white-space {
+    white-space: pre-wrap;
+}

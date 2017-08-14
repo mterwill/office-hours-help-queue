@@ -78,7 +78,7 @@ var InstructorMessage = React.createClass({
       );
     } else {
       return (
-        <div className="ui fluid">
+        <div className="ui fluid ack-white-space">
           { this.state.instructorMessage ? this.state.instructorMessage : <i>No message yet</i> }
         </div>
       );
