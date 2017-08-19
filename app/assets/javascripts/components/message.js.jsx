@@ -3,7 +3,7 @@ var Message = React.createClass({
     return (
       <div className="ui message">
           <div className="header">{this.props.title}</div>
-          <p>{this.props.message}</p>
+          <p className="ack-white-space">{this.props.message}</p>
       </div>
     );
   }
