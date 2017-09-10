@@ -20,4 +20,14 @@ EOF
 
     assert courses(:eecs482).get_group_string.strip == group_string.strip
   end
+
+  test "demo queue gets created with course" do
+    my_course = Course.create!(
+      name: 'test',
+      long_name: 'My Test Course',
+      slug: 'testcourse'
+    )
+
+    assert my_course.course_queues.count > 0, "Course create should also create a queue"
+  end
 end

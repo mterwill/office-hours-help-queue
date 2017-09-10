@@ -7,6 +7,8 @@ class Course < ApplicationRecord
   has_many :instructors, through: :course_instructors
   has_many :course_queue_entries, through: :course_queues
 
+  after_create :create_default_queue
+
   # Produce a deterministic but secret code used to self-enroll instructors
   def enrollment_code
     OpenSSL::HMAC.hexdigest(
@@ -112,5 +114,13 @@ class Course < ApplicationRecord
 
   def to_param
     slug
+  end
+
+  protected
+  def create_default_queue
+    course_queues.create!(
+      name: 'Office Hours',
+      location: 'TBA'
+    )
   end
 end
