@@ -7,7 +7,7 @@ before_script:
   - mysql -e 'create database eecshelp_test;'
 env:
     global:
-      - EECSHELP_TEST_DATABASE_HOST=""
+      - EECSHELP_TEST_DATABASE_HOST="127.0.0.1"
       - EECSHELP_TEST_DATABASE=eecshelp_test
       - EECSHELP_TEST_DATABASE_USERNAME=travis
       - EECSHELP_TEST_DATABASE_PASSWORD=""
