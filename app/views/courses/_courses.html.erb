@@ -1,7 +1,7 @@
 <div class="ui massive fluid vertical menu">
     <% @courses.each do |course| %>
         <a href="<%= url_for course %>" class="item">
-            <strong><%= course.name %>:</strong> <%= course.long_name %>
+            <strong><%= course.name %><%= ':' if course.long_name.present? %></strong> <%= course.long_name %>
             <% if current_user.instructor_for_course?(course) %>
                 <div class="ui teal label">i</div>
             <% end %>
