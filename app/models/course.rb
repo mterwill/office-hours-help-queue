@@ -118,9 +118,11 @@ class Course < ApplicationRecord
 
   protected
   def create_default_queue
-    course_queues.create!(
-      name: 'Office Hours',
-      location: 'TBA'
-    )
+    if course_queues.empty?
+      course_queues.create!(
+        name: 'Office Hours',
+        location: 'TBA'
+      )
+    end
   end
 end
