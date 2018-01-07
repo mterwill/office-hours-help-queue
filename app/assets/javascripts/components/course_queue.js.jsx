@@ -75,7 +75,7 @@ var CourseQueue = React.createClass({
   },
   broadcastInstructorMessage: function (data) {
     if (this.props.currentUserId !== data.instructor.id){
-      this.notify(data.instructor.name + ' said:\n' + data.message, true,
+      this.notify(data.instructor.name + ' announced to the queue:\n' + data.message, true,
                   {icon: data.instructor.avatar_url});
     }
   },
