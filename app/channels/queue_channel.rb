@@ -36,7 +36,7 @@ class QueueChannel < ApplicationCable::Channel
       @course_queue.update_instructor_message!(data['message'])
 
       QueueChannel.broadcast_to(@course_queue, {
-          action: update_instructor_message,
+          action: 'update_instructor_message',
           message: data['message'],
       })
 
