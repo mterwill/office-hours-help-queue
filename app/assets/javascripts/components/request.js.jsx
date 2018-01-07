@@ -44,6 +44,15 @@ var Request = React.createClass({
       active = 'active ';
     }
 
+    let pinnedByUser;
+    if (this.props.request.resolver) {
+      pinnedByUser = (
+        <LabeledItem icon="bookmark">
+          Pinned by {this.props.request.resolver.name}
+        </LabeledItem>
+      );
+    }
+
     return (
       <div className={active + "comment"}>
         <Avatar url={this.props.request.requester.avatar_url} />
@@ -56,6 +65,7 @@ var Request = React.createClass({
             <LabeledItem icon="clock">{this.state.ts}</LabeledItem>
             <LabeledItem icon="marker">{this.props.request.location}</LabeledItem>
             <LabeledItem icon="write">{this.props.request.description}</LabeledItem>
+            {pinnedByUser}
           </div>
           {actions}
         </div>
