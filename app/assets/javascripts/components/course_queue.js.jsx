@@ -217,14 +217,14 @@ var CourseQueue = React.createClass({
       this.setState({ focused: true });
     }.bind(this));
   },
-  renderLeftPanel: function (segmentClass, columnClass) {
+  renderLeftPanel: function (columnClass) {
     var panel, instructorButton, studentButton, buttons;
-
+ 
     if (this.props.instructor && this.state.instructorMode) {
       instructorButton = 'active';
       panel = (
         <InstructorPanel
-          segmentClass={segmentClass}
+          segmentClass={this.getSegmentClass()}
           requests={this.state.requests}
           instructors={this.state.instructors}
           online={this.amIOnline()}
@@ -240,7 +240,7 @@ var CourseQueue = React.createClass({
       studentButton = 'active';
       panel = (
         <StudentPanel
-          segmentClass={segmentClass}
+          segmentClass={this.getSegmentClass()}
           requestHelp={this.handler.newRequest.bind(this.handler)}
           cancelRequest={this.handler.cancelRequest.bind(this.handler)}
           updateRequest={this.handler.updateRequest.bind(this.handler)}
@@ -267,49 +267,67 @@ var CourseQueue = React.createClass({
       </div>
     );
   },
-  filterRequests: function (pinned) {
-    if (!this.props.instructor) {
-      // students should see all requests regardless
-      return this.state.requests;
-    }
-
+  getRequestsPinnedByMe: function () {
     return this.state.requests.filter(function (request) {
-      if (pinned) {
-        // only show people we pinned
         return request.resolver_id === this.props.currentUserId;
-      } else {
-        return request.resolver_id === null;
-      }
     }.bind(this));
   },
-  render: function () {
-    var segmentClass = this.state.enabled ?
+  getRequestsPinnedByOthers: function () {
+    return this.state.requests.filter(function (request) {
+      return request.resolver_id !== null
+        && request.resolver_id !== this.props.currentUserId;
+    }.bind(this));
+  },
+  getUnpinnedRequests: function () {
+    return this.state.requests.filter(function (request) {
+        return request.resolver_id === null;
+    }.bind(this));
+  },
+  getSegmentClass: function () {
+    return this.state.enabled ?
       'ui min segment' : 'ui disabled loading min segment';
-
-    if (this.props.instructor) {
-      var pinnedBox = (
-          <RequestBox
-            title="Pinned Requests"
-            hideEmpty={true}
-            segmentClass={segmentClass}
-            requests={this.filterRequests(true)}
-            currentUserId={this.props.currentUserId}
-            currentGroupId={this.props.groupMode ? this.props.courseGroupId : null}
-            resolve={this.props.instructor ? this.handler.resolveRequest.bind(this.handler) : null}
-            bump={this.props.instructor ? this.handler.bump.bind(this.handler) : null}
-            pin={this.props.instructor ? this.handler.pin.bind(this.handler) : null}
-          />
-      );
-    }
-
+  },
+  renderRequestBox: function (title, requests, hideEmpty) {
     var myRequest = this.getMyFirstRequest();
-
     if (myRequest) {
-      var unpinnedRequests = this.filterRequests(false);
-      if (unpinnedRequests.indexOf(myRequest.request) >= 0) {
-        var myRequestIdx = unpinnedRequests.indexOf(myRequest.request);
+      if (requests.indexOf(myRequest.request) >= 0) {
+        var myRequestIdx = requests.indexOf(myRequest.request);
       }
     }
+
+    return (
+      <RequestBox
+        title={title}
+        hideEmpty={hideEmpty}
+        segmentClass={this.getSegmentClass()}
+        requests={requests}
+        currentUserId={this.props.currentUserId}
+        currentGroupId={this.props.groupMode ? this.props.courseGroupId : null}
+        myRequestIdx={myRequestIdx}
+        resolve={this.props.instructor ? this.handler.resolveRequest.bind(this.handler) : null}
+        bump={this.props.instructor ? this.handler.bump.bind(this.handler) : null}
+        pin={this.props.instructor ? this.handler.pin.bind(this.handler) : null}
+      />
+    );
+  },
+  render: function () {
+    var pinnedByMeRequestBox = this.renderRequestBox(
+      "Pinned By Me",
+      this.getRequestsPinnedByMe(),
+      true // hideEmpty
+    );
+
+    var pinnedByOthersRequestBox = this.renderRequestBox(
+      this.props.instructor ? "Pinned By Others" : "Pinned By Instructors",
+      this.getRequestsPinnedByOthers(),
+      true // hideEmpty
+    );
+
+    var unpinnedRequestBox = this.renderRequestBox(
+      "Requests",
+      this.getUnpinnedRequests(),
+      false // hideEmpty
+    );
 
     return (
       <div className="ui stackable grid">
@@ -331,20 +349,12 @@ var CourseQueue = React.createClass({
           instructorMessage={this.state.instructorMessage}
           updateInstructorMessage={this.handler.broadcastMessage.bind(this.handler)}
           broadcastInstructorMessage={this.handler.broadcastMessage.bind(this.handler)} />
-        {this.renderLeftPanel(segmentClass, "six wide column")}
+        {this.renderLeftPanel("six wide column")}
         <div className="ten wide column">
           <NotificationsPanel instructorMode={this.state.instructorMode} />
-          {pinnedBox}
-          <RequestBox
-            segmentClass={segmentClass}
-            requests={this.filterRequests(false)}
-            myRequestIdx={myRequestIdx}
-            currentUserId={this.props.currentUserId}
-            currentGroupId={this.props.groupMode ? this.props.courseGroupId : null}
-            resolve={this.props.instructor ? this.handler.resolveRequest.bind(this.handler) : null}
-            bump={this.props.instructor ? this.handler.bump.bind(this.handler) : null}
-            pin={this.props.instructor ? this.handler.pin.bind(this.handler) : null}
-          />
+          {pinnedByMeRequestBox}
+          {unpinnedRequestBox}
+          {pinnedByOthersRequestBox}
         </div>
       </div>
     );
