@@ -41,6 +41,8 @@ class CourseQueue < ApplicationRecord
       first_pinned.resolve_by!(user)
     elsif first_non_pinned = self.outstanding_requests.where(resolver: nil).first
       first_non_pinned.resolve_by!(user)
+    elsif first_pinned_by_others = self.outstanding_requests.where.not(resolver: user).first
+      first_pinned_by_others.resolve_by!(user)
     end
   end
 
