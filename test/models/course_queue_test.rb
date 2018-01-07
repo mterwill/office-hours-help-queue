@@ -91,8 +91,8 @@ class CourseQueueTest < ActiveSupport::TestCase
 
     assert request == course_queue_entries(:unresolved_entry)
 
-    # pinned by matt shouldn't be resolvable by jim
-    assert_nil @queue.pop!(users(:jim))
+    # if the queue is empty we will allow entries pinned by others to be popped
+    assert @queue.pop!(users(:jim)) == pinned_by_matt
   end
 
   test "request validates duplicates in group mode" do
