@@ -18,7 +18,7 @@
     <%= form_for [:admin, @course_instructor], html: {class: 'ui form'} do |f| %>
         <div class="field">
             <label>Email</label>
-            <input type="email" name="instructor_email" placeholder="instructor@umich.edu">
+            <input type="email" name="instructor_email" placeholder="instructor@umich.edu" autofocus>
         </div>
 
         <%= f.hidden_field :course_id %>
