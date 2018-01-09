@@ -9,6 +9,12 @@
         Add Instructor for <%= @course_instructor.course.name %>
     </h1>
 
+    <% @course_instructor.errors.full_messages.each do |e| %>
+        <div class="ui error message">
+            <%= e %>
+        </div>
+    <% end %>
+
     <%= form_for [:admin, @course_instructor], html: {class: 'ui form'} do |f| %>
         <div class="field">
             <label>Email</label>
