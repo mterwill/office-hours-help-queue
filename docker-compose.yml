@@ -1,7 +1,7 @@
 version: '2'
 services:
   db:
-    image: mysql
+    image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: eecshelp
       MYSQL_DATABASE: eecshelp
