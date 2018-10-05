@@ -15,13 +15,22 @@
             <p>Import a list of groups for this course <a href="<%=
             groups_admin_course_url(@course_queue.course) %>">here</a>.</p>
         </div>
-        <div class="ui toggle checkbox">
-            <%= f.check_box :group_mode %>
-            <label>Enable course groups for this queue
-                <a href="https://github.com/mterwill/office-hours-help-queue/wiki/Group-mode">
-                    <i class="ui help circle grey icon"></i>
-                </a>
-            </label>
+        <div class="field">
+            <div class="ui toggle checkbox">
+                <%= f.check_box :group_mode %>
+                <label>Enable course groups for this queue
+                    <a href="https://github.com/mterwill/office-hours-help-queue/wiki/Group-mode">
+                        <i class="ui help circle grey icon"></i>
+                    </a>
+                </label>
+            </div>
+        </div>
+        <div class="field">
+            <div class="ui toggle checkbox">
+                <%= f.check_box :exclusive %>
+                <label>Only allow students in groups to enqueue
+                </label>
+            </div>
         </div>
     </div>
 

@@ -245,7 +245,7 @@ var CourseQueue = React.createClass({
           cancelRequest={this.handler.cancelRequest.bind(this.handler)}
           updateRequest={this.handler.updateRequest.bind(this.handler)}
           myRequest={this.getMyFirstRequest()}
-          queueClosed={this.state.instructors.length <= 0}
+          queueClosed={!this.instructorsAvailable() || !this.userAuthorizedToEnqueue()}
           groupMode={this.props.groupMode}
         />
       );
@@ -286,6 +286,16 @@ var CourseQueue = React.createClass({
   getSegmentClass: function () {
     return this.state.enabled ?
       'ui min segment' : 'ui disabled loading min segment';
+  },
+  instructorsAvailable: function () {
+    return this.state.instructors.length > 0;
+  },
+  userAuthorizedToEnqueue: function () {
+    if (this.props.exclusiveMode) {
+      return this.props.courseGroupId != null || this.props.instructor;
+    } else {
+      return true;
+    }
   },
   renderRequestBox: function (title, requests, hideEmpty) {
     var myRequest = this.getMyFirstRequest();
@@ -341,7 +351,8 @@ var CourseQueue = React.createClass({
         </div>
         <QueueClosedMessage
           enabled={this.state.enabled}
-          instructors={this.state.instructors} />
+          userAuthorizedToEnqueue={this.userAuthorizedToEnqueue()}
+          instructorsAvailable={this.instructorsAvailable()} />
         <InstructorMessage
           enabled={this.state.enabled}
           instructors={this.state.instructors}
