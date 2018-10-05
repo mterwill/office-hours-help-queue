@@ -14,6 +14,7 @@
           currentUserId={<%= current_user.id %>}
           courseGroupId={<%= @course_group_id %>}
           groupMode={<%= @course_queue.group_mode.to_s %>}
+          exclusiveMode={<%= @course_queue.exclusive.to_s %>}
           instructor={<%= @is_instructor %>}
           id={<%= @course_queue.id %>}
       />,

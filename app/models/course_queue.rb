@@ -11,6 +11,10 @@ class CourseQueue < ApplicationRecord
         raise "Limit one open request per user"
       end
 
+      if exclusive && group == nil && !requester.instructor_for_course_queue?(self)
+        raise "Only enrolled students may use this queue."
+      end
+
       # Now the group's
       count = outstanding_requests.where(course_group: group).count
       if group_mode && group && count > 0

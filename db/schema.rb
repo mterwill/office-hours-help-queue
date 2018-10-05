@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170424200546) do
+ActiveRecord::Schema.define(version: 20181005025605) do
 
   create_table "course_group_students", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "course_group_id", null: false
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 20170424200546) do
     t.datetime "updated_at",                                       null: false
     t.boolean  "group_mode",                       default: false, null: false
     t.text     "instructor_message", limit: 65535
+    t.boolean  "exclusive",                        default: false, null: false
     t.index ["course_id", "name"], name: "index_course_queues_on_course_id_and_name", unique: true, using: :btree
   end
 
