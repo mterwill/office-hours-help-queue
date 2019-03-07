@@ -22,7 +22,7 @@ gem 'redis', '~> 3.3.1'
 # Use MySQL for database
 gem 'mysql2', '~> 0.4.4'
 # Use Google OAuth2 for authentication
-gem 'omniauth-google-oauth2', '~> 0.4.1'
+gem 'omniauth-google-oauth2', '~> 0.6.0'
 # For frontend
 gem 'react-rails', '~> 1.8.2'
 
