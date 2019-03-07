@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0'
 # Use Puma as the app server
@@ -11,26 +10,21 @@ gem 'sass-rails', '~> 5.0.6'
 gem 'uglifier', '~> 3.0.2'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
-# See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
-
 # Use jquery as the JavaScript library
 gem 'jquery-rails', '~> 4.2.1'
-
+# See https://github.com/rails/execjs#readme for more supported runtimes
 gem 'therubyracer', '~> 0.12.2'
-
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.6.0'
 # Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 3.0'
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
+gem 'redis', '~> 3.3.1'
+# Use MySQL for database
 gem 'mysql2', '~> 0.4.4'
+# Use Google OAuth2 for authentication
+gem 'omniauth-google-oauth2', '~> 0.4.1'
+# For frontend
+gem 'react-rails', '~> 1.8.2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -44,20 +38,10 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring', '~> 1.7.2'
   gem 'spring-watcher-listen', '~> 2.0.0'
-end
-
-# For authentication
-gem 'omniauth-google-oauth2', '~> 0.4.1'
-
-# For action cable
-gem 'redis', '~> 3.3.1'
-
-group :development do
+  # For deployment
   gem 'capistrano',         '~> 3.6.1', require: false
   gem 'capistrano-rvm',     '~> 0.1.2', require: false
   gem 'capistrano-rails',   '~> 1.2.0', require: false
   gem 'capistrano-bundler', '~> 1.2.0', require: false
   gem 'capistrano3-puma',   '~> 1.2.1', require: false
 end
-
-gem 'react-rails', '~> 1.8.2'
