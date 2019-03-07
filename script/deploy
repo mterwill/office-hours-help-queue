@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+docker-compose run -v "$HOME/.ssh/id_rsa:/root/.ssh/id_rsa" web bundle exec rake production:deploy
