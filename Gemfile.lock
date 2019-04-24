@@ -134,7 +134,7 @@ GEM
     omniauth-oauth2 (1.6.0)
       oauth2 (~> 1.1)
       omniauth (~> 1.9)
-    puma (3.6.2)
+    puma (3.12.1)
     rack (2.0.6)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -234,7 +234,7 @@ DEPENDENCIES
   listen (~> 3.0.5)
   mysql2 (~> 0.4.4)
   omniauth-google-oauth2 (~> 0.6.0)
-  puma (~> 3.6.0)
+  puma (~> 3.12.1)
   rails (~> 5.0.0)
   react-rails (~> 1.8.2)
   redis (~> 3.3.1)
@@ -246,4 +246,4 @@ DEPENDENCIES
   web-console (~> 3.3.1)
 
 BUNDLED WITH
-   1.13.6
+   1.17.3
