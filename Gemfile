@@ -25,6 +25,8 @@ gem 'mysql2', '~> 0.4.4'
 gem 'omniauth-google-oauth2', '~> 0.6.0'
 # For frontend
 gem 'react-rails', '~> 1.8.2'
+# For error tracking
+gem 'bugsnag', '~> 6.11'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
