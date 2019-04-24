@@ -6,9 +6,9 @@ class CourseQueue < ApplicationRecord
 
   def request(requester:, description:, location:, group:)
     self.with_lock do
-      # Check the user's request limit
-      if outstanding_requests.where(requester: requester).count > 0
-        raise "Limit one open request per user"
+      # Check the user's request limit for the course
+      if self.course.course_queue_entries.where(resolved_at: nil, requester: requester).count > 0
+          raise "Limit one open request per user"
       end
 
       if exclusive && group == nil && !requester.instructor_for_course_queue?(self)
