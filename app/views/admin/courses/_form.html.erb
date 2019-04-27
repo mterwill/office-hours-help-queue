@@ -14,5 +14,10 @@
         <%= f.text_field :slug %>
     </div>
 
+    <div class="field">
+        <%= f.label "Sort by number of previous resolved requests" %>
+        <%= f.check_box :sort_by %>
+    </div>
+
     <%= f.submit 'Submit', class: 'ui button' %>
 <% end %>

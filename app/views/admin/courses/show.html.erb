@@ -29,4 +29,7 @@
     <h2>Course Instructors</h2>
     <%= render 'self_enroll', code: @course.enrollment_code %>
     <%= render 'instructors', instructors: @instructors %>
+
+    <h2>Sort by</h2>
+    <%= render 'sort', course: @course %>
 </div>

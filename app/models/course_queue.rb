@@ -35,7 +35,20 @@ class CourseQueue < ApplicationRecord
   end
 
   def outstanding_requests
-    course_queue_entries.where(resolved_at: nil).order('created_at ASC')
+    if course.sort_by
+      course_queue_entries.where(resolved_at: nil)
+      .order(<<-SQL
+              (
+                SELECT COUNT(requester_id)
+                FROM `course_queue_entries`
+                WHERE resolved_at IS NOT NULL
+                GROUP BY requester_id
+              ) ASC
+             SQL
+            )
+    else
+      course_queue_entries.where(resolved_at: nil).order('created_at ASC')
+    end
   end
 
   def update_instructor_message!(message)
