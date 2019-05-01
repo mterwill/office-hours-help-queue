@@ -3,6 +3,7 @@ require 'test_helper'
 class CourseQueueTest < ActiveSupport::TestCase
   setup do
     @queue       = course_queues(:eecs398_queue)
+    @queue_sort  = course_queues(:eecs281_sort_by_resolves_queue)
     @group_queue = course_queues(:eecs482_group_queue)
     @requester   = users(:matt)
   end
@@ -47,6 +48,100 @@ class CourseQueueTest < ActiveSupport::TestCase
     )
 
     assert @queue.outstanding_requests[-1] == last_entry
+  end
+
+  test "request are sorted by number of previously resolved requests" do
+
+    assert @queue_sort.course_queue_entries.blank?
+    assert @queue_sort.course.sort_by
+
+    entry_sue_1 = @queue_sort.request(
+      requester: users(:sue),
+      description: 'sue 1',
+      location: '',
+      group: nil
+    )
+
+    entry_sue_1.resolve_by!(users(:matt))
+
+    assert @queue_sort.outstanding_requests.where(resolved_at: nil).blank?
+
+    entry_sue_2 = @queue_sort.request(
+      requester: users(:sue),
+      description: 'sue 2',
+      location: '',
+      group: nil
+    )
+
+    entry_sue_2.resolve_by!(users(:matt))
+
+    assert @queue_sort.outstanding_requests.where(resolved_at: nil).blank?
+
+    entry_sue_3 = @queue_sort.request(
+      requester: users(:sue),
+      description: 'sue 3',
+      location: '',
+      group: nil
+    )
+
+    entry_sue_3.resolve_by!(users(:matt))
+
+    assert @queue_sort.outstanding_requests.where(resolved_at: nil).blank?
+
+    entry_sue_4 = @queue_sort.request(
+      requester: users(:sue),
+      description: 'sue 4',
+      location: '',
+      group: nil
+    )
+
+    entry_jim_1 = @queue_sort.request(
+      requester: users(:jim),
+      description: 'jim 1',
+      location: '',
+      group: nil
+    )
+
+    entry_jim_1.resolve_by!(users(:matt))
+
+    entry_steve_1 = @queue_sort.request(
+      requester: users(:steve),
+      description: 'steve 1',
+      location: '',
+      group: nil
+    )
+
+    assert @queue_sort.outstanding_requests[0] == entry_steve_1
+
+    entry_steve_1.resolve_by!(users(:matt))
+
+    entry_steve_2 = @queue_sort.request(
+      requester: users(:steve),
+      description: 'steve 2',
+      location: '',
+      group: nil
+    )
+
+    entry_jim_2 = @queue_sort.request(
+      requester: users(:jim),
+      description: 'jim 2',
+      location: '',
+      group: nil
+    )
+
+    entry_jim_2.resolve_by!(users(:matt))
+
+    entry_jim_3 = @queue_sort.request(
+      requester: users(:jim),
+      description: 'jim 3',
+      location: '',
+      group: nil
+    )
+
+    assert @queue_sort.outstanding_requests[0] == entry_steve_2
+    assert @queue_sort.outstanding_requests[1] == entry_jim_3
+    assert @queue_sort.outstanding_requests[2] == entry_sue_4
+
   end
 
   test "request validates duplicates" do

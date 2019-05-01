@@ -1,5 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+eecs281:
+  name: EECS 281
+  long_name: Data Structures & Algorithms
+  slug: eecs281
+  sort_by: true
+
 eecs398:
   name: EECS 398
   long_name: Computing for Computer Scientists

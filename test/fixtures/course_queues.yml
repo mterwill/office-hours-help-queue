@@ -8,6 +8,14 @@ eecs398_queue:
   course: eecs398
   group_mode: false
 
+eecs281_sort_by_resolves_queue:
+  name: TA Office Hours
+  location: 1695 BBB
+  description: ''
+  is_open: true
+  course: eecs281
+  group_mode: false
+
 eecs482_group_queue:
   name: Project Help
   location: 1670 BBB

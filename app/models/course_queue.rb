@@ -36,16 +36,16 @@ class CourseQueue < ApplicationRecord
 
   def outstanding_requests
     if course.sort_by
-      course_queue_entries.where(resolved_at: nil)
-      .order(<<-SQL
-              (
-                SELECT COUNT(requester_id)
-                FROM `course_queue_entries`
-                WHERE resolved_at IS NOT NULL
-                GROUP BY requester_id
-              ) ASC
-             SQL
-            )
+      course_queue_entries
+      .joins(<<-SQL
+          LEFT JOIN (SELECT C.requester_id as pivot_r_id, COUNT(C.requester_id) AS cnt
+          FROM course_queue_entries C
+          WHERE C.course_queue_id = #{id} AND C.course_group_id IS NULL
+          GROUP BY pivot_r_id) T on requester_id = T.pivot_r_id
+        SQL
+      )
+      .where(resolved_at: nil)
+      .order("T.cnt ASC")
     else
       course_queue_entries.where(resolved_at: nil).order('created_at ASC')
     end
