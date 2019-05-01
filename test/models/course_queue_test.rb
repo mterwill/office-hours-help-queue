@@ -142,6 +142,21 @@ class CourseQueueTest < ActiveSupport::TestCase
     assert @queue_sort.outstanding_requests[1] == entry_jim_3
     assert @queue_sort.outstanding_requests[2] == entry_sue_4
 
+    # On tie, sort by timestamp
+
+    entry_jim_3.resolve_by!(users(:matt))
+
+    entry_jim_4 = @queue_sort.request(
+      requester: users(:jim),
+      description: 'jim 4',
+      location: '',
+      group: nil
+    )
+
+    assert @queue_sort.outstanding_requests[0] == entry_steve_2
+    assert @queue_sort.outstanding_requests[1] == entry_sue_4
+    assert @queue_sort.outstanding_requests[2] == entry_jim_4
+
   end
 
   test "request validates duplicates" do

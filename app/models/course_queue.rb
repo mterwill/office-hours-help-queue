@@ -40,12 +40,12 @@ class CourseQueue < ApplicationRecord
       .joins(<<-SQL
           LEFT JOIN (SELECT C.requester_id as pivot_r_id, COUNT(C.requester_id) AS cnt
           FROM course_queue_entries C
-          WHERE C.course_queue_id = #{id} AND C.course_group_id IS NULL
+          WHERE C.course_queue_id = #{id} AND C.course_group_id IS NULL AND C.resolver_id IS NOT NULL
           GROUP BY pivot_r_id) T on requester_id = T.pivot_r_id
         SQL
       )
       .where(resolved_at: nil)
-      .order("T.cnt ASC")
+      .order("T.cnt, created_at ASC")
     else
       course_queue_entries.where(resolved_at: nil).order('created_at ASC')
     end
