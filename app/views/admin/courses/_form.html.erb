@@ -15,8 +15,11 @@
     </div>
 
     <div class="field">
-        <%= f.label "Sort by number of previous resolved requests" %>
-        <%= f.check_box :sort_by %>
+        <div class="ui toggle checkbox">
+            <%= f.check_box :sort_by %>
+            <label>Sort by number of previously resolved requests over all time
+            </label>
+        </div>
     </div>
 
     <%= f.submit 'Submit', class: 'ui button' %>
