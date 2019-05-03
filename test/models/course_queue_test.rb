@@ -53,7 +53,7 @@ class CourseQueueTest < ActiveSupport::TestCase
   test "request are sorted by number of previously resolved requests" do
 
     assert @queue_sort.course_queue_entries.blank?
-    assert @queue_sort.course.sort_by
+    assert @queue_sort.course.resolved_requests_this_session?
 
     entry_sue_1 = @queue_sort.request(
       requester: users(:sue),

@@ -4,7 +4,7 @@ eecs281:
   name: EECS 281
   long_name: Data Structures & Algorithms
   slug: eecs281
-  sort_by: true
+  sort_by: 1
 
 eecs398:
   name: EECS 398
