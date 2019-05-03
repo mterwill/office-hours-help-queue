@@ -157,6 +157,45 @@ class CourseQueueTest < ActiveSupport::TestCase
     assert @queue_sort.outstanding_requests[1] == entry_sue_4
     assert @queue_sort.outstanding_requests[2] == entry_jim_4
 
+    # close queue and reopen, should "reset"
+    # need to sleep to make timestamps different
+    sleep(3)
+
+    @queue_sort.online_instructors.map { |i| i.sign_out!(@course_queue) }
+    @queue_sort.outstanding_requests.each do |request|
+      request.destroy!
+    end
+
+    assert @queue_sort.outstanding_requests.blank?
+
+    users(:matt).sign_in!(@queue_sort)
+
+    entry_steve_2_1 = @queue_sort.request(
+      requester: users(:steve),
+      description: 'steve 2_1',
+      location: '',
+      group: nil
+    )
+
+    entry_steve_2_1.resolve_by!(users(:matt))
+
+    entry_steve_2_2 = @queue_sort.request(
+      requester: users(:steve),
+      description: 'steve 2_2',
+      location: '',
+      group: nil
+    )
+
+    entry_sue_2_1 = @queue_sort.request(
+      requester: users(:sue),
+      description: 'sue 2_1',
+      location: '',
+      group: nil
+    )
+
+    assert @queue_sort.outstanding_requests[0] == entry_sue_2_1
+    assert @queue_sort.outstanding_requests[1] == entry_steve_2_2
+
   end
 
   test "request validates duplicates" do

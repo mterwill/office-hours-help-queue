@@ -36,16 +36,25 @@ class CourseQueue < ApplicationRecord
 
   def outstanding_requests
     if course.sort_by
-      course_queue_entries
-      .joins(<<-SQL
-          LEFT JOIN (SELECT C.requester_id as pivot_r_id, COUNT(C.requester_id) AS cnt
-          FROM course_queue_entries C
-          WHERE C.course_queue_id = #{id} AND C.course_group_id IS NULL AND C.resolver_id IS NOT NULL
-          GROUP BY pivot_r_id) T on requester_id = T.pivot_r_id
-        SQL
-      )
-      .where(resolved_at: nil)
-      .order("T.cnt, created_at ASC")
+      if !course_queue_online_instructors.nil?
+        # Find when queue openned
+
+        start = course_queue_online_instructors.select(:created_at).minimum(:created_at) || 0
+        # Order
+        course_queue_entries
+        .joins(<<-SQL
+            LEFT JOIN (SELECT C.requester_id as pivot_r_id, COUNT(C.requester_id) AS cnt
+            FROM course_queue_entries C
+            WHERE C.course_queue_id = #{id}
+                  AND C.course_group_id IS NULL
+                  AND C.resolver_id IS NOT NULL
+                  AND created_at >= "#{start}"
+            GROUP BY pivot_r_id) T on requester_id = T.pivot_r_id
+          SQL
+        )
+        .where(resolved_at: nil)
+        .order("T.cnt, created_at ASC")
+      end
     else
       course_queue_entries.where(resolved_at: nil).order('created_at ASC')
     end
