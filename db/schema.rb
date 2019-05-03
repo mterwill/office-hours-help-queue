@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(version: 20190426133610) do
     t.string   "long_name",                  null: false
     t.string   "slug",                       null: false
     t.boolean  "archived",   default: false, null: false
-    t.integer  "sort_by",    default: 0,     null: false
+    t.integer  "sorting",    default: 0,     null: false
     t.index ["name"], name: "index_courses_on_name", unique: true, using: :btree
     t.index ["slug"], name: "index_courses_on_slug", unique: true, using: :btree
   end

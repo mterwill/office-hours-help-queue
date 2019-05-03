@@ -6,7 +6,7 @@ class Course < ApplicationRecord
   has_many :course_groups, dependent: :destroy
   has_many :instructors, through: :course_instructors
   has_many :course_queue_entries, through: :course_queues
-  enum sort_by: [:created_at, :resolved_requests_this_session]
+  enum sorting: [:timestamp, :number_of_resolved_requests_this_session]
 
   after_create :create_default_queue
 

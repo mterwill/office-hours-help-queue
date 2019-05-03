@@ -3,7 +3,7 @@ require 'test_helper'
 class CourseQueueTest < ActiveSupport::TestCase
   setup do
     @queue       = course_queues(:eecs398_queue)
-    @queue_sort  = course_queues(:eecs281_sort_by_resolves_queue)
+    @queue_sort  = course_queues(:eecs281_sorting_resolves_queue)
     @group_queue = course_queues(:eecs482_group_queue)
     @requester   = users(:matt)
   end
@@ -53,7 +53,7 @@ class CourseQueueTest < ActiveSupport::TestCase
   test "request are sorted by number of previously resolved requests" do
 
     assert @queue_sort.course_queue_entries.blank?
-    assert @queue_sort.course.resolved_requests_this_session?
+    assert @queue_sort.course.number_of_resolved_requests_this_session?
 
     entry_sue_1 = @queue_sort.request(
       requester: users(:sue),

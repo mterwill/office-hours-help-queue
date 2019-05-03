@@ -85,7 +85,7 @@ class Admin::CoursesController < Admin::AdminController
 
   private
   def course_params
-    params.require(:course).permit(:name, :long_name, :slug, :sort_by)
+    params.require(:course).permit(:name, :long_name, :slug, :sorting)
   end
 
   def set_course

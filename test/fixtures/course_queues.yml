@@ -8,7 +8,7 @@ eecs398_queue:
   course: eecs398
   group_mode: false
 
-eecs281_sort_by_resolves_queue:
+eecs281_sorting_resolves_queue:
   name: TA Office Hours
   location: 1695 BBB
   description: ''
