@@ -155,6 +155,7 @@ class QueueChannel < ApplicationCable::Channel
     QueueChannel.broadcast_to(@course_queue, {
       action: action,
       request: serialize_request(request),
+      queue: serialize_queue_ids(@course_queue.outstanding_requests),
     })
   end
 

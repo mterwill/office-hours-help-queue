@@ -32,9 +32,11 @@ var CourseQueue = React.createClass({
   disable: function () {
     this.setState({ enabled: false });
   },
-  pushRequest: function (request) {
+  pushRequest: function (request, queue) {
     this.setState({
-      requests: this.state.requests.concat([request])
+      requests: this.state.requests.concat([request]).sort(function(a, b){
+        return queue.indexOf(a.id) - queue.indexOf(b.id);
+      })
     }, function () {
       var wasEmpty         = this.state.requests.length === 1;
       var isInactiveWindow = this.state.focused === false;
@@ -150,7 +152,7 @@ var CourseQueue = React.createClass({
       }.bind(this),
       received: function (data) {
         if (data.action === 'new_request') {
-          this.pushRequest(data.request);
+          this.pushRequest(data.request, data.queue);
         } else if (data.action === 'update_request') {
           this.updateRequest(data.request);
         } else if (data.action === 'resolve_request') {
