@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181005025605) do
+ActiveRecord::Schema.define(version: 20191024175216) do
 
   create_table "course_group_students", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "course_group_id", null: false
@@ -82,14 +82,14 @@ ActiveRecord::Schema.define(version: 20181005025605) do
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "name"
-    t.string   "email",            null: false
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.string   "email",                         null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.string   "uid"
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
     t.string   "provider"
-    t.string   "avatar_url"
+    t.string   "avatar_url",       limit: 1000
     t.boolean  "global_admin"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
