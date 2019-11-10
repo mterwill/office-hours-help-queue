@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   PROTECTED_FIELDS = %w(oauth_token oauth_expires_at uid provider)
 
+  validates_length_of :nickname, maximum: 25, allow_blank: true
+
   def self.from_omniauth(auth)
     # TODO: we want to unique key on email here, but the provider/uid combo that
     # was here is more conducive to actual omniauth
