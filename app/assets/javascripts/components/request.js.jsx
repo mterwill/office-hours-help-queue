@@ -23,6 +23,13 @@ var Request = React.createClass({
       ts: moment(this.props.request.created_at).fromNow(),
     });
   },
+  getRequesterNameString: function () {
+    if (this.props.request.requester.nickname) {
+      return `${this.props.request.requester.name} (${this.props.request.requester.nickname})`;
+    } else {
+      return this.props.request.requester.name;
+    }
+  },
   render: function () {
     var actions;
     if (this.props.resolve) {
@@ -57,7 +64,7 @@ var Request = React.createClass({
       <div className={active + "comment"}>
         <Avatar url={this.props.request.requester.avatar_url} />
         <div className="content">
-          <span className="author">{this.props.request.requester.name}</span>
+          <span className="author">{this.getRequesterNameString()}</span>
           <a ref={this.ref} href="" onClick={function (e) { e.preventDefault(); }}
              data-clipboard-text={this.props.request.requester.email}
              className="metadata">{this.props.request.requester.email}</a>
