@@ -13,6 +13,10 @@
         <p><strong>New course?</strong> Email <a href="mailto:newcourse@eecs.help">newcourse@eecs.help</a>.</p>
     </div>
 
+    <a class="ui large fluid button bottom padded" href="<%= url_for settings_path %>">
+        Settings
+    </a>
+
     <% if current_user.global_admin? %>
         <a class="ui large fluid primary button" href="<%= url_for admin_courses_path %>">
             Admin Panel

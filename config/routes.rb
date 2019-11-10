@@ -10,6 +10,9 @@ Rails.application.routes.draw do
 
   resources :courses, only: [:index, :show]
 
+  get 'settings', to: 'settings#edit'
+  post 'settings', to: 'settings#save'
+
   namespace :admin do
     resources :course_queues, except: [:new, :show]
     resources :course_instructors, except: [:new, :show]

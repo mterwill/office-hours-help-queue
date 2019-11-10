@@ -1,0 +1,20 @@
+<div class="six wide column">
+    <h1 class="ui header">
+        Edit settings
+    </h1>
+
+    <% current_user.errors.full_messages.each do |e| %>
+        <div class="ui error message">
+            <%= e %>
+        </div>
+    <% end %>
+
+    <%= form_tag({}, class: 'ui form') do |f| %>
+        <div class="field">
+            <%= label_tag :nickname %>
+            <%= text_field_tag 'user[nickname]', current_user.nickname %>
+        </div>
+
+        <%= submit_tag 'Submit', class: 'ui button' %>
+    <% end %>
+</div>
