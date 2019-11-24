@@ -9,14 +9,21 @@ class QueueChannel < ApplicationCable::Channel
   def new_request(data)
     authorize :open_queue
 
-    new_request = @course_queue.request(
-      requester: current_user,
-      group: current_user.course_group_for_course(@course_queue.course),
-      location: data['location'],
-      description: data['description']
-    )
+    begin
+      new_request = @course_queue.request(
+        requester: current_user,
+        group: current_user.course_group_for_course(@course_queue.course),
+        location: data['location'],
+        description: data['description']
+      )
 
-    broadcast_request_change('new_request', new_request)
+      broadcast_request_change('new_request', new_request)
+    rescue InvalidRequestError => e
+      QueueChannel.broadcast_to(@course_queue, {
+        action: 'invalid_request',
+        error: e.message,
+      })
+    end
   end
 
   def bump(data)

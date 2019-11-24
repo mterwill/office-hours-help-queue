@@ -50,7 +50,7 @@ class CourseQueueTest < ActiveSupport::TestCase
   end
 
   test "request validates duplicates" do
-    assert_raise RuntimeError do
+    assert_raise InvalidRequestError do
       2.times {
         @queue.request(
           requester: users(:steve),
@@ -103,7 +103,7 @@ class CourseQueueTest < ActiveSupport::TestCase
       group: course_groups(:group1)
     )
 
-    assert_raise RuntimeError do
+    assert_raise InvalidRequestError do
       @group_queue.request(
         requester: users(:matt),
         description: '',

@@ -1,3 +1,6 @@
+class InvalidRequestError < StandardError
+end
+
 class CourseQueue < ApplicationRecord
   belongs_to :course
   has_many :course_queue_entries
@@ -8,17 +11,17 @@ class CourseQueue < ApplicationRecord
     self.with_lock do
       # Check the user's request limit for the course
       if self.course.course_queue_entries.where(resolved_at: nil, requester: requester).count > 0
-          raise "Limit one open request per user"
+          raise InvalidRequestError, "Limit one open request per user per course"
       end
 
       if exclusive && group == nil && !requester.instructor_for_course_queue?(self)
-        raise "Only enrolled students may use this queue."
+        raise InvalidRequestError, "Only enrolled students may use this queue."
       end
 
       # Now the group's
       count = outstanding_requests.where(course_group: group).count
       if group_mode && group && count > 0
-        raise "Limit one open request per group"
+        raise InvalidRequestError, "Limit one open request per group"
       end
 
       CourseQueueEntry.create!(

@@ -159,6 +159,8 @@ var CourseQueue = React.createClass({
            this.notify(data.bump_by.name + ' is looking for you!', true, {
              icon: data.bump_by.avatar_url,
            });
+        } else if (data.action === 'invalid_request') {
+          alert('Invalid request: ' + data.error);
         }
       }.bind(this),
     });
