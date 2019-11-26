@@ -9,6 +9,15 @@ var CourseQueue = React.createClass({
       instructorMessage: '',
     };
   },
+  updateTitle:function(){
+    var myRequest = this.getMyFirstRequest();
+    if (myRequest && this.state.requests.indexOf(myRequest.request) >= 0) {
+      var myRequestIdx = this.state.requests.indexOf(myRequest.request);
+      document.title = `(#${myRequestIdx + 1}) Office Hours Help Queue`
+    } else {
+      document.title = `(${this.state.requests.length}) Office Hours Help Queue`
+    }
+  },
   enable: function () {
     this.setState({ enabled: true });
   },
@@ -162,6 +171,7 @@ var CourseQueue = React.createClass({
         } else if (data.action === 'invalid_request') {
           alert('Invalid request: ' + data.error);
         }
+        this.updateTitle();
       }.bind(this),
     });
 
