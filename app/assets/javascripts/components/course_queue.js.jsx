@@ -246,6 +246,8 @@ var CourseQueue = React.createClass({
           emptyQueue={this.handler.emptyQueue.bind(this.handler)}
           setInstructorStatus={this.handler.setInstructorStatus.bind(this.handler)}
           takeQueueOffline={this.handler.takeQueueOffline.bind(this.handler)}
+          pin={this.props.instructor ? this.handler.pin.bind(this.handler): null}
+          resolve={this.props.instructor ? this.handler.resolveRequest.bind(this.handler) : null}
         />
       );
     } else {
