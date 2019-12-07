@@ -15,7 +15,6 @@ var InstructorPanel = React.createClass({
         break;
       }
     }
-    console.log("INDEX  "+ index)
     return {
       title: 'Queue Pop and Pin ',
       className: this.buttonBaseClass + "huge primary " + (this.props.requests.length <= 0 ? "disabled" : ""),
