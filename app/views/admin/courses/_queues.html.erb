@@ -4,6 +4,7 @@
             <th style="width: 40%">Location</th>
             <th style="width: 10%">Group Mode</th>
             <th style="width: 10%">Exclusive Mode</th>
+            <th style="width: 10%">Anonymous Mode</th>
             <th>
                 <a href="<%= new_admin_course_queue_path(@course) %>" class="ui primary labeled icon fluid button">
                     <i class="plus icon"></i>
@@ -22,6 +23,10 @@
                     </div></td>
                 <td><div class="ui disabled toggle checkbox">
                         <input type="checkbox" disabled="disabled" <%= 'checked' if queue.exclusive %>>
+                        <label></label>
+                    </div></td>
+                <td><div class="ui disabled toggle checkbox">
+                        <input type="checkbox" disabled="disabled" <%= 'checked' if queue.anonymous %>>
                         <label></label>
                     </div></td>
                 <td>

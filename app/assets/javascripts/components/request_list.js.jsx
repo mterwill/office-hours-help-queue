@@ -10,6 +10,7 @@ var RequestList = React.createClass({
           resolve={this.props.resolve}
           bump={this.props.bump}
           pin={this.props.pin}
+          isAnonymous={this.props.isAnonymous}
         />
       );
     }.bind(this));

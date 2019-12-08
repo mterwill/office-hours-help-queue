@@ -329,6 +329,7 @@ var CourseQueue = React.createClass({
         resolve={this.props.instructor ? this.handler.resolveRequest.bind(this.handler) : null}
         bump={this.props.instructor ? this.handler.bump.bind(this.handler) : null}
         pin={this.props.instructor ? this.handler.pin.bind(this.handler) : null}
+        isAnonymous={this.props.anonymousMode && !this.props.instructor}
       />
     );
   },

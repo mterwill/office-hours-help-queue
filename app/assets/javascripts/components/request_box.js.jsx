@@ -3,7 +3,7 @@ var RequestBox = React.createClass({
     if (this.props.hideEmpty && this.props.requests.length === 0) {
       return null;
     }
-
+    
     return (
       <div className={this.props.segmentClass}>
         <h4 className="ui header">
@@ -18,7 +18,8 @@ var RequestBox = React.createClass({
           currentGroupId={this.props.currentGroupId}
           resolve={this.props.resolve}
           pin={this.props.pin}
-          bump={this.props.bump} />
+          bump={this.props.bump} 
+          isAnonymous={this.props.isAnonymous}/>
       </div>
     );
   }

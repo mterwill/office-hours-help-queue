@@ -60,23 +60,44 @@ var Request = React.createClass({
       );
     }
 
-    return (
-      <div className={active + "comment"}>
-        <Avatar url={this.props.request.requester.avatar_url} />
-        <div className="content">
-          <span className="author">{this.getRequesterNameString()}</span>
-          <a ref={this.ref} href="" onClick={function (e) { e.preventDefault(); }}
-             data-clipboard-text={this.props.request.requester.email}
-             className="metadata">{this.props.request.requester.email}</a>
-          <div className="ui slightly padded list">
-            <LabeledItem icon="clock">{this.state.ts}</LabeledItem>
-            <LabeledItem icon="marker">{this.props.request.location}</LabeledItem>
-            <LabeledItem icon="write">{this.props.request.description}</LabeledItem>
-            {pinnedByUser}
+    if (this.props.isAnonymous){
+      return (
+        <div className={active + "comment"}>
+          <Avatar url='https://i.imgur.com/QKLaN13.png' />
+          <div className="content">
+            <span className="author">Anonymous</span>
+            <a ref={this.ref} href="" onClick={function (e) { e.preventDefault(); }}
+              data-clipboard-text='anonymous@umich.edu'
+              className="metadata">anonymous@umich.edu</a>
+            <div className="ui slightly padded list">
+              <LabeledItem icon="clock">{this.state.ts}</LabeledItem>
+              <LabeledItem icon="marker">{this.props.request.location}</LabeledItem>
+              <LabeledItem icon="write">{this.props.request.description}</LabeledItem>
+              {pinnedByUser}
+            </div>
+            {actions}
           </div>
-          {actions}
         </div>
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div className={active + "comment"}>
+          <Avatar url={this.props.request.requester.avatar_url} />
+          <div className="content">
+            <span className="author">{this.getRequesterNameString()}</span>
+            <a ref={this.ref} href="" onClick={function (e) { e.preventDefault(); }}
+              data-clipboard-text={this.props.request.requester.email}
+              className="metadata">{this.props.request.requester.email}</a>
+            <div className="ui slightly padded list">
+              <LabeledItem icon="clock">{this.state.ts}</LabeledItem>
+              <LabeledItem icon="marker">{this.props.request.location}</LabeledItem>
+              <LabeledItem icon="write">{this.props.request.description}</LabeledItem>
+              {pinnedByUser}
+            </div>
+            {actions}
+          </div>
+        </div>
+      );
+    }
   },
 });
