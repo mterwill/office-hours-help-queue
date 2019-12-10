@@ -7,14 +7,11 @@ var InstructorPanel = React.createClass({
       action: this.props.queuePop,
     };
   },
-  getQueuePopandPinButtonData: function () {
-    index = 0 
-    if(this.props.getUnpinnedRequests[0] != null)
-    index = this.props.getUnpinnedRequests[0]
+  getQueuePinTopData: function () {
     return {
-      title: 'Queue Pop and Pin',
-      className: this.buttonBaseClass + "huge primary " + (this.props.requests.length <= 0 ? "disabled" : ""),
-      action: (this.props.requests[index] != null ? this.props.pin.bind(null, this.props.requests[index]["id"]) :null),
+      title: 'Queue Pin Top',
+      className: this.buttonBaseClass + "huge primary " + (this.props.getUnpinnedRequests.length <= 0 ? "disabled" : ""),
+      action: this.props.pinTopRequest,
     };
   },
   getInstructorToggleButtonData: function () {
@@ -55,7 +52,7 @@ var InstructorPanel = React.createClass({
         <h4 className="ui header">Instructor Queue Management</h4>
 
         <Action data={this.getQueuePopButtonData()} />
-        <Action data={this.getQueuePopandPinButtonData()} />
+        <Action data={this.getQueuePinTopData()} />
         <Action data={this.getInstructorToggleButtonData()} />
         <Action data={this.getTakeQueueOfflineButtonData()} />
         <Action data={this.emptyQueueButtonData()} />
