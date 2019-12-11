@@ -281,14 +281,6 @@ var CourseQueue = React.createClass({
     );
   },
   pinTopRequest: function () {
-    // index = 0;
-    // for(var r=0; r< this.state.requests.length; r++){
-    //   if(!this.state.requests[r].resolver){
-    //     index = r;
-    //     break;
-    //   }
-    // }  
-    // return (this.state.requests[index] != null ? this.handler.pin.bind(this.handler, this.state.requests[index]["id"]) :null)
     let unpinnedRequests = this.getUnpinnedRequests();
     return unpinnedRequests.length > 0 ? this.handler.pin.bind(this.handler, unpinnedRequests[0].id) : null;
   },
