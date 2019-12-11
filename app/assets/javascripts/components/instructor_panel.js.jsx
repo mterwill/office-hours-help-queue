@@ -10,7 +10,7 @@ var InstructorPanel = React.createClass({
   getQueuePinTopData: function () {
     return {
       title: 'Queue Pin Top',
-      className: this.buttonBaseClass + "huge primary " + (this.props.getUnpinnedRequests.length <= 0 ? "disabled" : ""),
+      className: this.buttonBaseClass + "huge primary " + (this.props.pinTopRequest === null ? "disabled" : ""),
       action: this.props.pinTopRequest,
     };
   },
