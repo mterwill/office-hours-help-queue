@@ -7,6 +7,13 @@ var InstructorPanel = React.createClass({
       action: this.props.queuePop,
     };
   },
+  getQueuePinTopData: function () {
+    return {
+      title: 'Queue Pin Top',
+      className: this.buttonBaseClass + "huge primary " + (this.props.pinTopRequest === null ? "disabled" : ""),
+      action: this.props.pinTopRequest,
+    };
+  },
   getInstructorToggleButtonData: function () {
     return {
       title: this.props.online ?  'Go Offline' : 'Go Online',
@@ -45,9 +52,11 @@ var InstructorPanel = React.createClass({
         <h4 className="ui header">Instructor Queue Management</h4>
 
         <Action data={this.getQueuePopButtonData()} />
+        <Action data={this.getQueuePinTopData()} />
         <Action data={this.getInstructorToggleButtonData()} />
         <Action data={this.getTakeQueueOfflineButtonData()} />
         <Action data={this.emptyQueueButtonData()} />
+        
 
       </div>
     );

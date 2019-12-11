@@ -246,6 +246,7 @@ var CourseQueue = React.createClass({
           emptyQueue={this.handler.emptyQueue.bind(this.handler)}
           setInstructorStatus={this.handler.setInstructorStatus.bind(this.handler)}
           takeQueueOffline={this.handler.takeQueueOffline.bind(this.handler)}
+          pinTopRequest={this.pinTopRequest()}
         />
       );
     } else {
@@ -278,6 +279,10 @@ var CourseQueue = React.createClass({
         {panel}
       </div>
     );
+  },
+  pinTopRequest: function () {
+    let unpinnedRequests = this.getUnpinnedRequests();
+    return unpinnedRequests.length > 0 ? this.handler.pin.bind(this.handler, unpinnedRequests[0].id) : null;
   },
   getRequestsPinnedByMe: function () {
     return this.state.requests.filter(function (request) {
