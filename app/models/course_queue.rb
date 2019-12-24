@@ -35,7 +35,7 @@ class CourseQueue < ApplicationRecord
   end
 
   def outstanding_requests
-    if course.number_of_resolved_requests_this_session?
+    if course.sort_by_number_of_resolved_requests_this_session?
       if !course_queue_online_instructors.nil?
         # Find when queue openned
 
