@@ -1,7 +1,7 @@
 class Admin::CourseQueuesController < Admin::AdminController
   before_action :set_and_authorize_course, only: [:new]
   before_action :set_and_authorize_course_queue, except: [:new, :create]
-  
+
   def new
     @course_queue = CourseQueue.new
     @course_queue.course = @course

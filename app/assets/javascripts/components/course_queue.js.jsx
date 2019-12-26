@@ -233,7 +233,7 @@ var CourseQueue = React.createClass({
   },
   renderLeftPanel: function (columnClass) {
     var panel, instructorButton, studentButton, buttons;
- 
+
     if (this.props.instructor && this.state.instructorMode) {
       instructorButton = 'active';
       panel = (
@@ -365,6 +365,7 @@ var CourseQueue = React.createClass({
             courseName={this.props.courseName}
             queueName={this.props.queueName}
             queueLoc={this.props.queueLoc}
+            queueSorting={this.props.queueSorting}
           />
           <Instructors instructors={this.state.instructors} />
         </div>

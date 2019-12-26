@@ -13,6 +13,9 @@ var Header = React.createClass({
         <div className="sub header">
           {this.props.queueName} {queueLoc}
         </div>
+        <div className="sub header">
+          <small>Sorting by {this.props.queueSorting}.</small>
+        </div>
       </h1>
     );
   },

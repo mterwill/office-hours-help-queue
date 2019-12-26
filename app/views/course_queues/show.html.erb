@@ -11,6 +11,7 @@
           courseName={"<%= j @course_queue.course.name.html_safe %>"}
           queueName={"<%= j @course_queue.name.html_safe %>"}
           queueLoc={"<%= j @course_queue.location.html_safe %>"}
+          queueSorting={"<%= j @course_queue.course.sorting.to_s.gsub('_',' ') %>"}
           currentUserId={<%= current_user.id %>}
           courseGroupId={<%= @course_group_id %>}
           groupMode={<%= @course_queue.group_mode.to_s %>}
