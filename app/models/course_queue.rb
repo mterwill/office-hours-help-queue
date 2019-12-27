@@ -43,13 +43,15 @@ class CourseQueue < ApplicationRecord
         # Order
         course_queue_entries
         .joins(<<-SQL
-            LEFT JOIN (SELECT C.requester_id as pivot_r_id, COUNT(C.requester_id) AS cnt
-            FROM course_queue_entries C
-            WHERE C.course_queue_id = #{id}
-                  AND C.course_group_id IS NULL
-                  AND C.resolver_id IS NOT NULL
-                  AND created_at >= "#{start}"
-            GROUP BY pivot_r_id) T on requester_id = T.pivot_r_id
+            LEFT JOIN (
+              SELECT COALESCE(C.course_group_id, C.requester_id) as pivot_r_id,
+                COUNT(C.requester_id) AS cnt
+              FROM course_queue_entries C
+              WHERE C.course_queue_id = #{id}
+                AND C.resolver_id IS NOT NULL
+                AND C.created_at >= "#{start}"
+              GROUP BY C.course_group_id, pivot_r_id
+            ) T on COALESCE(course_group_id, requester_id) = T.pivot_r_id
           SQL
         )
         .where(resolved_at: nil)

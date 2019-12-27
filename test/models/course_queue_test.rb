@@ -198,6 +198,49 @@ class CourseQueueTest < ActiveSupport::TestCase
 
   end
 
+  test "group request are sorted by number of previously resolved group requests" do
+    assert @queue_sort.course.sort_by_number_of_resolved_requests_this_session?
+    @queue_sort.update!(group_mode: true)
+
+    entry_group1_1 = @queue_sort.request(
+      requester: users(:steve),
+      description: 'group 1 request',
+      location: '',
+      group: course_groups(:group1)
+    )
+
+    entry_group1_1.resolve_by!(users(:sue))
+
+    entry_group1_2 = @queue_sort.request(
+      requester: users(:matt),
+      description: 'second request of group 1 from different person',
+      location: '',
+      group: course_groups(:group1)
+    )
+
+    entry_group2_1 = @queue_sort.request(
+      requester: users(:jim),
+      description: 'group 2 request',
+      location: '',
+      group: course_groups(:group2)
+    )
+
+    assert @queue_sort.outstanding_requests[0] == entry_group2_1
+    assert @queue_sort.outstanding_requests[1] == entry_group1_2
+
+    entry_group2_1.resolve_by!(users(:sue))
+
+    entry_group2_2 = @queue_sort.request(
+      requester: users(:mary),
+      description: 'second request of group 2 from different person',
+      location: '',
+      group: course_groups(:group2)
+    )
+
+    assert @queue_sort.outstanding_requests[0] == entry_group1_2
+    assert @queue_sort.outstanding_requests[1] == entry_group2_2
+  end
+
   test "request validates duplicates" do
     assert_raise InvalidRequestError do
       2.times {
