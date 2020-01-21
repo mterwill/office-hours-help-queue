@@ -138,6 +138,21 @@ class QueueChannel < ApplicationCable::Channel
     broadcast_request_change('resolve_request', request)
   end
 
+  def merge(data)
+    authorize :instructor_only
+    @to_course_queue = CourseQueue.find_by!(id: data['to'])
+
+    @course_queue.outstanding_requests.each do |request|
+      request.update! course_queue_id: data['to']
+      broadcast_request_change('resolve_request', request)
+      QueueChannel.broadcast_to(@to_course_queue, {
+        action: 'new_request',
+        request: serialize_request(request),
+      })
+    end
+
+  end
+
   private
   def broadcast_request_change(action, request)
     QueueChannel.broadcast_to(@course_queue, {
@@ -153,7 +168,7 @@ class QueueChannel < ApplicationCable::Channel
   def authorize(requirement, request = nil)
     if requirement == :instructor_only
       unless current_user.instructor_for_course_queue?(@course_queue)
-        raise "Current user not instructor" 
+        raise "Current user not instructor"
       end
     elsif requirement == :current_user_only
       group = current_user.course_group_for_course(@course_queue.course)
@@ -162,9 +177,9 @@ class QueueChannel < ApplicationCable::Channel
       elsif @course_queue.group_mode && group && group.id == request.course_group_id
         return
       else
-        raise "Current user not requester" 
+        raise "Current user not requester"
       end
-    elsif requirement == :open_queue 
+    elsif requirement == :open_queue
       raise "Queue is closed" unless @course_queue.is_open?
     else
       raise "Invalid option"

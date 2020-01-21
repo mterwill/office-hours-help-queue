@@ -7,6 +7,7 @@ var CourseQueue = React.createClass({
       requests: [],
       instructors: [],
       instructorMessage: '',
+      queues: [],
     };
   },
   updateTitle:function(){
@@ -112,6 +113,11 @@ var CourseQueue = React.createClass({
       url: '/course_queues/' + this.props.id + '/instructor_message.json'
     });
   },
+  fetchQueues: function () {
+    return $.ajax({
+      url: '/course_queues/' + this.props.id + '/queues.json'
+    });
+  },
   notify: function (msg, force = false, options = {}) {
     if (!("Notification" in window)) {
       alert(msg); // fall back on alert
@@ -136,12 +142,14 @@ var CourseQueue = React.createClass({
       id: this.props.id
     }, {
       connected: function () {
-        $.when(this.fetchOutstandingRequests(), this.fetchOnlineInstructors(), this.fetchInstructorMessage())
-          .done(function (requests, instructors, message) {
+        $.when(this.fetchOutstandingRequests(), this.fetchOnlineInstructors(),
+            this.fetchInstructorMessage(), this.fetchQueues())
+          .done(function (requests, instructors, message, queues) {
             this.setState({
               instructors: instructors[0],
               requests: requests[0],
               instructorMessage: message[0].instructor_message,
+              queues: queues[0],
             }, this.enable);
           }.bind(this));
       }.bind(this),
@@ -231,7 +239,7 @@ var CourseQueue = React.createClass({
   },
   renderLeftPanel: function (columnClass) {
     var panel, instructorButton, studentButton, buttons;
- 
+
     if (this.props.instructor && this.state.instructorMode) {
       instructorButton = 'active';
       panel = (
@@ -242,8 +250,10 @@ var CourseQueue = React.createClass({
           online={this.amIOnline()}
           currentUserId={this.props.currentUserId}
           queueLength={this.state.requests.length}
+          queues={this.state.queues}
           queuePop={this.handler.queuePop.bind(this.handler)}
           emptyQueue={this.handler.emptyQueue.bind(this.handler)}
+          mergeQueue={this.handler.mergeQueue.bind(this.handler)}
           setInstructorStatus={this.handler.setInstructorStatus.bind(this.handler)}
           takeQueueOffline={this.handler.takeQueueOffline.bind(this.handler)}
           pinTopRequest={this.pinTopRequest()}

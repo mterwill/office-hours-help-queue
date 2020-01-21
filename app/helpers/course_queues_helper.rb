@@ -6,4 +6,8 @@ module CourseQueuesHelper
       resolver:  { except: User::PROTECTED_FIELDS }
     }})
   end
+
+  def serialize_queue(queue)
+    queue.as_json(only: [:id, :name])
+  end
 end

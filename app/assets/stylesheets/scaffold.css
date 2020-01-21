@@ -52,3 +52,7 @@
 .ack-white-space {
     white-space: pre-wrap;
 }
+
+.dropdown {
+    width: 100%;
+}

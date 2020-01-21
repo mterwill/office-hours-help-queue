@@ -27,6 +27,11 @@ class CourseQueuesController < ApplicationController
     @instructor_message = @course_queue.instructor_message
   end
 
+  # GET /course_queues/1/queues.json
+  def queues
+    @queues = Course.find(@course_queue.course_id).course_queues.order(:name)
+  end
+
   private
   def set_course_queue
     @course_queue = CourseQueue.find(params[:id])
