@@ -1,6 +1,6 @@
 language: ruby
 rvm:
-  - 2.3.1
+  - 2.6.3
 services:
   - mysql
 before_script:
