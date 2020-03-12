@@ -4,6 +4,7 @@ set -euo pipefail
 
 cd "$(git rev-parse --show-toplevel)"
 
-docker-compose up
+script/build
+script/migrate
 
-echo "==> Ready at http://dev.eecs.help:3000/"
+docker-compose up

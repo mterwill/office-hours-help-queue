@@ -21,14 +21,10 @@ are developing something that is not already an open issue, please open one.
 
 ## Development
 
-The easiest way to spin up a development environment is to use
-[Docker](https://docker.com).
+You will need [Docker](https://docker.com) installed.
 
-```bash
-$ docker-compose up -d
-
-# Create tables and seed a first course and queue
-$ docker-compose run web rake db:migrate db:seed
+```
+script/setup
 ```
 
 Now add an entry for `dev.eecs.help` to `127.0.0.1` in your `/etc/hosts` file.
