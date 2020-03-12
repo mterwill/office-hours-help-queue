@@ -60,6 +60,9 @@ var Request = React.createClass({
       );
     }
 
+	// temporary hack for descriptions containing google link
+	let description_redacted = this.props.request.description.includes("google") ? 'Google hangout links are private' : this.props.request.description
+
     return (
       <div className={active + "comment"}>
         <Avatar url={this.props.request.requester.avatar_url} />
@@ -71,7 +74,7 @@ var Request = React.createClass({
           <div className="ui slightly padded list">
             <LabeledItem icon="clock">{this.state.ts}</LabeledItem>
             <LabeledItem icon="marker">{this.props.request.location}</LabeledItem>
-            <LabeledItem icon="write">{this.props.request.description}</LabeledItem>
+            <LabeledItem icon="write">{description_redacted}</LabeledItem>
             {pinnedByUser}
           </div>
           {actions}
