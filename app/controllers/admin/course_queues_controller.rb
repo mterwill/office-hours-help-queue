@@ -56,6 +56,6 @@ class Admin::CourseQueuesController < Admin::AdminController
   end
 
   def course_queue_params
-    params.require(:course_queue).permit(:name, :location, :description, :course_id, :group_mode, :exclusive)
+    params.require(:course_queue).permit(:name, :location, :description, :course_id, :group_mode, :exclusive, :hide_details_from_students)
   end
 end
