@@ -1,5 +1,7 @@
 version: '2'
 services:
+  redis:
+    image: redis:5.0.7
   db:
     image: mysql:5.7
     environment:
