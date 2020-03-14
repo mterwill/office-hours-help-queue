@@ -2,6 +2,14 @@
 
 <div class="eight wide centered column">
     <h1 class="ui header"> Available Queues for <%= @course.name %> </h1>
+
+    <% if current_user.instructor_for_course? @course and Time.now < Time.new(2020, 03, 21)    %>
+        <div class="ui info message">
+            <div class="header">New Feature: Private Mode</div>
+            <p>Enable <strong>Private Mode</strong> to hide request details from other students.</p>
+            <p>Configurable in your course's <a href="<%= url_for [:admin, @course] %>">admin panel</a>.</p>
+        </div>
+    <% end %>
     <div class="ui fluid segment">
         <% if @queues.empty? %>
             <h4>No open queues. Try refreshing.</h4>
