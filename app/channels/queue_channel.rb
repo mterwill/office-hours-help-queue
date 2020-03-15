@@ -140,11 +140,20 @@ class QueueChannel < ApplicationCable::Channel
 
   def merge(data)
     authorize :instructor_only
-    @to_course_queue = CourseQueue.find_by!(id: data['to'])
+    @to_course_queue = CourseQueue.find(data['to'])
+
+    unless current_user.instructor_for_course_queue?(@to_course_queue)
+      raise "Current user not instructor."
+    end
 
     @course_queue.outstanding_requests.each do |request|
       request.update! course_queue_id: data['to']
-      broadcast_request_change('resolve_request', request)
+      QueueChannel.broadcast_to(@course_queue, {
+        action: 'move_request',
+        request: serialize_request(request),
+        move_to: @to_course_queue.name.html_safe, 
+        move_to_url: @to_course_queue.id
+      })
       QueueChannel.broadcast_to(@to_course_queue, {
         action: 'new_request',
         request: serialize_request(request),

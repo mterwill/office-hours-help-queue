@@ -115,7 +115,7 @@ var CourseQueue = React.createClass({
   },
   fetchQueues: function () {
     return $.ajax({
-      url: '/course_queues/' + this.props.id + '/queues.json'
+      url: '/course_queues/' + this.props.id + '/other_queues.json'
     });
   },
   notify: function (msg, force = false, options = {}) {
@@ -178,6 +178,12 @@ var CourseQueue = React.createClass({
            });
         } else if (data.action === 'invalid_request') {
           alert('Invalid request: ' + data.error);
+        } else if (data.action === 'move_request') {
+          if (data.request.requester_id === this.props.currentUserId) {
+            alert('Your request was moved to queue ' + data.move_to);
+            window.location.href = '/course_queues/' + data.move_to_url;
+          }
+          this.removeRequest(data.request);
         }
         this.updateTitle();
       }.bind(this),

@@ -37,7 +37,7 @@ Rails.application.routes.draw do
       get 'outstanding_requests'
       get 'online_instructors'
       get 'instructor_message'
-      get 'queues'
+      get 'other_queues'
     end
   end
 
