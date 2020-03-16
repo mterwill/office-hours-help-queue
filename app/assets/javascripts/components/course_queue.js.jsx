@@ -180,7 +180,7 @@ var CourseQueue = React.createClass({
           alert('Invalid request: ' + data.error);
         } else if (data.action === 'move_request') {
           if (data.request.requester_id === this.props.currentUserId) {
-            alert('Your request was moved to queue ' + data.move_to);
+            alert('Your request was moved to queue ' + data.move_to_id);
             window.location.href = '/course_queues/' + data.move_to_url;
           }
           this.removeRequest(data.request);

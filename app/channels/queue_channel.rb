@@ -151,7 +151,7 @@ class QueueChannel < ApplicationCable::Channel
       QueueChannel.broadcast_to(@course_queue, {
         action: 'move_request',
         request: serialize_request(request),
-        move_to: @to_course_queue.name.html_safe, 
+        move_to_id: @to_course_queue.name.html_safe, 
         move_to_url: @to_course_queue.id
       })
       QueueChannel.broadcast_to(@to_course_queue, {
