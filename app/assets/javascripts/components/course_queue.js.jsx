@@ -33,10 +33,12 @@ var CourseQueue = React.createClass({
     this.setState({ enabled: false });
   },
   pushRequest: function (request, queue) {
-    this.setState({
-      requests: this.state.requests.concat([request]).sort(function(a, b){
-        return queue.indexOf(a.id) - queue.indexOf(b.id);
-      })
+    this.setState(function (prevState) {
+      return {
+        requests: prevState.requests.concat([request]).sort((a, b) => {
+          return queue.indexOf(a.id) - queue.indexOf(b.id);
+        }),
+      };
     }, function () {
       var wasEmpty         = this.state.requests.length === 1;
       var isInactiveWindow = this.state.focused === false;
