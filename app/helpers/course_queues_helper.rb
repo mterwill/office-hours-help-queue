@@ -27,4 +27,8 @@ module CourseQueuesHelper
   def serialize_queue_ids(queue)
     queue.as_json(only: [:id]).map { |entry| entry["id"] }
   end
+
+  def serialize_queue(queue)
+    queue.as_json(only: [:id, :name])
+  end
 end

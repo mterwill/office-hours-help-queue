@@ -61,3 +61,9 @@ CourseQueueClientActionHandler.prototype.broadcastMessage = function (action, me
     message: message
   });
 };
+
+CourseQueueClientActionHandler.prototype.mergeQueue = function (to) {
+  this.subscription.perform('merge', {
+    to: to,
+  })
+}

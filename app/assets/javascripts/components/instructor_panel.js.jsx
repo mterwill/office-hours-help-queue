@@ -33,6 +33,15 @@ var InstructorPanel = React.createClass({
     };
 
   },
+  mergeQueueItem: function (queue) {
+    var click = function () {
+      if (confirm('Are you sure? This will permanently merge ' + this.props.queueLength
+           + ' request(s) into ' + queue.name + '. Students will be automatically redirected to the new queue.')) {
+        this.props.mergeQueue(queue.id);
+      }
+    }.bind(this)
+    return <div className="item" key={queue.name} onClick={click}>{queue.name}</div>;
+  },
   getTakeQueueOfflineButtonData: function () {
     var instructorCount = this.props.instructors.length;
 
@@ -47,6 +56,7 @@ var InstructorPanel = React.createClass({
     };
   },
   render: function () {
+    var mergeOptions = this.props.queues.map(this.mergeQueueItem, this);
     return (
       <div className={this.props.segmentClass}>
         <h4 className="ui header">Instructor Queue Management</h4>
@@ -56,8 +66,15 @@ var InstructorPanel = React.createClass({
         <Action data={this.getInstructorToggleButtonData()} />
         <Action data={this.getTakeQueueOfflineButtonData()} />
         <Action data={this.emptyQueueButtonData()} />
-        
-
+        { mergeOptions.length > 0 && <div className="ui bottom padded fluid large menu">
+          <div className="ui fluid simple dropdown item">
+            Merge Into Queue
+            <i className="dropdown icon"></i>
+            <div className="menu">
+              {mergeOptions}
+            </div>
+          </div>
+        </div> }
       </div>
     );
   },
