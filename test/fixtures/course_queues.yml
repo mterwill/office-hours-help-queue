@@ -31,3 +31,12 @@ private_mode_queue:
   course: eecs398
   group_mode: false
   hide_details_from_students: true
+
+private_and_group_queue:
+  name: Private and Group Mode
+  location: 1670 BBB
+  description: ''
+  is_open: true
+  course: eecs398
+  group_mode: true
+  hide_details_from_students: true
