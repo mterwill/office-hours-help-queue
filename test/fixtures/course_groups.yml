@@ -14,3 +14,10 @@ group2:
 
 group3:
   course: eecs398
+
+group4:
+  course: eecs398
+  students:
+    - bob
+    - jim
+    - mary
