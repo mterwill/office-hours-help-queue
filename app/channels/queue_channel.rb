@@ -154,10 +154,8 @@ class QueueChannel < ApplicationCable::Channel
         move_to_id: @to_course_queue.name.html_safe, 
         move_to_url: @to_course_queue.id
       })
-      QueueChannel.broadcast_to(@to_course_queue, {
-        action: 'new_request',
-        request: serialize_request(request),
-      })
+
+      broadcast_request_change('new_request', request, @to_course_queue)
     end
 
   end
@@ -175,11 +173,12 @@ class QueueChannel < ApplicationCable::Channel
     super
   end
 
-  def broadcast_request_change(action, request)
-    QueueChannel.broadcast_to(@course_queue, {
+  def broadcast_request_change(action, request, queue = nil)
+    queue = @course_queue if queue.nil?
+    QueueChannel.broadcast_to(queue, {
       action: action,
       request: serialize_request(request),
-      queue: serialize_queue_ids(@course_queue.outstanding_requests),
+      queue: serialize_queue_ids(queue.outstanding_requests),
     })
   end
 
