@@ -23,4 +23,8 @@ module CourseQueuesHelper
       return request_hash
     end
   end
+
+  def serialize_queue_ids(queue)
+    queue.as_json(only: [:id]).map { |entry| entry["id"] }
+  end
 end
