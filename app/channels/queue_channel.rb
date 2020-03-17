@@ -21,6 +21,7 @@ class QueueChannel < ApplicationCable::Channel
     rescue InvalidRequestError => e
       QueueChannel.broadcast_to(@course_queue, {
         action: 'invalid_request',
+        requester: current_user,
         error: e.message,
       })
     end
