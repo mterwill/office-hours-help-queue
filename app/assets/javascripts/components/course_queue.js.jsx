@@ -180,7 +180,8 @@ var CourseQueue = React.createClass({
            this.notify(data.bump_by.name + ' is looking for you!', true, {
              icon: data.bump_by.avatar_url,
            });
-        } else if (data.action === 'invalid_request') {
+        } else if (data.action === 'invalid_request'
+                   && data.requester.id === this.props.currentUserId) {
           alert('Invalid request: ' + data.error);
         } else if (data.action === 'move_request') {
           if (data.request.requester_id === this.props.currentUserId) {
