@@ -32,6 +32,13 @@
                 </label>
             </div>
         </div>
+        <div class="field">
+            <div class="ui toggle checkbox">
+                <%= f.check_box :hide_details_from_students %>
+                <label>Private Mode</strong>: Hide request details (location, description) from other students
+                </label>
+            </div>
+        </div>
     </div>
 
     <%= f.hidden_field :course_id %>

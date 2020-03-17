@@ -22,3 +22,12 @@ closed_queue:
   description: ''
   is_open: false
   course: eecs398
+
+private_mode_queue:
+  name: Private Mode
+  location: 1670 BBB
+  description: ''
+  is_open: true
+  course: eecs398
+  group_mode: false
+  hide_details_from_students: true

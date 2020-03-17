@@ -163,10 +163,23 @@ class QueueChannel < ApplicationCable::Channel
   end
 
   private
+
+  # Unlike other public broadcast interfaces of ActionCable, the transmit method
+  # allows us to redact a request on the per-user level while using the same
+  # channel, e.g. sending instructors different data than students.
+  def transmit(data, via: nil)
+    if data.key?('request')
+      data['request'] = redact_request(data['request'], current_user)
+    end
+
+    super
+  end
+
   def broadcast_request_change(action, request)
     QueueChannel.broadcast_to(@course_queue, {
       action: action,
       request: serialize_request(request),
+      queue: serialize_queue_ids(@course_queue.outstanding_requests),
     })
   end
 

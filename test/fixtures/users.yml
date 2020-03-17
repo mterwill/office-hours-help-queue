@@ -19,3 +19,11 @@ sue:
 steve:
   name: Steve Sue
   email: steve@umich.edu
+
+bob:
+  name: Bob Jones
+  email: bob@umich.edu
+
+jd:
+  name: JD
+  email: jd@umich.edu
