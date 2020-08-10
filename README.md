@@ -1,6 +1,6 @@
 # office-hours-help-queue
 
-[![Build Status](https://travis-ci.org/mterwill/office-hours-help-queue.svg?branch=master)](https://travis-ci.org/mterwill/office-hours-help-queue)
+[![Build Status](https://travis-ci.org/mterwill/office-hours-help-queue.svg?branch=main)](https://travis-ci.org/mterwill/office-hours-help-queue)
 
 A help queue for office hours written in Ruby on Rails. The frontend uses
 [Semantic UI](http://semantic-ui.com/). We use
