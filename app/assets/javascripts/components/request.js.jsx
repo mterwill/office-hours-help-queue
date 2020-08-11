@@ -60,6 +60,13 @@ var Request = React.createClass({
       );
     }
 
+    let location = this.props.request.location.trim()
+    if (location.startsWith('https://')) {
+      location = (
+        <a href={location} target="_blank" rel="noopener">{location}</a>
+      )
+    }
+
     return (
       <div className={active + "comment"}>
         <Avatar url={this.props.request.requester.avatar_url} />
@@ -70,7 +77,7 @@ var Request = React.createClass({
              className="metadata">{this.props.request.requester.email}</a>
           <div className="ui slightly padded list">
             <LabeledItem icon="clock">{this.state.ts}</LabeledItem>
-            <LabeledItem icon="marker">{this.props.request.location}</LabeledItem>
+            <LabeledItem icon="marker">{location}</LabeledItem>
             <LabeledItem icon="write">{this.props.request.description}</LabeledItem>
             {pinnedByUser}
           </div>
