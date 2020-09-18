@@ -11,7 +11,7 @@ services:
     build: .
     env_file:
       - web-variables.env
-    command: ./script/wait-for-it.sh -t 60 db:3306 -- bundle exec rails s -p 3000 -b '0.0.0.0'
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
     volumes:
       - .:/usr/src/eecshelp
     ports:

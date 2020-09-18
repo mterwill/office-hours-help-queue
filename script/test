@@ -4,4 +4,4 @@ set -euo pipefail
 
 cd "$(git rev-parse --show-toplevel)"
 
-docker-compose run --rm web rake db:migrate
+docker-compose run --rm web rake
