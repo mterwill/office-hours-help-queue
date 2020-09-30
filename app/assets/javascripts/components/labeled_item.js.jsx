@@ -8,9 +8,11 @@ var LabeledItem = React.createClass({
       <div className="item">
         <i className={this.props.icon + ' icon'}></i>
         <div className="content">
-          {this.props.children}
+          <div style={{ maxWidth: '50ch', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+            {this.props.children}
+          </div>
         </div>
-      </div>
+      </div >
     );
   }
 });
