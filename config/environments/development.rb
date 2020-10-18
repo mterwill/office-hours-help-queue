@@ -55,4 +55,6 @@ Rails.application.configure do
   Rails.application.config.action_cable.allowed_request_origins = ['http://dev.eecs.help:3000']
 
   config.web_console.whitelisted_ips = '172.18.0.1' # docker
+
+  config.active_support.deprecation = :raise
 end

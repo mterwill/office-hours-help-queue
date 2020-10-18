@@ -90,4 +90,6 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   Rails.application.config.action_cable.allowed_request_origins = [ENV['FULL_HOST']]
+
+  config.active_support.deprecation = :notify
 end
