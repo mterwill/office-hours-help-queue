@@ -18,7 +18,9 @@ var RequestBox = React.createClass({
           currentGroupId={this.props.currentGroupId}
           resolve={this.props.resolve}
           pin={this.props.pin}
-          bump={this.props.bump} />
+          bump={this.props.bump} 
+          updatePingMessage={this.props.updatePingMessage}
+        />
       </div>
     );
   }
