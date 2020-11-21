@@ -8,7 +8,7 @@ var CourseQueue = React.createClass({
       instructors: [],
       instructorMessage: '',
       queues: [],
-      pingMessage: '',
+      pingMessage: 'An instructor is looking for you!',
     };
   },
   updateTitle:function(){
@@ -145,6 +145,9 @@ var CourseQueue = React.createClass({
     } else {
       // leave the user in peace
     }
+    this.setState({
+      pingMessage: "An instructor is looking for you!"
+    });
   },
   componentWillMount: function () {
     var courseQueueSubscription = App.cable.subscriptions.create({
@@ -185,16 +188,9 @@ var CourseQueue = React.createClass({
           this.updatePingMessage(data.message);
         } else if (data.action === 'bump'
                    && data.requester_id === this.props.currentUserId) {
-          if (this.state.pingMessage) {
-            this.notify(this.state.pingMessage, true, {
-              icon: data.bump_by.avatar_url,
-            });
-          }
-          else {
-            this.notify(data.bump_by.name + ' is looking for you!', true, {
-              icon: data.bump_by.avatar_url,
-            });
-          }
+          this.notify(this.state.pingMessage, true, {
+            icon: data.bump_by.avatar_url,
+          });
         } else if (data.action === 'invalid_request'
                    && data.requester.id === this.props.currentUserId) {
           alert('Invalid request: ' + data.error);
@@ -371,6 +367,7 @@ var CourseQueue = React.createClass({
         bump={this.props.instructor ? this.handler.bump.bind(this.handler) : null}
         pin={this.props.instructor ? this.handler.pin.bind(this.handler) : null}
         updatePingMessage={this.handler.broadcastMessage.bind(this.handler)}
+        pingMessage={this.state.pingMessage}
       />
     );
   },

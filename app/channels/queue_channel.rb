@@ -50,6 +50,16 @@ class QueueChannel < ApplicationCable::Channel
 
   end
 
+  def update_ping_message(data)
+    authorize :instructor_only
+
+    QueueChannel.broadcast_to(@course_queue, {
+      action: 'update_ping_message',
+      message: data['message'],
+    })
+
+  end
+
   def broadcast_instructor_message(data)
       authorize :instructor_only
 

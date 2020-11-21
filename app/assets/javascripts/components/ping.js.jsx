@@ -1,7 +1,7 @@
 var Ping = React.createClass({
     getInitialState: function () {
       return {
-        pingMessage: ""
+        pingMessage: this.props.pingMessage
       };  
     },
     handleOpen: function () {
@@ -18,7 +18,15 @@ var Ping = React.createClass({
       e.preventDefault()
       this.setState({ pingMessage: this.state.pingMessage.trim() }, function () {
         this.props.updatePingMessage('update_ping_message', this.state.pingMessage);
+        this.props.data.action()
       });
+    },
+    componentDidUpdate: function (prevProps) {
+      if (this.props.pingMessage !== prevProps.pingMessage) {
+        this.setState({
+          pingMessage: this.props.pingMessage
+        });
+      }
     },
     render: function () {
       modal = (
@@ -28,7 +36,7 @@ var Ping = React.createClass({
           <div className="content">
             <form className="ui form">
               <div className="field">
-                <textarea onChange={this.onChange}></textarea>
+                <textarea onChange={this.onChange} value={this.state.pingMessage}></textarea>
               </div>
             </form>
           </div>

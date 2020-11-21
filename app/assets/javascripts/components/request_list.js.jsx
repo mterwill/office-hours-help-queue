@@ -11,6 +11,7 @@ var RequestList = React.createClass({
           bump={this.props.bump}
           pin={this.props.pin}
           updatePingMessage={this.props.updatePingMessage}
+          pingMessage={this.props.pingMessage}
         />
       );
     }.bind(this));

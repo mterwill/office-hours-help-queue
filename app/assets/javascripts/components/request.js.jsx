@@ -42,6 +42,7 @@ var Request = React.createClass({
           <Action 
             data={{ title: 'Ping', action: this.props.bump.bind(null, this.props.request.id)}} 
             updatePingMessage={this.props.updatePingMessage}
+            pingMessage={this.props.pingMessage}
           />
         </Actions>
       );
