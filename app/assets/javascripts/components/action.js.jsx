@@ -7,9 +7,9 @@ var Action = React.createClass({
       action = <a className={this.props.data.className} onClick={this.props.data.action}>{this.props.data.title}</a>
     }
     return (
-      <div>
+      <span style={{ paddingRight: '4px' }}>
         {action}
-      </div>
+      </span>
     );
   }
 });
