@@ -39,7 +39,7 @@ var Request = React.createClass({
         <Actions>
           <Action data={{ title: 'Resolve', action: this.props.resolve.bind(null, this.props.request.id)}} />
           <Action data={{ title: pinText, action: this.props.pin.bind(null, this.props.request.id)}} />
-          <Action 
+          <Ping 
             data={{ title: 'Ping', action: this.props.bump.bind(null, this.props.request.id)}} 
             updatePingMessage={this.props.updatePingMessage}
             pingMessage={this.props.pingMessage}

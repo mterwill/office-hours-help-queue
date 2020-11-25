@@ -48,7 +48,7 @@ var Ping = React.createClass({
 
       return (
         <span>
-          <a className={this.props.data.className} onClick={this.handleOpen}>{this.props.data.title}</a>
+          <Action data={{ title: this.props.data.title, action: this.handleOpen.bind(this) }} />
           {modal}
         </span>
       );  
