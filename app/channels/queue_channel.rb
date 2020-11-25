@@ -34,6 +34,7 @@ class QueueChannel < ApplicationCable::Channel
 
     QueueChannel.broadcast_to(@course_queue, {
       action: 'bump',
+      message: data['message'],
       requester_id: request.requester.id,
       bump_by: current_user
     })
@@ -47,16 +48,6 @@ class QueueChannel < ApplicationCable::Channel
           action: 'update_instructor_message',
           message: data['message'],
       })
-
-  end
-
-  def update_ping_message(data)
-    authorize :instructor_only
-
-    QueueChannel.broadcast_to(@course_queue, {
-      action: 'update_ping_message',
-      message: data['message'],
-    })
 
   end
 

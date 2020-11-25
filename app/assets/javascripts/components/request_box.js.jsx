@@ -19,8 +19,6 @@ var RequestBox = React.createClass({
           resolve={this.props.resolve}
           pin={this.props.pin}
           bump={this.props.bump} 
-          updatePingMessage={this.props.updatePingMessage}
-          pingMessage={this.props.pingMessage}
         />
       </div>
     );

@@ -8,7 +8,6 @@ var CourseQueue = React.createClass({
       instructors: [],
       instructorMessage: '',
       queues: [],
-      pingMessage: 'An instructor is looking for you!',
     };
   },
   updateTitle:function(){
@@ -123,11 +122,6 @@ var CourseQueue = React.createClass({
       url: '/course_queues/' + this.props.id + '/other_queues.json'
     });
   },
-  updatePingMessage: function (message) {
-    this.setState({
-      pingMessage: message,
-    });
-  },
   notify: function (msg, force = false, options = {}) {
     if (!("Notification" in window)) {
       alert(msg); // fall back on alert
@@ -145,9 +139,6 @@ var CourseQueue = React.createClass({
     } else {
       // leave the user in peace
     }
-    this.setState({
-      pingMessage: "An instructor is looking for you!"
-    });
   },
   componentWillMount: function () {
     var courseQueueSubscription = App.cable.subscriptions.create({
@@ -184,11 +175,9 @@ var CourseQueue = React.createClass({
           this.updateInstructorMessage(data.message);
         } else if (data.action === 'broadcast_instructor_message'){
           this.broadcastInstructorMessage(data);
-        } else if (data.action === 'update_ping_message') {
-          this.updatePingMessage(data.message);
         } else if (data.action === 'bump'
                    && data.requester_id === this.props.currentUserId) {
-          this.notify(this.state.pingMessage, true, {
+          this.notify(data.message, true, {
             icon: data.bump_by.avatar_url,
           });
         } else if (data.action === 'invalid_request'
@@ -366,8 +355,6 @@ var CourseQueue = React.createClass({
         resolve={this.props.instructor ? this.handler.resolveRequest.bind(this.handler) : null}
         bump={this.props.instructor ? this.handler.bump.bind(this.handler) : null}
         pin={this.props.instructor ? this.handler.pin.bind(this.handler) : null}
-        updatePingMessage={this.handler.broadcastMessage.bind(this.handler)}
-        pingMessage={this.state.pingMessage}
       />
     );
   },

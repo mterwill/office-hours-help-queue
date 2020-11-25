@@ -10,8 +10,6 @@ var RequestList = React.createClass({
           resolve={this.props.resolve}
           bump={this.props.bump}
           pin={this.props.pin}
-          updatePingMessage={this.props.updatePingMessage}
-          pingMessage={this.props.pingMessage}
         />
       );
     }.bind(this));

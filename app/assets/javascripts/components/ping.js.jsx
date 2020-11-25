@@ -1,32 +1,28 @@
 var Ping = React.createClass({
     getInitialState: function () {
       return {
-        pingMessage: this.props.pingMessage
+        pingMessage: "An instructor is looking for you!"
       };  
     },
-    handleOpen: function () {
+    handleModalOpen: function () {
       $('.ui.modal')
         .modal('show')
       ;
     },
-    onChange: function (e) {
+    onMessageChange: function (e) {
       this.setState({
         pingMessage: e.target.value
       });
     },
-    updateMessage: function (e) {
+    resetMessage: function() {
+      this.setState({ pingMessage: "An instructor is looking for you!" });
+    },
+    sendMessage: function (e) {
       e.preventDefault()
       this.setState({ pingMessage: this.state.pingMessage.trim() }, function () {
-        this.props.updatePingMessage('update_ping_message', this.state.pingMessage);
-        this.props.data.action()
+        this.props.data.action(this.state.pingMessage);
+        this.resetMessage()
       });
-    },
-    componentDidUpdate: function (prevProps) {
-      if (this.props.pingMessage !== prevProps.pingMessage) {
-        this.setState({
-          pingMessage: this.props.pingMessage
-        });
-      }
     },
     render: function () {
       modal = (
@@ -36,19 +32,19 @@ var Ping = React.createClass({
           <div className="content">
             <form className="ui form">
               <div className="field">
-                <textarea onChange={this.onChange} value={this.state.pingMessage}></textarea>
+                <textarea onChange={this.onMessageChange} value={this.state.pingMessage}></textarea>
               </div>
             </form>
           </div>
           <div className="actions">
-            <div className="ui approve button" onClick={this.updateMessage}>Send ping</div>
+            <div className="ui approve button" onClick={this.sendMessage}>Send ping</div>
           </div>
         </div>
       );
 
       return (
         <span>
-          <Action data={{ title: this.props.data.title, action: this.handleOpen.bind(this) }} />
+          <Action data={{ title: this.props.data.title, action: this.handleModalOpen }} />
           {modal}
         </span>
       );  
