@@ -6,6 +6,7 @@ var Ping = React.createClass({
     },
     handleModalOpen: function () {
       $('.ui.modal')
+        .modal({onHidden: this.resetMessage})
         .modal('show')
       ;
     },
@@ -21,7 +22,6 @@ var Ping = React.createClass({
       e.preventDefault()
       this.setState({ pingMessage: this.state.pingMessage.trim() }, function () {
         this.props.data.action(this.state.pingMessage);
-        this.resetMessage()
       });
     },
     render: function () {
