@@ -34,7 +34,6 @@ class QueueChannel < ApplicationCable::Channel
 
     QueueChannel.broadcast_to(@course_queue, {
       action: 'bump',
-      message: data['message'],
       requester_id: request.requester.id,
       bump_by: current_user
     })
