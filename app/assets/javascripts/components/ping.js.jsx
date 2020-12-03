@@ -5,8 +5,11 @@ var Ping = React.createClass({
       };  
     },
     handleModalOpen: function () {
-      $('.ui.modal')
-        .modal({onHidden: this.resetMessage})
+      $(`.ui.modal.${this.props.id}`)
+        .modal({
+          onHidden: this.resetMessage,
+          closable: false
+        })
         .modal('show')
       ;
     },
@@ -26,7 +29,7 @@ var Ping = React.createClass({
     },
     render: function () {
       modal = (
-        <div className="ui modal">
+        <div className={`ui modal ${this.props.id}`}>
           <i className="close icon"></i>
           <div className="header">Send a ping</div>
           <div className="content">
