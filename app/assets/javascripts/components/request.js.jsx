@@ -41,7 +41,7 @@ var Request = React.createClass({
           <Action data={{ title: pinText, action: this.props.pin.bind(null, this.props.request.id)}} />
           <Ping 
             data={{ title: 'Ping', action: (message) => this.props.bump(this.props.request.id, message)}}
-            id={moment.utc(this.props.request.created_at).valueOf()}
+            id={this.props.request.id}
           />
         </Actions>
       );
