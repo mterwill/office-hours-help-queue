@@ -177,9 +177,9 @@ var CourseQueue = React.createClass({
           this.broadcastInstructorMessage(data);
         } else if (data.action === 'bump'
                    && data.requester_id === this.props.currentUserId) {
-           this.notify(data.bump_by.name + ' is looking for you!', true, {
-             icon: data.bump_by.avatar_url,
-           });
+          this.notify(data.bump_by.name + ': ' + data.message, true, {
+            icon: data.bump_by.avatar_url,
+          });
         } else if (data.action === 'invalid_request'
                    && data.requester.id === this.props.currentUserId) {
           alert('Invalid request: ' + data.error);
