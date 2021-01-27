@@ -3,8 +3,9 @@ services:
   redis:
     image: redis:5.0.7
   db:
-    image: mysql:5.7
+    image: mysql/mysql-server:5.7
     environment:
+      MYSQL_ROOT_HOST: '%'
       MYSQL_ROOT_PASSWORD: eecshelp
       MYSQL_DATABASE: eecshelp
   web:
