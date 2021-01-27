@@ -12,8 +12,6 @@ gem 'uglifier', '~> 3.0.2'
 gem 'coffee-rails', '~> 4.2'
 # Use jquery as the JavaScript library
 gem 'jquery-rails', '~> 4.2.1'
-# See https://github.com/rails/execjs#readme for more supported runtimes
-gem 'therubyracer', '~> 0.12.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.6.0'
