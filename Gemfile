@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.4.4'
+gem 'rails', '~> 5.2'
 # Use Puma as the app server
 gem 'puma', '~> 4.3.8'
 # Use SCSS for stylesheets
