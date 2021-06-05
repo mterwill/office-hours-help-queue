@@ -59,7 +59,7 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  Rails.application.config.action_cable.allowed_request_origins = ['http://dev.eecs.help:3000']
+  Rails.application.config.action_cable.allowed_request_origins = ['http://127.0.0.1:3000']
 
   config.web_console.whitelisted_ips = '172.18.0.1' # docker
 

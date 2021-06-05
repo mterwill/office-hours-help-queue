@@ -27,7 +27,4 @@ You will need [Docker](https://docker.com) installed.
 script/setup
 ```
 
-Now add an entry for `dev.eecs.help` to `127.0.0.1` in your `/etc/hosts` file.
-Google OAuth2 behaves a little weirdly when the callback URI is `localhost`.
-
-The app should now be accessible at http://dev.eecs.help:3000.
+The app should now be accessible at http://127.0.0.1:3000.
