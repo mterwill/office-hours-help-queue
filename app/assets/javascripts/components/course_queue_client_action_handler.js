@@ -26,6 +26,10 @@ CourseQueueClientActionHandler.prototype.emptyQueue = function () {
   this.subscription.perform('empty_queue');
 };
 
+CourseQueueClientActionHandler.prototype.randomizeQueue = function () {
+  this.subscription.perform('randomize_queue');
+};
+
 CourseQueueClientActionHandler.prototype.bump = function (requestId, message) {
   this.subscription.perform('bump', {
     id: requestId,

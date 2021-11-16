@@ -33,6 +33,17 @@ var InstructorPanel = React.createClass({
     };
 
   },
+  randomizeQueueButtonData: function () {
+    return {
+      title: 'Randomize Queue',
+      className: this.buttonBaseClass + "large " + (this.props.queueLength <= 0 ? "disabled" : ""),
+      action: function () {
+        if (confirm('Are you sure? This will randomize ' + this.props.queueLength + ' request(s).')) {
+          this.props.randomizeQueue();
+        }
+      }.bind(this),
+    };
+  },
   mergeQueueItem: function (queue) {
     var click = function () {
       if (confirm('Are you sure? This will permanently merge ' + this.props.queueLength
@@ -66,6 +77,7 @@ var InstructorPanel = React.createClass({
         <Action data={this.getInstructorToggleButtonData()} />
         <Action data={this.getTakeQueueOfflineButtonData()} />
         <Action data={this.emptyQueueButtonData()} />
+        <Action data={this.randomizeQueueButtonData()} />
         { mergeOptions.length > 0 && <div className="ui bottom padded fluid large menu">
           <div className="ui fluid simple dropdown item">
             Merge Into Queue

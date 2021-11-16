@@ -264,6 +264,7 @@ var CourseQueue = React.createClass({
           queues={this.state.queues}
           queuePop={this.handler.queuePop.bind(this.handler)}
           emptyQueue={this.handler.emptyQueue.bind(this.handler)}
+          randomizeQueue={this.handler.randomizeQueue.bind(this.handler)}
           mergeQueue={this.handler.mergeQueue.bind(this.handler)}
           setInstructorStatus={this.handler.setInstructorStatus.bind(this.handler)}
           takeQueueOffline={this.handler.takeQueueOffline.bind(this.handler)}
