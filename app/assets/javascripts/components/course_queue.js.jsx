@@ -102,6 +102,25 @@ var CourseQueue = React.createClass({
       instructors: arrCopy,
     });
   },
+  reorderQueue: function (queue) {
+    let oldIndexInUnpinned = -1;
+    this.setState((prevState, props) => {
+      const unpinned = this.getUnpinnedRequests(prevState.requests);
+      oldIndexInUnpinned = this.getMyIndexInRequests(unpinned, props);
+
+      return {
+        requests: prevState.requests.sort((a, b) => {
+          return queue.indexOf(a.id) - queue.indexOf(b.id);
+        }),
+      };
+    }, () => {
+      const newIndexInUnpinned = this.getMyIndexInRequests(this.getUnpinnedRequests());
+      if (newIndexInUnpinned !== oldIndexInUnpinned) {
+        const newPosition = newIndexInUnpinned + 1;
+        this.notify(`Your request was moved to position ${newPosition} in the queue`);
+      }
+    });
+  },
   fetchOutstandingRequests: function () {
     return $.ajax({
       url: '/course_queues/' + this.props.id + '/outstanding_requests.json'
@@ -189,6 +208,8 @@ var CourseQueue = React.createClass({
             window.location.href = '/course_queues/' + data.move_to_url;
           }
           this.removeRequest(data.request);
+        } else if (data.action === 'reorder_queue') {
+          this.reorderQueue(data.queue);
         }
         this.updateTitle();
       }.bind(this),
@@ -203,28 +224,32 @@ var CourseQueue = React.createClass({
       instructorMode: mode,
     });
   },
-  getMyFirstRequest: function () {
+  getMyIndexInRequests: function(requests = this.state.requests, props = this.props) {
     var index = -1;
-    if (this.props.groupMode) {
-      index = this.state.requests.map(function (elt) {
+    if (props.groupMode) {
+      index = requests.map(function (elt) {
         if (elt.course_group_id !== null) {
           return elt.course_group_id;
         } else {
           // don't count queue items without a group id
           return -1;
         }
-      }).indexOf(this.props.courseGroupId);
+      }).indexOf(props.courseGroupId);
     }
 
     if (index < 0) {
       // look for requests by our user if we didn't find one by the same group
       // or are not in group mode. the reason being if for some reason the group
       // id changes, we don't want the request to just get stranded.
-      index = this.state.requests.map(function (elt) {
+      index = requests.map(function (elt) {
         return elt.requester_id;
-      }).indexOf(this.props.currentUserId);
+      }).indexOf(props.currentUserId);
     }
 
+    return index;
+  },
+  getMyFirstRequest: function () {
+    var index = this.getMyIndexInRequests();
     if (index >= 0) {
       return {
         request: this.state.requests[index],
@@ -317,8 +342,8 @@ var CourseQueue = React.createClass({
         && request.resolver_id !== this.props.currentUserId;
     }.bind(this));
   },
-  getUnpinnedRequests: function () {
-    return this.state.requests.filter(function (request) {
+  getUnpinnedRequests: function (requests = this.state.requests) {
+    return requests.filter(function (request) {
         return request.resolver_id === null;
     }.bind(this));
   },
@@ -337,11 +362,9 @@ var CourseQueue = React.createClass({
     }
   },
   renderRequestBox: function (title, requests, hideEmpty) {
-    var myRequest = this.getMyFirstRequest();
-    if (myRequest) {
-      if (requests.indexOf(myRequest.request) >= 0) {
-        var myRequestIdx = requests.indexOf(myRequest.request);
-      }
+    var myRequestIdx = this.getMyIndexInRequests(requests);
+    if (myRequestIdx < 0) {
+      myRequestIdx = undefined;
     }
 
     return (

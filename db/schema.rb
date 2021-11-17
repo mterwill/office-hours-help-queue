@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_12_232645) do
+ActiveRecord::Schema.define(version: 2021_11_17_160222) do
 
   create_table "course_group_students", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "course_group_id", null: false
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 2020_03_12_232645) do
     t.datetime "updated_at", null: false
     t.string "location"
     t.integer "course_group_id"
+    t.integer "priority", default: 0, null: false
     t.index ["course_queue_id"], name: "index_course_queue_entries_on_course_queue_id"
   end
 

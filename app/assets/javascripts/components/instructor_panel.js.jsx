@@ -40,8 +40,6 @@ var InstructorPanel = React.createClass({
       action: function () {
         if (confirm('Are you sure? This will randomize ' + this.props.queueLength + ' request(s).')) {
           this.props.randomizeQueue();
-          this.props.broadcastInstructorMessage('broadcast_instructor_message',
-            'An instructor has randomized the order of the queue'); // TODO: TEST
         }
       }.bind(this),
     };

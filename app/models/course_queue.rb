@@ -35,7 +35,7 @@ class CourseQueue < ApplicationRecord
   end
 
   def outstanding_requests
-    course_queue_entries.where(resolved_at: nil).order('created_at ASC')
+    course_queue_entries.where(resolved_at: nil).order('priority DESC, created_at ASC')
   end
 
   def update_instructor_message!(message)
@@ -50,6 +50,16 @@ class CourseQueue < ApplicationRecord
       first_non_pinned.resolve_by!(user)
     elsif first_pinned_by_others = self.outstanding_requests.where.not(resolver: user).first
       first_pinned_by_others.resolve_by!(user)
+    end
+  end
+
+  def shuffle!()
+    CourseQueueEntry.transaction do
+      randomized_requests = outstanding_requests.to_a.shuffle
+      randomized_requests.each_with_index do |request, idx|
+        request.priority = randomized_requests.length - idx
+        request.save!
+      end
     end
   end
 

@@ -123,7 +123,11 @@ class QueueChannel < ApplicationCable::Channel
   def randomize_queue(data)
     authorize :instructor_only 
 
-    @course_queue.outstanding_requests.shuffle # TODO: TEST
+    @course_queue.shuffle!
+    QueueChannel.broadcast_to(@course_queue, {
+      action: 'reorder_queue',
+      queue: serialize_queue_ids(@course_queue.outstanding_requests),
+    })
   end
 
   def instructor_status_toggle(data)
