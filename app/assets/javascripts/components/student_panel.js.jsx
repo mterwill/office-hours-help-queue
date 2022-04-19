@@ -3,6 +3,7 @@ var StudentPanel = React.createClass({
     return {
       myRequest: this.getState(this.props.myRequest),
       editMode: false,
+      disabled: false,
     };
   },
   componentWillReceiveProps: function (nextProps) {
@@ -30,9 +31,22 @@ var StudentPanel = React.createClass({
     });
   },
   requestHelp: function () {
-    this.props.requestHelp({
-      location: this.state.myRequest.location,
-      description: this.state.myRequest.description,
+    if(!this.state.disabled){
+      this.props.requestHelp({
+        location: this.state.myRequest.location,
+        description: this.state.myRequest.description,
+      });
+  
+      this.setState({
+        disabled: true
+      });
+  
+      setTimeout(this.enableButton, 10000);
+    }
+  },
+  enableButton: function() {
+    this.setState({
+      disabled: false
     });
   },
   cancelRequest: function () {
@@ -63,17 +77,32 @@ var StudentPanel = React.createClass({
         </div>
       );
     } else {
-      if (this.props.queueClosed) {
-        var btnClass = "ui disabled fluid button";
-      } else {
-        var btnClass = "ui fluid button";
-      }
 
-      return (
-        <div onClick={this.requestHelp} className={btnClass} tabIndex="0">
-          Request Help
-        </div>
-      );
+      // Three conditionals for three states including helpful text describing state
+      if (this.props.queueClosed) {
+          var btnClass = "ui basic fluid button"; 
+          return (
+            <div onClick={this.requestHelp} className={btnClass} tabIndex="0">
+              Queue Closed
+            </div>
+          );      
+      }
+      else if (this.state.disabled){
+          var btnClass = "ui disabled fluid button";
+          return (
+            <div onClick={this.requestHelp} className={btnClass} tabIndex="0">
+              Recently pressed... wait to join queue
+            </div>
+          );
+      }
+      else{
+          var btnClass = "ui fluid button";
+          return (
+            <div onClick={this.requestHelp} className={btnClass} tabIndex="0">
+              Request Help
+            </div>
+          );
+      }
     }
   },
   render: function () {
