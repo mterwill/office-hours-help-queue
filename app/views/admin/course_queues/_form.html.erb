@@ -35,7 +35,14 @@
         <div class="field">
             <div class="ui toggle checkbox">
                 <%= f.check_box :hide_details_from_students %>
-                <label>Private Mode</strong>: Hide request details (location, description) from other students
+                <label><strong>Private Mode</strong>: Hide request details (location, description) from other students
+                </label>
+            </div>
+        </div>
+        <div class="field">
+            <div class="ui toggle checkbox">
+                <%= f.check_box :add_requested_at_jitter %>
+                <label><strong>Jitter (beta)</strong>: For the first minute a queue is open, randomize requested_at timestamp by ±10 seconds
                 </label>
             </div>
         </div>

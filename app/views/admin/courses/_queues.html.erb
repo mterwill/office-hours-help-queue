@@ -5,6 +5,7 @@
             <th style="width: 10%">Group Mode</th>
             <th style="width: 10%">Exclusive Mode</th>
             <th style="width: 10%">Private Mode</th>
+            <th style="width: 10%">Jitter</th>
             <th>
                 <a href="<%= new_admin_course_queue_path(@course) %>" class="ui primary labeled icon fluid button">
                     <i class="plus icon"></i>
@@ -27,6 +28,10 @@
                     </div></td>
                 <td><div class="ui disabled toggle checkbox">
                         <input type="checkbox" disabled="disabled" <%= 'checked' if queue.hide_details_from_students %>>
+                        <label></label>
+                    </div></td>
+                <td><div class="ui disabled toggle checkbox">
+                        <input type="checkbox" disabled="disabled" <%= 'checked' if queue.add_requested_at_jitter %>>
                         <label></label>
                     </div></td>
                 <td>

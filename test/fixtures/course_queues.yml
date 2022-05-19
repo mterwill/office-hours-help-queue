@@ -16,6 +16,14 @@ eecs482_group_queue:
   course: eecs482
   group_mode: true
 
+eecs482_jitter_queue:
+  name: Jitter
+  location: 1670 BBB
+  description: ''
+  is_open: true
+  course: eecs482
+  add_requested_at_jitter: true
+
 closed_queue:
   name: I am not real
   location: Nowhere

@@ -4,6 +4,7 @@ class CourseQueueTest < ActiveSupport::TestCase
   setup do
     @queue       = course_queues(:eecs398_queue)
     @group_queue = course_queues(:eecs482_group_queue)
+    @jitter_queue = course_queues(:eecs482_jitter_queue)
     @requester   = users(:matt)
   end
 
@@ -39,14 +40,18 @@ class CourseQueueTest < ActiveSupport::TestCase
       group: nil
     )
 
-    last_entry = @queue.request(
-      requester: users(:jim),
-      description: '',
-      location: '',
-      group: nil
-    )
+    # sorting by created_at races creation here
+    last_entry = nil
+    travel 10.seconds do
+      last_entry = @queue.request(
+        requester: users(:jim),
+        description: '',
+        location: '',
+        group: nil
+      )
+    end
 
-    assert @queue.outstanding_requests[-1] == last_entry
+    assert_equal(last_entry, @queue.outstanding_requests[-1])
   end
 
   test "request validates duplicates" do
@@ -129,6 +134,55 @@ class CourseQueueTest < ActiveSupport::TestCase
       location: '',
       group: course_groups(:group1)
     )
+  end
+
+  test "jitter" do
+    # queue opened at midnight
+    CourseQueueOnlineInstructor.create!(
+      online_instructor: users(:jim),
+      course_queue: @jitter_queue,
+      created_at: Time.parse("2022-05-19 00:00:00")
+    )
+    # another instructor came online an hour later
+    CourseQueueOnlineInstructor.create!(
+      online_instructor: users(:matt),
+      course_queue: @jitter_queue,
+      created_at: Time.parse("2022-05-19 01:00:00")
+    )
+
+    # 10 seconds past queue open
+    travel_to Time.parse("2022-05-19 00:00:10") do
+      assert_equal(true, @jitter_queue.recently_opened?)
+      entry = @jitter_queue.request(
+        requester: users(:jim),
+        description: '',
+        location: '',
+        group: nil,
+        jitter_fn: lambda {-10},
+      )
+      assert_equal(
+        Time.parse("2022-05-19 00:00:00"),
+         entry.created_at,
+         "jitter should be added",
+      )
+    end
+
+    # 1 minute 10 seconds past queue open
+    travel_to Time.parse("2022-05-19 00:01:10") do
+      assert_equal(false, @jitter_queue.recently_opened?)
+      entry = @jitter_queue.request(
+        requester: users(:matt),
+        description: '',
+        location: '',
+        group: nil,
+        jitter_fn: lambda {-10},
+      )
+      assert_equal(
+        Time.parse("2022-05-19 00:01:10"),
+        entry.created_at,
+        "jitter should not be added",
+      )
+    end
   end
 
   test "open queues returns only open queues" do

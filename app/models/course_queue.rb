@@ -7,7 +7,7 @@ class CourseQueue < ApplicationRecord
   has_many :course_queue_online_instructors, dependent: :destroy
   has_many :online_instructors, through: :course_queue_online_instructors, class_name: 'User'
 
-  def request(requester:, description:, location:, group:)
+  def request(requester:, description:, location:, group:, jitter_fn: lambda {rand(-10..10)})
     self.with_lock do
       # Check the user's request limit for the course
       if self.course.course_queue_entries.where(resolved_at: nil, requester: requester).count > 0
@@ -24,12 +24,19 @@ class CourseQueue < ApplicationRecord
         raise InvalidRequestError, "Limit one open request per group"
       end
 
+      created_at = nil
+      if self.add_requested_at_jitter and self.recently_opened?
+        jitter_seconds = jitter_fn.call
+        created_at = Time.now() + jitter_seconds
+      end
+
       CourseQueueEntry.create!(
         course_queue: self,
         requester: requester,
         course_group: group,
         description: description,
         location: location,
+        created_at: created_at,
       )
     end
   end
@@ -51,6 +58,14 @@ class CourseQueue < ApplicationRecord
     elsif first_pinned_by_others = self.outstanding_requests.where.not(resolver: user).first
       first_pinned_by_others.resolve_by!(user)
     end
+  end
+
+  def recently_opened?
+    opened_at = CourseQueueOnlineInstructor.where({course_queue: self}).order('created_at ASC').pluck('created_at').first
+    if opened_at.nil?
+      return false
+    end
+    return Time.now - opened_at < 60
   end
 
   def is_open?
