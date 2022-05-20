@@ -1,7 +1,7 @@
 class Admin::CourseQueuesController < Admin::AdminController
   before_action :set_and_authorize_course, only: [:new]
   before_action :set_and_authorize_course_queue, except: [:new, :create]
-  
+
   def new
     @course_queue = CourseQueue.new
     @course_queue.course = @course
@@ -56,6 +56,6 @@ class Admin::CourseQueuesController < Admin::AdminController
   end
 
   def course_queue_params
-    params.require(:course_queue).permit(:name, :location, :description, :course_id, :group_mode, :exclusive, :hide_details_from_students)
+    params.require(:course_queue).permit(:name, :location, :description, :course_id, :group_mode, :exclusive, :hide_details_from_students, :add_requested_at_jitter)
   end
 end

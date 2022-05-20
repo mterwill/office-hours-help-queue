@@ -135,6 +135,16 @@ class QueueChannel < ApplicationCable::Channel
 
     authorize(:current_user_only, request)
 
+    # minimizes gameability
+    if @course_queue.add_requested_at_jitter and @course_queue.recently_opened?
+      QueueChannel.broadcast_to(@course_queue, {
+        action: 'invalid_request',
+        requester: current_user,
+        error: 'Please wait a minute and try again.',
+      })
+      return
+    end
+
     request.destroy!
 
     broadcast_request_change('resolve_request', request)
@@ -153,7 +163,7 @@ class QueueChannel < ApplicationCable::Channel
       QueueChannel.broadcast_to(@course_queue, {
         action: 'move_request',
         request: serialize_request(request),
-        move_to_id: @to_course_queue.name.html_safe, 
+        move_to_id: @to_course_queue.name.html_safe,
         move_to_url: @to_course_queue.id
       })
 

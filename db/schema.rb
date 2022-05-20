@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_12_232645) do
+ActiveRecord::Schema.define(version: 2022_05_19_123402) do
 
   create_table "course_group_students", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "course_group_id", null: false
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 2020_03_12_232645) do
     t.text "instructor_message"
     t.boolean "exclusive", default: false, null: false
     t.boolean "hide_details_from_students", default: false, null: false
+    t.boolean "add_requested_at_jitter", default: false, null: false
     t.index ["course_id", "name"], name: "index_course_queues_on_course_id_and_name", unique: true
   end
 
