@@ -1,4 +1,4 @@
-FROM ruby:2.6.3
+FROM ruby:2.7.6
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
 RUN mkdir /usr/src/eecshelp
 WORKDIR /usr/src/eecshelp
